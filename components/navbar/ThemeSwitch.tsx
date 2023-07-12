@@ -2,7 +2,7 @@
 
 import React, {useEffect, useState} from 'react';
 import {useTheme} from 'next-themes';
-import {MoonIcon, SunIcon} from '@heroicons/react/24/outline';
+import {MoonIcon, SunIcon} from '../Icons';
 import {IconButton} from '@material-tailwind/react';
 
 export default function ThemeSwitch(): JSX.Element {

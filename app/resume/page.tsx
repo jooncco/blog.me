@@ -1,10 +1,12 @@
-import {H1} from '@/components/Header';
 import React from 'react';
+import {Typography} from '../provider';
 
 export default function Resume(): JSX.Element {
   return (
     <div>
-      <H1>Resume</H1>
+      <Typography variant="h1" className="my-6">
+        Resume
+      </Typography>
     </div>
   );
 }

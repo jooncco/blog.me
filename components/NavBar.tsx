@@ -4,30 +4,25 @@ import React, {useEffect, useState} from 'react';
 import Logo from './navbar/Logo';
 import MobileNav from './navbar/MobileNav';
 import DesktopNav from './navbar/DesktopNav';
-import {
-  HomeIcon,
-  BookOpenIcon,
-  VariableIcon,
-  UserIcon,
-} from '@heroicons/react/24/solid';
+import {HomeIcon, BookmarkIcon, TrophyIcon, IdCardIcon} from './Icons';
 import ThemeSwitch from './navbar/ThemeSwitch';
 
 export const navItems = {
-  Home: {
+  About: {
     path: '/',
     icon: <HomeIcon className="h-5 w-5" />,
   },
   Posts: {
     path: '/posts',
-    icon: <BookOpenIcon className="h-5 w-5" />,
+    icon: <BookmarkIcon className="h-5 w-5" />,
   },
   Cp: {
     path: '/competitive-programming',
-    icon: <VariableIcon className="h-5 w-5" />,
+    icon: <TrophyIcon className="h-5 w-5" />,
   },
   Resume: {
     path: '/resume',
-    icon: <UserIcon className="h-5 w-5" />,
+    icon: <IdCardIcon className="h-5 w-5" />,
   },
 };
 
