@@ -15,7 +15,7 @@ export function Header() {
   return (
     <header
       data-testid="site-header"
-      className="fixed inset-x-0 top-0 z-50 border-b border-hud-cyan/20 bg-base/80 backdrop-blur-md">
+      className="fixed inset-x-0 top-0 z-50 border-b border-hud-cyan/20 bg-page/80 backdrop-blur-md">
       <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between gap-4 px-3 sm:px-6">
         <Link
           href="/"

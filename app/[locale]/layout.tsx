@@ -44,7 +44,7 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <html lang={locale} className={fontVariables} suppressHydrationWarning>
-      <body className="bg-base text-text font-sans">
+      <body className="bg-page text-text font-sans">
         <AppProviders locale={locale} messages={messages}>
           <Header />
           <main className="mx-auto mt-[4.5rem] flex min-w-0 max-w-6xl flex-col">

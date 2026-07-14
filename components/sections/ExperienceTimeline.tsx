@@ -61,7 +61,7 @@ export function ExperienceTimeline({ entries }: ExperienceTimelineProps) {
           <li key={entry.id} className="relative" data-testid={`experience-${entry.id}`}>
             <span
               aria-hidden="true"
-              className="absolute -left-[1.375rem] top-1.5 h-3 w-3 rounded-full border border-hud-cyan bg-base shadow-glow-cyan"
+              className="absolute -left-[1.375rem] top-1.5 h-3 w-3 rounded-full border border-hud-cyan bg-page shadow-glow-cyan"
             />
             <HudFrame variant="panel" className="flex flex-col gap-2 p-4">
               <div className="flex flex-wrap items-baseline justify-between gap-2">

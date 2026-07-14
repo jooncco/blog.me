@@ -10,7 +10,7 @@ import './globals.css';
 export default function GlobalNotFound() {
   return (
     <html lang="en" className={fontVariables} suppressHydrationWarning>
-      <body className="bg-base text-text font-sans">
+      <body className="bg-page text-text font-sans">
         <main className="flex min-h-screen items-center justify-center px-4 text-center">
           <div>
             <p className="font-mono text-sm uppercase tracking-[0.3em] text-hud-red">404</p>

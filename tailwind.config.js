@@ -261,10 +261,10 @@ module.exports = withMT({
   darkMode: 'class',
   plugins: [
     createThemes({
-      // HUD palette. Key names kept (base/text/primary/secondary/neutral/neutral2)
-      // so existing .jsx pages keep resolving bg-base/text-text/etc.
+      // HUD palette. NOTE: the page-background token is named `page` (not `base`)
+      // to avoid colliding with Tailwind's `text-base` font-size utility.
       light: {
-        base: '#F2F7FA', // cyan-tinted near-white
+        page: '#F2F7FA', // cyan-tinted near-white
         text: '#0A0E14',
         primary: '#06b6d4', // arc-reactor cyan (darker for AA contrast on light)
         secondary: '#DA0037', // hot-rod red alert
@@ -272,7 +272,7 @@ module.exports = withMT({
         neutral2: '#D8E6EC',
       },
       dark: {
-        base: '#05070A', // near-black
+        page: '#05070A', // near-black
         text: '#E5F6FF', // cyan-tinted near-white
         primary: '#22d3ee', // arc-reactor cyan
         secondary: '#DA0037', // hot-rod red alert
