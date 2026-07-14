@@ -1,9 +1,12 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import SectionWrapper from '../hoc/SectionWrapper';
 import ContactForm from './ContactForm';
-import EarthCanvas from './EarthCanvas';
-import StarsCanvas from './Stars';
+
+// three.js / react-three-fiber cannot be server-rendered; load client-only (lazy).
+const EarthCanvas = dynamic(() => import('./EarthCanvas'), {ssr: false});
+const StarsCanvas = dynamic(() => import('./Stars'), {ssr: false});
 
 function Contact() {
   return (
