@@ -288,11 +288,15 @@
       "title": "Now",
       "intro": "지금 제가 집중하고 있는 것들의 스냅샷입니다.",
       "updated": "마지막 업데이트: {date}",
-      "followInstagram": "인스타그램에서 팔로우하세요",
+      "followInstagram": "팔로팔로미",
       "items": {
         "algo-trading": {
           "label": "알고리즘 트레이딩",
           "detail": "MAS(Multi-Agent System) 기반의 해외 선물(금/골드/나스닥/비트코인) 자동 매매 시스템을 사이드 프로젝트로 진행 중입니다. 심심하면 둘러보러 오세요."
+        },
+        "building-with-claude": {
+          "label": "Claude Max 뽕 뽑기",
+          "detail": "플랜 값은 뽑아야 하니까, Claude를 계속 굴려 뭐라도 만듭니다. 네, 이 사이트도 그 결과물입니다."
         },
         "reading": {
           "label": "독서",

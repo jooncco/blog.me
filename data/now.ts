@@ -25,6 +25,10 @@ export const NOW: NowData = {
       id: 'algo-trading',
       link: { href: 'https://github.com/jooncco/billion-dollar-baby', label: 'billion-dollar-baby' },
     },
+    {
+      id: 'building-with-claude',
+      link: { href: 'https://github.com/jooncco/blog.me', label: 'blog.me' },
+    },
     { id: 'reading' },
     { id: 'baseball', instagram: 'jooncco' },
   ],

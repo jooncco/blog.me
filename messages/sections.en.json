@@ -294,6 +294,10 @@
           "label": "Algorithmic trading",
           "detail": "Building a MAS (Multi-Agent System) auto-trading system for futures (Gold, Nasdaq, Bitcoin) as a side project. Swing by if you're interested."
         },
+        "building-with-claude": {
+          "label": "Getting my money's worth",
+          "detail": "The Claude Max plan isn't going to justify itself, so I keep it busy building things. Yes, including this site."
+        },
         "reading": {
           "label": "Reading",
           "detail": "'AI Agent Ecosystem' — Josh (Juhwan Lee), Roadbook."
