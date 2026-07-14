@@ -4,31 +4,25 @@
 // NOTE: EmailJS keys are, by design, exposed to the client (NEXT_PUBLIC_*). They are still
 // sourced from env rather than committed to source.
 
-function optional(name: string): string | undefined {
-  const v = process.env[name];
-  return v && v.length > 0 ? v : undefined;
-}
-
-function requiredPublic(name: string, fallback = ''): string {
-  const v = optional(name);
-  if (!v && process.env.NODE_ENV === 'production') {
-    // Fail soft: log once; features depending on this degrade gracefully (SR-4).
-    console.warn(`[env] Missing ${name}; dependent feature will use fallback/no-op.`);
-  }
-  return v ?? fallback;
+// IMPORTANT: `NEXT_PUBLIC_*` vars are only inlined into the client bundle when referenced
+// with STATIC member access (`process.env.NEXT_PUBLIC_FOO`). A dynamic/computed lookup
+// (`process.env[name]`) is NOT replaced at build time and reads as `undefined` in the
+// browser — which is why the contact form must reference each key literally below.
+function clean(value: string | undefined, fallback = ''): string {
+  return value && value.length > 0 ? value : fallback;
 }
 
 export const env = {
   emailjs: {
-    serviceId: requiredPublic('NEXT_PUBLIC_EMAILJS_SERVICE_ID'),
-    templateId: requiredPublic('NEXT_PUBLIC_EMAILJS_TEMPLATE_ID'),
-    publicKey: requiredPublic('NEXT_PUBLIC_EMAILJS_PUBLIC_KEY'),
-    toEmail: requiredPublic('NEXT_PUBLIC_CONTACT_TO_EMAIL', 'jooncco.g@gmail.com'),
-    toName: requiredPublic('NEXT_PUBLIC_CONTACT_TO_NAME', 'Junha'),
+    serviceId: clean(process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID),
+    templateId: clean(process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID),
+    publicKey: clean(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY),
+    toEmail: clean(process.env.NEXT_PUBLIC_CONTACT_TO_EMAIL, 'jooncco.g@gmail.com'),
+    toName: clean(process.env.NEXT_PUBLIC_CONTACT_TO_NAME, 'Junha'),
   },
   cp: {
-    leetcodeUsername: requiredPublic('NEXT_PUBLIC_LEETCODE_USERNAME', 'jooncco'),
-    codeforcesUsername: requiredPublic('NEXT_PUBLIC_CODEFORCES_USERNAME', 'jooncco'),
+    leetcodeUsername: clean(process.env.NEXT_PUBLIC_LEETCODE_USERNAME, 'jooncco'),
+    codeforcesUsername: clean(process.env.NEXT_PUBLIC_CODEFORCES_USERNAME, 'jooncco'),
   },
 } as const;
 
