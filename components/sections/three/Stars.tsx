@@ -1,69 +1,82 @@
 'use client';
 
-import { Suspense, useMemo, useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Points, PointMaterial } from '@react-three/drei';
-import type { Points as ThreePoints } from 'three';
+import { useEffect, useRef } from 'react';
+import { usePrefersReducedMotion } from '@/components/hud';
 
-/** Generate `count` points uniformly inside a sphere of `radius` (no external deps). */
-function randomInSphere(count: number, radius: number): Float32Array {
-  const arr = new Float32Array(count * 3);
-  for (let i = 0; i < count; i += 1) {
-    // Rejection sampling for a uniform interior distribution.
-    let x = 0;
-    let y = 0;
-    let z = 0;
-    let d = 2;
-    while (d > 1 || d === 0) {
-      x = Math.random() * 2 - 1;
-      y = Math.random() * 2 - 1;
-      z = Math.random() * 2 - 1;
-      d = x * x + y * y + z * z;
-    }
-    arr[i * 3] = x * radius;
-    arr[i * 3 + 1] = y * radius;
-    arr[i * 3 + 2] = z * radius;
-  }
-  return arr;
-}
+/**
+ * Lightweight 2D-canvas star field (no WebGL / three.js dependency).
+ * Twinkles + drifts slowly; renders a single static frame under reduced motion.
+ */
+export default function Stars() {
+  const ref = useRef<HTMLCanvasElement>(null);
+  const reduced = usePrefersReducedMotion();
 
-function StarField() {
-  const ref = useRef<ThreePoints>(null);
-  // Lighter than the legacy 5000-point field.
-  const sphere = useMemo(() => randomInSphere(1500, 1.2), []);
+  useEffect(() => {
+    const canvas = ref.current;
+    const ctx = canvas?.getContext('2d');
+    if (!canvas || !ctx) return;
 
-  useFrame((_state, delta) => {
-    if (!ref.current) return;
-    ref.current.rotation.x -= delta / 12;
-    ref.current.rotation.y -= delta / 18;
-  });
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let width = 0;
+    let height = 0;
+    let raf = 0;
+    type Star = { x: number; y: number; r: number; tw: number; drift: number };
+    let stars: Star[] = [];
+
+    const resize = () => {
+      const rect = canvas.getBoundingClientRect();
+      width = canvas.width = Math.max(1, Math.floor(rect.width * dpr));
+      height = canvas.height = Math.max(1, Math.floor(rect.height * dpr));
+      const count = Math.round((rect.width * rect.height) / 6000);
+      stars = Array.from({ length: Math.min(180, Math.max(40, count)) }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        r: (Math.random() * 1.3 + 0.3) * dpr,
+        tw: Math.random() * Math.PI * 2,
+        drift: (Math.random() * 0.12 + 0.02) * dpr,
+      }));
+    };
+
+    const draw = (t: number) => {
+      ctx.clearRect(0, 0, width, height);
+      for (const s of stars) {
+        const alpha = reduced ? 0.55 : 0.25 + 0.55 * Math.abs(Math.sin(t / 900 + s.tw));
+        ctx.fillStyle = `rgba(103, 232, 249, ${alpha})`;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fill();
+        if (!reduced) {
+          s.y += s.drift;
+          if (s.y > height) {
+            s.y = 0;
+            s.x = Math.random() * width;
+          }
+        }
+      }
+      if (!reduced) raf = requestAnimationFrame(draw);
+    };
+
+    resize();
+    if (reduced) draw(0);
+    else raf = requestAnimationFrame(draw);
+
+    const onResize = () => {
+      resize();
+      if (reduced) draw(0);
+    };
+    window.addEventListener('resize', onResize);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', onResize);
+    };
+  }, [reduced]);
 
   return (
-    <group rotation={[0, 0, Math.PI / 4]}>
-      <Points ref={ref} positions={sphere} stride={3} frustumCulled>
-        <PointMaterial
-          transparent
-          color="#22d3ee"
-          size={0.0025}
-          sizeAttenuation
-          depthWrite={false}
-        />
-      </Points>
-    </group>
+    <canvas
+      ref={ref}
+      aria-hidden="true"
+      data-testid="contact-stars"
+      className="pointer-events-none absolute inset-0 h-full w-full"
+    />
   );
 }
-
-/** Lightweight starfield backdrop (client-only, lazy-loaded). */
-export function StarsCanvas() {
-  return (
-    <div className="absolute inset-0 z-[-1] h-full w-full">
-      <Canvas camera={{ position: [0, 0, 1] }}>
-        <Suspense fallback={null}>
-          <StarField />
-        </Suspense>
-      </Canvas>
-    </div>
-  );
-}
-
-export default StarsCanvas;

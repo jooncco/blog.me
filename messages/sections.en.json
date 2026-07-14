@@ -4,9 +4,9 @@
       "kicker": "System online // Operator",
       "greetingPre": "Hey there. I'm",
       "name": "Daniel",
-      "nameSuffix": "",
-      "rolePrefix": "// ROLE",
-      "roleSuffix": "",
+      "nameSuffix": ".",
+      "rolePrefix": "// ",
+      "roleSuffix": ".",
       "roles": [
         "Solutions Architect",
         "Full Stack Engineer",

@@ -26,14 +26,15 @@ describe('Projects (mission log)', () => {
     }
   });
 
-  it('leads each card with the outcome and renders tech chips + client note', () => {
+  it('leads each card with the outcome and renders tech chips + period under the title', () => {
     renderIntl(<Projects groups={groupProjectsByDomain()} />);
     const card = screen.getByTestId('mission-aboitiz-ocr-meter');
     expect(card.querySelector('[data-testid="mission-outcome"]')?.textContent).toContain(
       'intelligent electricity-meter reading',
     );
     expect(card.querySelector('[data-testid="mission-tech"]')?.textContent).toContain('Flutter');
-    expect(card.textContent).toContain('Aboitiz Power');
+    expect(card.querySelector('[data-testid="mission-period"]')?.textContent).toContain('2024');
+    expect(card.textContent).not.toContain('Aboitiz Power');
   });
 
   it('covers all four expertise domains', () => {

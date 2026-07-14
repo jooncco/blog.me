@@ -3,14 +3,12 @@ import type { Project } from '@/types';
 
 export type MissionCardProps = {
   project: Project;
-  /** Localized "Company" side-note label. */
-  companyLabel: string;
   /** Localized link label fallback (e.g. "View project"). */
   viewLabel: string;
 };
 
-/** A single project as a HUD "mission briefing" — outcome-first, tech chips, company aside. */
-export function MissionCard({ project, companyLabel, viewLabel }: MissionCardProps) {
+/** A single project as a HUD "mission briefing" — outcome-first, tech chips, period under the title. */
+export function MissionCard({ project, viewLabel }: MissionCardProps) {
   return (
     <HudFrame
       as="article"
@@ -21,9 +19,16 @@ export function MissionCard({ project, companyLabel, viewLabel }: MissionCardPro
         className="flex h-full flex-col gap-4 p-5"
         data-testid={`mission-${project.id}`}>
       <div className="flex items-start justify-between gap-3">
-        <h3 className="font-display text-lg font-semibold uppercase tracking-wide text-text">
-          {project.title}
-        </h3>
+        <div className="min-w-0">
+          <h3 className="font-display text-lg font-semibold uppercase tracking-wide text-text">
+            {project.title}
+          </h3>
+          {project.period && (
+            <p className="mt-1 font-mono text-xs text-text/50" data-testid="mission-period">
+              {project.period}
+            </p>
+          )}
+        </div>
         {project.featured && (
           <span className="shrink-0 rounded-sm border border-hud-gold/40 px-1.5 py-0.5 font-mono text-[0.6rem] uppercase tracking-widest text-hud-gold">
             ★
@@ -54,16 +59,8 @@ export function MissionCard({ project, companyLabel, viewLabel }: MissionCardPro
         ))}
       </div>
 
-      <div className="flex items-center justify-between border-t border-hud-cyan/15 pt-3">
-        <span className="font-mono text-xs text-text/50">
-          {(project.company || companyLabel) && (
-            <>
-              <span className="text-hud-cyan/60">{companyLabel}:</span> {project.company}
-              {project.period && <span className="text-text/40"> · {project.period}</span>}
-            </>
-          )}
-        </span>
-        {project.link && (
+      {project.link && (
+        <div className="flex items-center justify-end border-t border-hud-cyan/15 pt-3">
           <a
             href={project.link.href}
             target="_blank"
@@ -72,8 +69,8 @@ export function MissionCard({ project, companyLabel, viewLabel }: MissionCardPro
             className="font-mono text-xs uppercase tracking-wider text-hud-cyan transition-colors hover:text-hud-gold">
             {project.link.label || viewLabel} ↗
           </a>
-        )}
-      </div>
+        </div>
+      )}
       </div>
     </HudFrame>
   );

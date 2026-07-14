@@ -16,17 +16,21 @@ const HOLD_MS = 1500;
 
 const HANGUL_RE = /[가-힣㄰-㆏]/;
 
+type TypedState = { text: string; baseLen: number };
+
 /**
  * Cycles a typewriter through the localized capability roles, assembling each
  * role frame-by-frame (jamo-by-jamo for Korean; see buildTypingFrames).
+ * `baseLen` marks how many codepoints belong to the role itself (vs. the folded
+ * suffix) so the caller can color the two parts differently.
  */
-function useTypewriter(roles: string[], enabled: boolean): string {
+function useTypewriter(roles: string[], baseLens: number[], enabled: boolean): TypedState {
   const framesByRole = useMemo(() => roles.map(buildTypingFrames), [roles]);
   const speedByRole = useMemo(
     () => roles.map((r) => (HANGUL_RE.test(r) ? KO_TYPE_SPEED : EN_TYPE_SPEED)),
     [roles],
   );
-  const [display, setDisplay] = useState('');
+  const [display, setDisplay] = useState<TypedState>({ text: '', baseLen: baseLens[0] ?? 0 });
   const state = useRef({ roleIdx: 0, frameIdx: 0, deleting: false });
 
   useEffect(() => {
@@ -38,9 +42,10 @@ function useTypewriter(roles: string[], enabled: boolean): string {
       const s = state.current;
       const frames = framesByRole[s.roleIdx % framesByRole.length];
       const typeSpeed = speedByRole[s.roleIdx % speedByRole.length];
+      const baseLen = baseLens[s.roleIdx % baseLens.length];
 
       if (!s.deleting) {
-        setDisplay(frames[s.frameIdx]);
+        setDisplay({ text: frames[s.frameIdx], baseLen });
         if (s.frameIdx >= frames.length - 1) {
           s.deleting = true;
           timer = setTimeout(tick, HOLD_MS);
@@ -53,11 +58,11 @@ function useTypewriter(roles: string[], enabled: boolean): string {
           s.deleting = false;
           s.roleIdx = (s.roleIdx + 1) % framesByRole.length;
           s.frameIdx = 0;
-          setDisplay('');
+          setDisplay({ text: '', baseLen: baseLens[s.roleIdx % baseLens.length] });
           timer = setTimeout(tick, typeSpeed);
         } else {
           s.frameIdx -= 1;
-          setDisplay(frames[s.frameIdx]);
+          setDisplay({ text: frames[s.frameIdx], baseLen });
           timer = setTimeout(tick, DELETE_SPEED);
         }
       }
@@ -66,7 +71,7 @@ function useTypewriter(roles: string[], enabled: boolean): string {
     timer = setTimeout(tick, EN_TYPE_SPEED);
     return () => clearTimeout(timer);
     // framesByRole is stable per-locale; re-run when it or `enabled` changes.
-  }, [framesByRole, speedByRole, enabled]);
+  }, [framesByRole, speedByRole, baseLens, enabled]);
 
   return display;
 }
@@ -78,10 +83,15 @@ export function About({ data }: AboutProps) {
 
   const rawRoles = t.raw('about.roles') as string[];
   const roleSuffix = t('about.roleSuffix');
-  // Fold the suffix (e.g. Korean "입니다.") into each role so it is typed too.
+  // Fold the suffix (e.g. Korean "입니다.") into each role so it is typed too;
+  // baseLen keeps the role/suffix boundary so they can be colored differently.
   const roles = useMemo(() => rawRoles.map((r) => r + roleSuffix), [rawRoles, roleSuffix]);
-  const typed = useTypewriter(roles, !reduced);
-  const display = reduced ? roles[0] : typed;
+  const baseLens = useMemo(() => rawRoles.map((r) => [...r].length), [rawRoles]);
+  const typed = useTypewriter(roles, baseLens, !reduced);
+  const active = reduced ? { text: roles[0], baseLen: baseLens[0] } : typed;
+  const chars = [...active.text];
+  const rolePart = chars.slice(0, active.baseLen).join('');
+  const suffixPart = chars.slice(active.baseLen).join('');
 
   return (
     <section
@@ -101,7 +111,8 @@ export function About({ data }: AboutProps) {
             className="mt-4 font-mono text-lg text-text/80 sm:text-xl"
             data-testid="about-typewriter">
             <span className="text-text">{t('about.rolePrefix')} </span>
-            <GlowText color="gold">{display}</GlowText>
+            <GlowText color="gold">{rolePart}</GlowText>
+            {suffixPart && <span className="text-text">{suffixPart}</span>}
             <span aria-hidden="true" className="ml-1 animate-hud-pulse font-bold text-hud-red">
               |
             </span>

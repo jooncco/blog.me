@@ -18,7 +18,7 @@ export function Skills({ categories }: SkillsProps) {
   return (
     <Section id="skills" kicker={t('skills.kicker')} title={t('skills.title')}>
       <div
-        className="grid grid-cols-1 gap-4 md:grid-cols-2"
+        className="grid grid-cols-1 items-start gap-4 md:grid-cols-2"
         data-testid="reactor-clusters">
         {categories.map((category) => (
           <ReactorCluster

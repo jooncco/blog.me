@@ -20,7 +20,6 @@ export function Projects({ groups }: ProjectsProps) {
             domain={domain}
             label={t(`projects.domains.${domain}`)}
             projects={projects}
-            companyLabel={t('projects.companyLabel')}
             viewLabel={t('projects.viewProject')}
           />
         ))}

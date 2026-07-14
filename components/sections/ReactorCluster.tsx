@@ -29,7 +29,7 @@ export function ReactorCluster({
     <HudFrame
       variant="panel"
       glow={expanded ? 'cyan' : false}
-      className="h-full overflow-hidden transition-all duration-300">
+      className="overflow-hidden transition-all duration-300">
       <div data-testid={`reactor-${category.id}`}>
       <button
         type="button"

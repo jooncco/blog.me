@@ -15,8 +15,6 @@
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "@material-tailwind/react": "^2.1.10",
-    "@react-three/drei": "^9.122.0",
-    "@react-three/fiber": "^8.17.10",
     "axios": "^1.7.9",
     "gray-matter": "^4.0.3",
     "katex": "^0.16.47",
@@ -31,8 +29,7 @@
     "rehype-unwrap-images": "^1.0.0",
     "remark-gfm": "^4.0.1",
     "remark-math": "^6.0.0",
-    "server-only": "^0.0.1",
-    "three": "^0.172.0"
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",

@@ -60,7 +60,7 @@ export function ExperienceTimeline({ entries }: ExperienceTimelineProps) {
             <HudFrame variant="panel" className="flex flex-col gap-2 p-4">
               <div className="flex flex-wrap items-baseline justify-between gap-2">
                 <h3 className="font-display text-base font-semibold uppercase tracking-wide text-text">
-                  {entry.role} <span className="text-hud-cyan/70">· {entry.org}</span>
+                  {entry.role}
                 </h3>
                 <span className="font-mono text-xs text-text/50">
                   {entry.start} – {entry.end ?? t('experience.present')}

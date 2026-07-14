@@ -7,18 +7,11 @@ export type ProjectGroupProps = {
   /** Localized domain label. */
   label: string;
   projects: Project[];
-  companyLabel: string;
   viewLabel: string;
 };
 
 /** One expertise-domain group of the mission log: a divider header + its mission cards. */
-export function ProjectGroup({
-  domain,
-  label,
-  projects,
-  companyLabel,
-  viewLabel,
-}: ProjectGroupProps) {
+export function ProjectGroup({ domain, label, projects, viewLabel }: ProjectGroupProps) {
   if (projects.length === 0) return null;
 
   return (
@@ -26,12 +19,7 @@ export function ProjectGroup({
       <Divider label={label} />
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
         {projects.map((project) => (
-          <MissionCard
-            key={project.id}
-            project={project}
-            companyLabel={companyLabel}
-            viewLabel={viewLabel}
-          />
+          <MissionCard key={project.id} project={project} viewLabel={viewLabel} />
         ))}
       </div>
     </div>
