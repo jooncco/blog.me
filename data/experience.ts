@@ -7,7 +7,9 @@
 import type { ExperienceEntry } from '@/types';
 
 export const EXPERIENCE: ExperienceEntry[] = [
-  { id: 'aboitiz-power', start: '2024.08' },
+  { id: 'legacy-eks-migration', start: '2026.01' },
+  { id: 'airline-voc-genai', start: '2025.07', end: '2025.12' },
+  { id: 'aboitiz-power', start: '2024.08', end: '2025.06' },
   { id: 'gc-biopharma', start: '2024.03', end: '2024.07' },
   { id: 'krx', start: '2024.01', end: '2024.02' },
   { id: 'gs-global', start: '2023.12', end: '2023.12' },

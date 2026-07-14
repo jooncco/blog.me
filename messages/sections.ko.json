@@ -35,6 +35,26 @@
         "algo-trading": "알고리즘 트레이딩"
       },
       "items": {
+        "airline-voc-genai": {
+          "title": "항공사 VoC GenAI 백엔드",
+          "outcome": "접수된 항공사 VoC를 백그라운드에서 처리하는 GenAI 백엔드 구축 — 분류·요약·번역·유사 VoC 조회·키워드 추출",
+          "contributions": [
+            "접수된 VoC 백그라운드 처리 API 구현 — 분류·요약·번역·유사 VoC 조회·키워드 추출",
+            "Backend Interface 및 데이터 모델 설계, Amazon Bedrock 연계 개발",
+            "분류 정확도 95%·검색 정확도 94% 이상 달성"
+          ]
+        },
+        "legacy-eks-migration": {
+          "title": "레거시 시스템 EC2 → EKS 마이그레이션",
+          "outcome": "8개 레거시 시스템(업무포탈·검색엔진·공식 홈페이지 등)의 EC2 to EKS 마이그레이션 리딩",
+          "contributions": [
+            "8개 레거시 시스템(업무포탈·검색엔진·공식 홈페이지 등) EC2 to EKS 마이그레이션 리딩",
+            "PV·ConfigMap·Secret 등 K8s 리소스 설계 및 Helm chart 구현",
+            "4개 시스템 OS 업그레이드·재설치 align 및 협업 관리",
+            "시스템별 가용성·성능 테스트 케이스 디자인 및 수행",
+            "운영 가이드 작성 및 개발자 온보딩 진행"
+          ]
+        },
         "aboitiz-ocr-meter": {
           "title": "OCR 검침 애플리케이션",
           "outcome": "이미지 기반 지능형 전력 계량기 검침 앱 PoC 성공적 리딩 — 아키텍처 설계부터 프로덕션 Flutter 배포까지 담당",
@@ -170,6 +190,22 @@
       "present": "현재",
       "loadingMore": "불러오는 중",
       "items": {
+        "legacy-eks-migration": {
+          "role": "솔루션즈 아키텍트",
+          "summary": "8개 레거시 시스템 EC2 to EKS 마이그레이션 리딩",
+          "highlights": [
+            "PV·ConfigMap·Secret 등 K8s 리소스 및 Helm chart 설계·구현",
+            "시스템별 가용성·성능 테스트 및 개발자 온보딩 수행"
+          ]
+        },
+        "airline-voc-genai": {
+          "role": "AI 백엔드 엔지니어",
+          "summary": "항공사 VoC를 백그라운드에서 처리하는 GenAI 백엔드 구축",
+          "highlights": [
+            "분류·요약·번역·유사 VoC 조회·키워드 추출 API 구현",
+            "Amazon Bedrock 연계, 분류 정확도 95%·검색 정확도 94% 이상 달성"
+          ]
+        },
         "aboitiz-power": {
           "role": "프로토타이핑 엔지니어",
           "summary": "이미지 기반 지능형 검침 앱 프로토타이핑 및 프로덕션화",
@@ -259,12 +295,12 @@
           "detail": "MAS(Multi-Agent System) 기반의 해외 선물(금/골드/나스닥/비트코인) 자동 매매 시스템을 사이드 프로젝트로 진행 중입니다. 심심하면 둘러보러 오세요."
         },
         "reading": {
-          "label": "독서(Reading)",
+          "label": "독서",
           "detail": "AI 에이전트 생태계 — 조쉬(이주환), 로드북"
         },
         "baseball": {
           "label": "야구",
-          "detail": "대학 때 하던 야구를 다시 시작했습니다."
+          "detail": "대학 때 하던 야구를 다시 시작했습니다. 120km 의 강속구를 뿌리는날까지 🔥"
         }
       }
     },
@@ -278,7 +314,7 @@
     "contact": {
       "kicker": "채널 열기",
       "title": "연락하기",
-      "intro": "우리는 몇 바이트 거리에 있을 뿐입니다. 메시지를 남겨 주시면 최대한 빨리 답장 드리겠습니다.",
+      "intro": "우리는 딸깍 몇 번으로 닿을 수 있는 거리에 있습니다. 메시지 남겨 주시면 최대한 빨리 답장 드리겠습니다.",
       "sceneLabel": "신호 대기 중",
       "name": "이름",
       "namePlaceholder": "이름이 어떻게 되시나요?",

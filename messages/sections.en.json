@@ -35,6 +35,26 @@
         "algo-trading": "Algorithmic Trading"
       },
       "items": {
+        "airline-voc-genai": {
+          "title": "Airline VoC GenAI Backend",
+          "outcome": "Built the GenAI backend that processes airline Voice-of-Customer in the background — classification, summarization, translation, similar-VoC lookup, and keyword extraction.",
+          "contributions": [
+            "Built background VoC-processing APIs: classification, summarization, translation, similar-VoC lookup, keyword extraction.",
+            "Designed the backend interface and data model, and integrated Amazon Bedrock.",
+            "Achieved 95%+ classification accuracy and 94%+ retrieval accuracy."
+          ]
+        },
+        "legacy-eks-migration": {
+          "title": "Legacy EC2 → EKS Migration",
+          "outcome": "Led the EC2-to-EKS migration of 8 legacy systems (work portal, search engine, official homepage, and more).",
+          "contributions": [
+            "Led the EC2-to-EKS migration of 8 legacy systems (work portal, search engine, official homepage, etc.).",
+            "Designed K8s resources (PV, ConfigMap, Secret) and implemented Helm charts.",
+            "Coordinated OS upgrades and re-installation for 4 systems across teams.",
+            "Designed and ran per-system availability and performance test cases.",
+            "Wrote operations guides and ran developer onboarding."
+          ]
+        },
         "aboitiz-ocr-meter": {
           "title": "OCR Meter Reading Application",
           "outcome": "Led a successful PoC for an image-based intelligent electricity-meter reading app — from architecture through production Flutter delivery.",
@@ -170,6 +190,22 @@
       "present": "Present",
       "loadingMore": "Loading more",
       "items": {
+        "legacy-eks-migration": {
+          "role": "Solutions Architect",
+          "summary": "Led the EC2-to-EKS migration of 8 legacy systems.",
+          "highlights": [
+            "Designed K8s resources (PV, ConfigMap, Secret) and Helm charts.",
+            "Ran per-system availability/performance tests and developer onboarding."
+          ]
+        },
+        "airline-voc-genai": {
+          "role": "AI Backend Engineer",
+          "summary": "Built the GenAI backend that processes airline VoC in the background.",
+          "highlights": [
+            "Built VoC APIs: classification, summarization, translation, similar-VoC lookup, keyword extraction.",
+            "Integrated Amazon Bedrock; reached 95%+ classification and 94%+ retrieval accuracy."
+          ]
+        },
         "aboitiz-power": {
           "role": "Prototyping Engineer",
           "summary": "Prototyping and productionizing an image-based intelligent meter-reading app.",
@@ -256,11 +292,11 @@
       "items": {
         "algo-trading": {
           "label": "Algorithmic trading",
-          "detail": "Building a MAS (Multi-Agent System) auto-trading system for overseas futures (Gold, Nasdaq, Bitcoin) as a side project. Swing by if you're curious."
+          "detail": "Building a MAS (Multi-Agent System) auto-trading system for futures (Gold, Nasdaq, Bitcoin) as a side project. Swing by if you're interested."
         },
         "reading": {
           "label": "Reading",
-          "detail": "'AI 에이전트 생태계' — Josh (Juhwan Lee), Roadbook."
+          "detail": "'AI Agent Ecosystem' — Josh (Juhwan Lee), Roadbook."
         },
         "baseball": {
           "label": "Baseball",
@@ -278,7 +314,7 @@
     "contact": {
       "kicker": "Open a channel",
       "title": "Contact",
-      "intro": "We're just a few bytes away. Drop me a message and I'll get back to you ASAP.",
+      "intro": "We're just a few clicks away. Drop me a message and I'll get back to you ASAP.",
       "sceneLabel": "Signal standing by",
       "name": "Your name",
       "namePlaceholder": "What's your name?",

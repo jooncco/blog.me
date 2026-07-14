@@ -17,9 +17,16 @@ export const DOMAIN_ORDER: ExpertiseDomain[] = [
 export const PROJECTS: Project[] = [
   // --- AI Agents ---------------------------------------------------------
   {
+    id: 'airline-voc-genai',
+    domain: 'ai-agents',
+    period: 'Jul 2025 – Dec 2025',
+    tech: ['Amazon Bedrock', 'GenAI', 'Spring Boot', 'Java'],
+    featured: true,
+  },
+  {
     id: 'aboitiz-ocr-meter',
     domain: 'ai-agents',
-    period: 'Aug 2024 – Present',
+    period: 'Aug 2024 – Jun 2025',
     tech: ['React 18', 'AWS Lambda', 'Amazon EC2', 'Amazon Textract', 'YOLOv9', 'OCR', 'Flutter'],
     featured: true,
   },
@@ -32,6 +39,13 @@ export const PROJECTS: Project[] = [
   },
 
   // --- Solutions Architecture -------------------------------------------
+  {
+    id: 'legacy-eks-migration',
+    domain: 'solutions-architecture',
+    period: 'Jan 2026 – Present',
+    tech: ['Amazon EKS', 'Kubernetes', 'Helm', 'Docker', 'Amazon EC2'],
+    featured: true,
+  },
   {
     id: 'gsglobal-t4k-feedback',
     domain: 'solutions-architecture',
@@ -94,7 +108,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'algo-trading-research',
     domain: 'algo-trading',
-    period: '2023 – Present',
+    period: '2016',
     tech: ['Python', 'LSTM', 'Pandas', 'NumPy', 'Backtesting'],
   },
 ];
