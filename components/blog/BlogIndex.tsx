@@ -1,8 +1,9 @@
-import { getTranslations } from 'next-intl/server';
-import type { PostMeta } from '@/types';
+import { getLocale, getTranslations } from 'next-intl/server';
+import type { Locale, PostMeta } from '@/types';
 import { SectionHeading } from '@/components/hud';
 import { CategoryNav } from './CategoryNav';
-import { PostCard } from './PostCard';
+import { BlogPostsView } from './BlogPostsView';
+import type { BlogListPost } from './PostTile';
 
 export type BlogIndexProps = {
   posts: PostMeta[];
@@ -10,9 +11,26 @@ export type BlogIndexProps = {
   activeCategory?: string;
 };
 
-/** Blog listing: heading, category filter, and a responsive grid of cards. */
+function formatDate(iso: string, locale: Locale): string {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return iso;
+  return new Intl.DateTimeFormat(locale === 'ko' ? 'ko-KR' : 'en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  }).format(d);
+}
+
+/** Blog listing: heading, category filter, and a card/list toggle of posts. */
 export async function BlogIndex({ posts, categories, activeCategory }: BlogIndexProps) {
   const t = await getTranslations('blog');
+  const locale = (await getLocale()) as Locale;
+
+  // Format dates on the server (avoids client/server timezone hydration drift).
+  const enriched: BlogListPost[] = posts.map((post) => ({
+    ...post,
+    dateLabel: formatDate(post.date, locale),
+  }));
 
   return (
     <section data-testid="blog-index" className="w-full px-4 py-10 sm:px-6">
@@ -26,13 +44,18 @@ export async function BlogIndex({ posts, categories, activeCategory }: BlogIndex
         </p>
       </div>
 
-      {posts.length === 0 ? (
+      {enriched.length === 0 ? (
         <p className="mt-10 text-text/60">{t('noPosts')}</p>
       ) : (
-        <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post) => (
-            <PostCard key={`${post.slug}-${post.locale}`} post={post} />
-          ))}
+        <div className="mt-6">
+          <BlogPostsView
+            posts={enriched}
+            labels={{
+              readMore: t('readMore'),
+              viewCard: t('viewCard'),
+              viewList: t('viewList'),
+            }}
+          />
         </div>
       )}
     </section>
