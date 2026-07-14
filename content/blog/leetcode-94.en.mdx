@@ -1,0 +1,103 @@
+---
+title: '[Leetcode] 94. Binary Tree Inorder Traversal explained'
+date: '2022-09-08'
+category: competitive-programming
+tags:
+  - Trees
+lastModified: '2022-09-08T02:07:08.000Z'
+teaser: Leetcode daily challenge 2022 september 8th solution
+ogImage: /blog/images/leetcode-teaser.png
+---
+
+## Problem
+
+[94. Binary Tree Inorder Traversal]("https://leetcode.com/problems/binary-tree-inorder-traversal/)
+
+## Approach
+
+Recursive approach is trivial.  
+We can implement inorder traversal using `Stack`.
+
+```python
+curNode <- root
+while true:
+    if curNode is null:
+        if stack is empty:
+            break;
+        tmpNode <- stack.pop();
+        add tmpNode.val to result
+        curNode <- tmpNode.right;
+    else:
+        if curNode is not null:
+            push curNode into stack
+        else:
+            curNode <- curNode.left;
+```
+
+## Code
+
+![](/blog/images/leetcode-94-result.png)
+
+### Recursive approach
+
+```java
+/**
+ * author: jooncco
+ * written: 2022. 9. 8. Tue. 11:34:14 [UTC+9]
+ **/
+
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> result = new LinkedList<>();
+        inorder(result, root);
+        return result;
+    }
+
+    private void inorder(List<Integer> arr, TreeNode node) {
+        if (node == null) return;
+
+        inorder(arr, node.left);
+        arr.add(node.val);
+        inorder(arr, node.right);
+    }
+}
+```
+
+### Iterative approach
+
+```java
+/**
+ * author: jooncco
+ * written: 2022. 9. 8. Tue. 13:36:14 [UTC+9]
+ **/
+
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        Stack<TreeNode> stack = new Stack<>();
+        List<Integer> result= new LinkedList<>();
+
+        TreeNode curNode = root;
+        while (true) {
+            if (curNode == null) {
+                if (stack.isEmpty()) break;
+                result.add(stack.peek().val);
+                curNode= stack.pop().right;
+            } else {
+                if (curNode.left != null) {
+                    stack.push(curNode);
+                    curNode= curNode.left;
+                } else {
+                    result.add(curNode.val);
+                    curNode= curNode.right;
+                }
+            }
+        }
+        return result;
+    }
+}
+```
+
+## Complexity
+
+- Time: $O(n)$
+- Space: $O(n)$

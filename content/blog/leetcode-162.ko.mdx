@@ -1,0 +1,76 @@
+---
+title: '[LeetCode] 162. Find Peak Element 풀이'
+date: '2021-12-29'
+category: competitive-programming
+tags:
+  - Binary search
+lastModified: '2021-12-29T07:55:00.000Z'
+teaser: Algorithm II - Day 2
+ogImage: /blog/images/leetcode-teaser.png
+---
+
+## Problem
+
+[162. Find Peak Element](https://leetcode.com/problems/find-peak-element/)
+
+## Approach
+
+> 이진탐색으로 $nums[m]$ 값과 양 옆의 값을 비교해준다.
+
+1. $nums[m-1] \gt nums[m]$ 이면:  
+   index $m$ **왼쪽**에 $peak$가 존재.
+
+```cpp
+r <- m;
+```
+
+2. $nums[m] \lt nums[m+1]$ 이면:  
+   index $m$ **오른쪽**에 $peak$가 존재.
+
+```cpp
+l <- m+1;
+```
+
+3. 둘다 아니면:
+   index **$m$ 자체**가 $peak$.
+
+```cpp
+return m;
+```
+
+## Code
+
+![](/blog/images/leetcode-162-result.png)
+
+```cpp
+/**
+ * written: 2021. 12. 29. Wed. 16:05:01 [UTC+9]
+ * jooncco의 mac에서.
+ **/
+
+typedef vector<int> vi;
+
+class Solution {
+public:
+    int findPeakElement(vi &nums) {
+        int n= nums.size();
+        // nums[-1]과 nums[n]이 -∞ 이므로 size가 1이면 자체가 peak
+        if (n == 1) return 0;
+
+        int l= 0, r= n-1;
+        while (l < r) {
+            int m= l+(r-l)/2;
+            if (m > 0 && nums[m] < nums[m-1]) r= m;
+            else if (m < n-1 && nums[m] < nums[m+1]) l= m+1;
+            else return m;  // peak를 찾았으니 바로 return.
+        }
+        // l == peak index
+        return l;
+    }
+};
+```
+
+## Complexity
+
+- Time: $O(\log n)$
+- Space: $O(1)$

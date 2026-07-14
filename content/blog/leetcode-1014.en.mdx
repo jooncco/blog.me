@@ -1,0 +1,55 @@
+---
+title: '[LeetCode] 1014. Best Sightseeing Pair explained'
+date: '2022-02-17'
+category: competitive-programming
+tags:
+  - Math
+  - Dynamic programming
+lastModified: '2022-02-17T08:50:00.000Z'
+teaser: Dynamic Programming I - Day 7
+ogImage: /blog/images/leetcode-teaser.png
+---
+
+## Problem
+
+[1014. Best Sightseeing Pair](https://leetcode.com/problems/best-sightseeing-pair/)
+
+## Approach
+
+Note that the `score` value consists of two parts.  
+We are going to find the index of **best left pair** as we iterate through the values, and cache them in `maxLeftScore`.
+
+![](/blog/images/leetcode-1014-figure-1.png)
+
+- `i`: index of **left pair** candidate.
+- `j`: index of **right pair** candidate.
+
+**At each time we move** `j`,
+
+1. Can index `j-1` can be the new `i`? Then update `maxLeftScore`.
+2. Update `maxScore` value with `max(maxScore, score(i,j))`.
+
+## Code
+
+![](/blog/images/leetcode-1014-result.png)
+
+```cpp
+typedef vector<int> vi;
+
+class Solution {
+public:
+    static inline int maxScoreSightseeingPair(vi &values) {
+        int n= values.size(), maxLeftScore= 0, maxScore= 0;
+        for (int j=1; j < n; ++j) {
+            maxLeftScore= max(maxLeftScore, values[j-1]+j-1);
+            maxScore= max(maxScore, values[j]-j+maxLeftScore);
+        }
+        return maxScore;
+    }
+};
+```
+
+## Complexity
+
+- Time: $O(N)$
+- Space: $O(1)$

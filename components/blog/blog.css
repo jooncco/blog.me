@@ -1,0 +1,111 @@
+/* Blog post rendering styles (Unit U6).
+   Syntax-highlight token palette for rehype-highlight (`.hljs-*`) + KaTeX
+   layout fixes. Theme-aware: dark values on :root, light overrides on
+   `.light` / `[data-theme='light']` to match the tw-colors theme toggle. */
+
+:root {
+  --blog-code-text: #cbd5e1;
+  --blog-hl-comment: #64748b;
+  --blog-hl-keyword: #22d3ee;
+  --blog-hl-string: #a3e635;
+  --blog-hl-number: #fbbf24;
+  --blog-hl-title: #7dd3fc;
+  --blog-hl-attr: #f0abfc;
+  --blog-hl-type: #fca5a5;
+  --blog-hl-meta: #94a3b8;
+}
+
+.light,
+[data-theme='light'] {
+  --blog-code-text: #1f2937;
+  --blog-hl-comment: #64748b;
+  --blog-hl-keyword: #0e7490;
+  --blog-hl-string: #4d7c0f;
+  --blog-hl-number: #b45309;
+  --blog-hl-title: #0369a1;
+  --blog-hl-attr: #a21caf;
+  --blog-hl-type: #b91c1c;
+  --blog-hl-meta: #475569;
+}
+
+.hud-code pre code.hljs,
+.hud-code pre code {
+  color: var(--blog-code-text);
+  background: transparent;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: var(--blog-hl-comment);
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-built_in,
+.hljs-literal,
+.hljs-subst {
+  color: var(--blog-hl-keyword);
+}
+
+.hljs-string,
+.hljs-regexp,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+  color: var(--blog-hl-string);
+}
+
+.hljs-number,
+.hljs-meta .hljs-string {
+  color: var(--blog-hl-number);
+}
+
+.hljs-title,
+.hljs-title.function_,
+.hljs-title.class_,
+.hljs-section,
+.hljs-name {
+  color: var(--blog-hl-title);
+}
+
+.hljs-attr,
+.hljs-attribute,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-property {
+  color: var(--blog-hl-attr);
+}
+
+.hljs-type,
+.hljs-class .hljs-title,
+.hljs-params,
+.hljs-tag,
+.hljs-deletion {
+  color: var(--blog-hl-type);
+}
+
+.hljs-meta,
+.hljs-doctag {
+  color: var(--blog-hl-meta);
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: 700;
+}
+
+/* KaTeX: keep long display equations scrollable rather than overflowing the
+   page, and let inline math inherit the surrounding text color. */
+.katex {
+  color: inherit;
+}
+
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.5rem 0;
+}

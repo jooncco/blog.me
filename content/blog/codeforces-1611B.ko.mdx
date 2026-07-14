@@ -1,0 +1,63 @@
+---
+title: '[Codeforces] 1611B. Team Composition: Programmers and Mathematicians 풀이'
+date: '2021-11-30'
+category: competitive-programming
+tags:
+  - Math
+lastModified: '2021-11-30T06:40:00.000Z'
+teaser: 'Codeforces Round #756(Div.3) - problem B solution'
+ogImage: /blog/images/codeforces-teaser.png
+---
+
+## Problem
+
+[1611B. Team Composition: Programmers and Mathematicians](https://codeforces.com/contest/1611/problem/B)
+
+## Approach
+
+큰 값을 a, 작은 값을 b라고 하자.  
+$dif := a - b$ 에 초점을 맞춘다.  
+$3 : 1$의 비율로 팀을 구성하는 경우, 이 $dif$ 값에서 2씩 차감하는 것과 같다.
+
+따라서, $3 : 1$의 비율로 구성 가능한 최대 팀 수 $teams = \min( \lfloor {dif \over 2} \rfloor, b )$  
+이 $teams$ 값을 $b$에서 빼주고, 남은 인원($b$)은 $2 : 2$의 비율로 팀을 구성해주면 된다.
+
+$ans = \min( \lfloor {dif \over 2} \rfloor, b ) + \lfloor {b - \min( \lfloor {dif \over 2} \rfloor, b ) \over 2} \rfloor$
+
+## Code
+
+![](/blog/images/codeforces-1611B-result.png)
+
+```cpp
+/**
+ * written: 2021. 11. 30. Tue. 15:33:05 [UTC+9]
+ * jooncco의 mac에서.
+ **/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#define FAST_IO ios_base::sync_with_stdio(0),cin.tie(0)
+
+int a,b;
+
+void solve() {
+    cin >> a >> b;
+    if (a < b) swap(a,b);
+    int dif= abs(a-b);
+    int threeAndOne= dif/2;
+    int ans= min(threeAndOne,b) + (b-min(threeAndOne,b))/2;
+    cout << ans << "\n";
+}
+
+int main() {
+    FAST_IO;
+    int t; cin >> t;
+    while (t--) solve();
+}
+```
+
+## Complexity
+
+- Time: $O(1)$
+- Space: $O(1)$

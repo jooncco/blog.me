@@ -1,0 +1,64 @@
+---
+title: '[LeetCode] 5. Longest Palindromic Substring 풀이'
+date: '2021-11-01'
+category: competitive-programming
+tags:
+  - Dynamic programming
+lastModified: '2021-11-01T14:54:00.000Z'
+teaser: dp 연습용
+ogImage: /blog/images/leetcode-teaser.png
+---
+
+## Problem
+
+[5. Longest Palindromic Substring](https://leetcode.com/problems/longest-palindromic-substring/)
+
+## Approach
+
+- 길이 $l$인 palindrome에 문자 하나를 추가했을 때 만들어지는 palindrome을 생각해보면, 길이가 $l+1$ 혹은 $l+2$이다.
+- 그런데 내가 이미 알고있는 palindrome의 길이가 $l$ 이라면, 길이가 $l$ 이하인 palindrome의 존재는 체크할 필요도 없다.
+- 각 문자 $s[i]$에 대해 그 문자를 마지막 문자로 하는 길이 $l+1$ 혹은 $l+2$인 palindrome이 있는지만 탐색하면 된다.
+
+## Code
+
+![](/blog/images/leetcode-5-result.png)
+
+```cpp
+/**
+ * author: jooncco
+ * written: 2021. 10. 31. Mon. 00:30:16 [UTC+9]
+ **/
+
+class Solution {
+private:
+    bool isPalindrome(string str) {
+        int n= str.length();
+        for (int i=0; i < n/2; ++i) {
+            if (str[i] != str[n-1-i]) return 0;
+        }
+        return 1;
+    }
+
+public:
+    string longestPalindrome(string s) {
+        int n= s.length();
+        int idx= 0, len= 0;
+        for (int i=0; i < n; ++i) {
+            if (isPalindrome(s.substr(i-len, len+1))) {
+                idx= i-len;
+                len += 1;
+            }
+            else if (i-len > 0 && isPalindrome(s.substr(i-len-1, len+2))) {
+                idx= i-len-1;
+                len += 2;
+            }
+        }
+        return s.substr(idx,len);
+    }
+};
+```
+
+## Complexity
+
+- Time: $O(\vert s \vert)$
+- Space: $O(1)$

@@ -1,0 +1,26 @@
+{
+  "blog": {
+    "title": "블로그",
+    "kicker": "TRANSMISSION LOG",
+    "subtitle": "알고리즘, 엔지니어링, 그리고 가끔의 회고 기록.",
+    "readMore": "더 읽기",
+    "backToIndex": "전체 글로 돌아가기",
+    "categories": "카테고리",
+    "all": "전체",
+    "postsCount": "{count, plural, other {글 #개}}",
+    "noPosts": "이 카테고리에는 아직 글이 없습니다.",
+    "availableIn": "지원 언어",
+    "onlyAvailableIn": "이 글은 {lang}로만 제공됩니다.",
+    "fallbackNotice": "{requested} 번역이 아직 없어 {served} 버전을 표시합니다.",
+    "readingTime": "{minutes}분 분량",
+    "published": "작성일",
+    "updated": "수정일",
+    "contents": "목차",
+    "tags": "태그",
+    "category": "카테고리",
+    "lang": {
+      "en": "영어",
+      "ko": "한국어"
+    }
+  }
+}

@@ -1,0 +1,84 @@
+---
+title: '[Codeforces] 1614B. Divan and a New Project 풀이'
+date: '2021-11-27'
+category: competitive-programming
+tags:
+  - Sortings
+  - Greedy
+lastModified: '2021-11-27T08:06:00.000Z'
+teaser: 'Codeforces Round #757(Div.2) - problem B solution'
+ogImage: /blog/images/codeforces-teaser.png
+---
+
+## Problem
+
+[1614B. Divan and a New Project](https://codeforces.com/contest/1614/problem/B)
+
+## Approach
+
+$headquarters$ 의 좌표 $x_0$을 $0$으로 두고,  
+많이 방문해야하는 건물일수록 $+1, -1, +2, -2 \cdots$ 이런 식으로 $headquarters$에 가깝게 지으면 된다. $(Greedy)$
+
+## Code
+
+![](/blog/images/codeforces-1614B-result.png)
+
+```cpp
+/**
+ * written: 2021. 11. 26. Fri. 20:42:25 [UTC+9]
+ * jooncco의 mac에서.
+ **/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#define FAST_IO ios_base::sync_with_stdio(0),cin.tie(0)
+typedef long long ll;
+typedef pair<int,int> ii;
+typedef deque<int> di;
+typedef deque<ii> dii;
+typedef vector<int> vi;
+typedef vector<ll> vl;
+typedef vector<ii> vii;
+typedef priority_queue<int, vi, less<int> > maxHeap;
+typedef priority_queue<int, vi, greater<int> > minHeap;
+
+int n,a;
+
+void solve() {
+    cin >> n;
+    vii arr(n);
+    for (int i=0; i < n; ++i) {
+        cin >> a;
+        arr[i]= {a,i}; // { 방문횟수, index } 저장
+    }
+    sort(arr.begin(),arr.end());
+    int x0= 0;
+    ll curX= 1, ansDis= 0;
+    vl ans(n,1e9);
+    // 많이 방문할 빌딩부터 가깝게 좌표를 배정
+    for (int i=n-1; i >= 0; --i) {
+        int visitCnt= arr[i].first;
+        int origIdx= arr[i].second;
+        ans[origIdx]= curX;
+        ansDis += abs(curX)*2*visitCnt;
+        if (curX > 0) curX= -curX;
+        else curX= -curX+1;
+    }
+    cout << ansDis << "\n";
+    cout << 0;  // 본사
+    for (int i=0; i < n; ++i) cout << " " << ans[i];    // 나머지
+    cout << "\n";
+}
+
+int main() {
+    FAST_IO;
+    int t; cin >> t;
+    while (t--) solve();
+}
+```
+
+## Complexity
+
+- Time: $O(n{\log}n)$
+- Space: $O(n)$

@@ -1,0 +1,26 @@
+{
+  "blog": {
+    "title": "Blog",
+    "kicker": "TRANSMISSION LOG",
+    "subtitle": "Notes on algorithms, engineering, and the occasional retro.",
+    "readMore": "Read more",
+    "backToIndex": "Back to all posts",
+    "categories": "Categories",
+    "all": "All",
+    "postsCount": "{count, plural, =0 {No entries} one {# entry} other {# entries}}",
+    "noPosts": "No posts in this category yet.",
+    "availableIn": "Available in",
+    "onlyAvailableIn": "This post is only available in {lang}.",
+    "fallbackNotice": "No {requested} translation yet — showing the {served} version.",
+    "readingTime": "{minutes} min read",
+    "published": "Published",
+    "updated": "Updated",
+    "contents": "Contents",
+    "tags": "Tags",
+    "category": "Category",
+    "lang": {
+      "en": "English",
+      "ko": "Korean"
+    }
+  }
+}

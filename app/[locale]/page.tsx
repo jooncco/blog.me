@@ -1,32 +1,44 @@
 import { setRequestLocale } from 'next-intl/server';
-import About from '@/components/About/About';
-import Projects from '@/components/Projects/Projects';
-import Skills from '@/components/Skills/Skills';
-import Portfolio from '@/components/Portfolio/Portfolio';
-import CompetitiveProgramming from '@/components/CompetitiveProgramming/CompetitiveProgramming';
-import NewsFeed from '@/components/NewsFeed/NewsFeed';
-import Testimonials from '@/components/Testimonials/Testimonials';
+import {
+  About,
+  Projects,
+  Skills,
+  Portfolio,
+  CompetitiveProgramming,
+  ExperienceTimeline,
+  BlogHighlights,
+} from '@/components/sections';
+import { ABOUT } from '@/data/about';
+import { groupProjectsByDomain } from '@/data/projects';
+import { SKILLS } from '@/data/skills';
+import { PORTFOLIO, PORTFOLIO_CATEGORIES } from '@/data/portfolio';
+import { EXPERIENCE } from '@/data/experience';
+import { getCpStats } from '@/lib/cp/snapshot';
+import { getLatestPosts } from '@/lib/blog';
+import type { Locale } from '@/types';
 
 type Props = {
   params: Promise<{ locale: string }>;
 };
 
-// NOTE: the home page still renders the legacy section components as-is; they
-// are rewritten/removed in Wave 4 (U4). This page only makes them compile and
-// render under `app/[locale]`.
 export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
 
+  const [cpStats, latestPosts] = await Promise.all([
+    getCpStats(),
+    getLatestPosts(locale as Locale, 3),
+  ]);
+
   return (
-    <div className="flex flex-col rounded-2xl bg-neutral px-0 drop-shadow-lg sm:px-8">
-      <About />
-      <Projects />
-      <Skills />
-      <Portfolio />
-      <CompetitiveProgramming />
-      <NewsFeed />
-      <Testimonials />
+    <div className="flex flex-col">
+      <About data={ABOUT} />
+      <Projects groups={groupProjectsByDomain()} />
+      <Skills categories={SKILLS} />
+      <Portfolio items={PORTFOLIO} categories={[...PORTFOLIO_CATEGORIES]} />
+      <CompetitiveProgramming stats={cpStats} />
+      <ExperienceTimeline entries={EXPERIENCE} />
+      <BlogHighlights posts={latestPosts} />
     </div>
   );
 }

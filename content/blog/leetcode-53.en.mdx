@@ -1,0 +1,117 @@
+---
+title: '[LeetCode] 53. Maximum Subarray explained'
+date: '2022-02-16'
+category: competitive-programming
+tags:
+  - Dynamic programming
+  - Divide and conquer
+lastModified: '2022-02-15T15:07:00.000Z'
+teaser: Dynamic Programming I - Day 5
+ogImage: /blog/images/leetcode-teaser.png
+---
+
+## Problem
+
+[53. Maximum Subarray](https://leetcode.com/problems/maximum-subarray/)
+
+## Approach
+
+### Solution 1: DP
+
+![](/blog/images/leetcode-53-figure-1.png)
+
+One pass from left to right.  
+While iterating the `nums` array, update `curSum` value with larger of those two.
+
+- nums[i]
+- curSum + nums[i]
+
+The answer `maxSum` is the maximum value among all `curSum`s.
+
+### Solution 2: Divide and conquer
+
+![](/blog/images/leetcode-53-figure-2.png)
+
+Think of the answer `maxSum` in a subarray `nums[L:R]`. It's among those three.
+
+- sum of subarray containing values `nums[m]` and `nums[m+1]` (mMax)
+- `maxSum` in subarray `nums[L:m]` (lMax)
+- `maxSum` in subarray `nums[m+1:R]` (rMax)
+
+**All we have to do is:**
+
+1. calculate the mMax
+2. find `maxSum` in left and right subarrays (recursive call)
+3. return max among those three
+
+## Code
+
+### Solution 1: DP
+
+![](/blog/images/leetcode-53-result-1.png)
+
+```cpp
+typedef vector<int> vi;
+
+class Solution {
+private:
+    const int NEG_INF= -1e5;
+public:
+    int maxSubArray(vi &nums) {
+        int n= nums.size(), ans= NEG_INF, curSum= NEG_INF;
+        for (int i=0; i < n; ++i) {
+            curSum= max(nums[i], curSum+nums[i]);
+            ans= max(ans, curSum);
+        }
+        return ans;
+    }
+};
+```
+
+### Solution 2: Divide and conquer
+
+![](/blog/images/leetcode-53-result-2.png)
+
+```cpp
+typedef vector<int> vi;
+
+class Solution {
+private:
+    int maxSum(vi &nums, int L, int R) {
+        if (L >= R) return nums[L];
+        int m= L-(L-R)/2;
+        // calculate maxSubarray containing nums[m] to the left
+        int mMaxL= nums[m], lSum= nums[m];
+        for (int i=m-1; i >= L; --i) {
+            lSum += nums[i];
+            mMaxL= max(mMaxL, lSum);
+        }
+        // calculate maxSubarray containing nums[m+1] to the right
+        int mMaxR= nums[m+1], rSum= nums[m+1];
+        for (int i=m+2; i <= R; ++i) {
+            rSum += nums[i];
+            mMaxR= max(mMaxR, rSum);
+        }
+        int mMax= mMaxL+mMaxR;
+        return max( mMax, max( maxSum(nums, L, m), maxSum(nums, m+1, R) ) );
+    }
+
+public:
+    int maxSubArray(vi &nums) {
+        int n= nums.size();
+        return maxSum(nums, 0, n-1);
+    }
+};
+```
+
+## Complexity
+
+### Solution 1
+
+- Time: $O(n)$
+- Space: $O(1)$
+
+### Solution 2
+
+- Time: $O(N{\log}N)$
+- Space: $O(1)$

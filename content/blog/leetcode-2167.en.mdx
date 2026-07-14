@@ -1,0 +1,67 @@
+---
+title: >-
+  [LeetCode] 2167. Minimum Time to Remove All Cars Containing Illegal Goods
+  explained
+date: '2022-02-11'
+category: competitive-programming
+tags:
+  - Two pointers
+  - Dynamic programming
+lastModified: '2022-02-11T07:17:00.000Z'
+teaser: Weekly Contest 279 Q4
+ogImage: /blog/images/leetcode-teaser.png
+---
+
+## Problem
+
+[2167. Minimum Time to Remove All Cars Containing Illegal Goods](https://leetcode.com/problems/minimum-time-to-remove-all-cars-containing-illegal-goods/)
+
+## Approach
+
+### Think of two pointers.
+
+- `left`: minimum time to clear '1's from `s[0]` to `s[i]`
+- `right`: minimum time to clear '1's from `s[i+1]` to `s[n-1]`
+
+### While iteratating from left to right,
+
+update `left` value with minimum of those two:
+
+- `left`+2 (cost of removing `s[i]` without removing prefix)
+- i+1 (cost of removing prefix all the way to `s[i]`)
+
+update `right` value with:
+
+- n - 1 - i (cost of removing all cars from the right)
+
+### Update `ans` during the iteration.
+
+$$ans = \min_{\rm i} (left_i + right_i)$$
+
+## Code
+
+![](/blog/images/leetcode-2167-result.png)
+
+```cpp
+/**
+ * written: 2022. 02. 11. Fri. 16:57:01 [UTC+9]
+ * jooncco의 mac에서.
+ **/
+
+class Solution {
+public:
+    int minimumTime(string s) {
+        int n= s.length(), l= 0, ans= n;
+        for (int i=0; i < n; ++i) {
+            l= min(l + 2*(s[i] == '1'), i+1);
+            ans= min(ans, l + n-1-i);
+        }
+        return ans;
+    }
+};
+```
+
+## Complexity
+
+- Time: $O(n)$
+- Space: $O(1)$

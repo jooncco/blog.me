@@ -1,0 +1,110 @@
+---
+title: '[Codeforces] 155C. Hometask 풀이'
+date: '2021-05-08'
+category: competitive-programming
+tags:
+  - Greedy
+lastModified: '2021-05-08T14:09:00.000Z'
+teaser: 'Codeforces Round #109(Div.2) - problem C solution'
+ogImage: /blog/images/codeforces-teaser.png
+---
+
+## Problem
+
+[155C. Hometask](http://codeforces.com/problemset/problem/155/C)
+
+## Approach
+
+> "each letter is included in no more than one pair."
+
+**a**가 forbidden pair **&#123;a,b&#125;**에 등장했다면, **&#123;a,c&#125;**와 같이 또 등장하지는 않기 때문에,  
+substring 마다 각각 독립적으로 풀 수 있다.
+
+예를 들어, forbidden pair가 **&#123;a,b&#125;, &#123;x,y&#125;** 일때  
+주어진 문자열이 **aabxyyxyxyxabcdabxxxy** 라면  
+**aab / xyyxyxyx / ab / cd / ab / xxxy** 로 나눠서 각 substring 마다 최소 개수를 찾으면 된다는 얘기.
+
+- 지우는 letter를 최소로 하기 때문에, 각 substring에서 최소 하나는 남게 된다. 따라서 각 substring 마다 찾은 최소 삭제횟수를 단순합 해주면 답이 된다.
+- 각 substring에서, 두 letter 중 적은 빈도로 등장하는 letter를 전부 삭제해야 된다.
+
+따라서,
+
+1. forbidden pair로 이루어진 **substring**(continuous subsequence) 들을 찾고,
+2. 그 각각에서 삭제해야 하는 최소 letter수(**greedy**)를 더해준다.
+
+## Code
+
+![](/blog/images/codeforces-155C-result.png)
+
+```cpp
+/**
+ * author: jooncco
+ * written: 2021. 5. 8. Sat. 23:05:16 [UTC+9]
+ **/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#define FAST_IO ios_base::sync_with_stdio(0),cin.tie(0)
+
+string str, forbidden[20];
+int k;
+
+int main() {
+
+    FAST_IO;
+    cin >> str >> k;
+    int len= str.length();
+
+    vector<vector<string>> arr;
+    for (int i=0; i < k; ++i) {
+        vector<string> vec; // k번째 forbidden pair로 이루어진 substring들을 저장하는 array
+        cin >> forbidden[i];
+
+        // forbidden[i]의 letter들로 이루어진 substring을 찾아 vec에 저장
+        bool subStr= 0;
+        string S= "";
+        for (int idx=0; idx < len; ++idx) {
+            if (str[idx] == forbidden[i][0] || str[idx] == forbidden[i][1]) {
+                if (subStr) {
+                    S.push_back(str[idx]);
+                }
+                else {
+                    subStr= 1;
+                    S= string(1,str[idx]);
+                }
+            }
+            else {
+                if (subStr) {
+                    vec.push_back(S);
+                    S= "";
+                }
+                subStr= 0;
+            }
+        }
+        if (subStr) vec.push_back(S);       // 마지막 substring도 놓치지 말자
+        arr.push_back(vec);
+    }
+
+    int ans= 0;
+    for (int i=0; i < k; ++i) {
+        // i번째 substring에 대해 최소로 삭제해야하는 letter수를 ans에 더해준다.
+        for (int j=0; j < arr[i].size(); ++j) {
+            int cnt[2]= {0};
+            string s= arr[i][j];
+            for (int idx= 0; idx < s.length(); ++idx) {
+                if (s[idx] == forbidden[i][0]) ++cnt[0];
+                if (s[idx] == forbidden[i][1]) ++cnt[1];
+            }
+            if (cnt[0] < cnt[1]) ans += cnt[0];
+            else ans += cnt[1];
+        }
+    }
+    cout << ans;
+}
+```
+
+## Complexity
+
+- Time: $O( k \cdot \lvert s \rvert )$
+- Space: $O( k \cdot \lvert s \rvert )$

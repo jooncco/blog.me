@@ -1,5 +1,5 @@
 import { setRequestLocale } from 'next-intl/server';
-import Contact from '@/components/Contact/Contact';
+import { Contact } from '@/components/sections';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -10,7 +10,7 @@ export default async function ContactPage({ params }: Props) {
   setRequestLocale(locale);
 
   return (
-    <div className="flex flex-col rounded-2xl bg-neutral px-0 drop-shadow-lg sm:px-8">
+    <div className="flex flex-col">
       <Contact />
     </div>
   );

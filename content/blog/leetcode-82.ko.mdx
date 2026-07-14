@@ -1,0 +1,70 @@
+---
+title: '[LeetCode] 82. Remove Duplicates from Sorted List II 풀이'
+date: '2021-12-31'
+category: competitive-programming
+tags:
+  - Two pointers
+lastModified: '2021-12-31T07:27:00.000Z'
+teaser: Algorithm II - Day 3
+ogImage: /blog/images/leetcode-teaser.png
+---
+
+## Problem
+
+[2. Remove Duplicates from Sorted List II](https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/)
+
+## Approach
+
+> 이전 노드의 값과 출현횟수를 caching하며 List를 순회한다.
+
+- $curVal$: 이전 노드의 값
+- $cnt$: 그 값의 출현 횟수
+
+> List의 끝이나 다른 $val$을 가진 노드를 만났을 때, $count = 1$인 경우에만 정답 List에 노드 추가.
+
+구현할때는 가상의 첫 노드를 먼저 만들어두고, 정답 반환시에 그 가상 노드의 next를 반환하면 편하다.
+
+## Code
+
+![](/blog/images/leetcode-82-result.png)
+
+```cpp
+/**
+ * written: 2021. 12. 31. Fri. 16:49:01 [UTC+9]
+ * jooncco의 mac에서.
+ **/
+
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        // 정답 List
+        ListNode *ansHead= new ListNode();
+        ListNode *ansCur= ansHead;
+
+        int curVal= -101, cnt= 0;
+        ListNode *cur= head;
+        while (cur != NULL) {
+            if (cur->val == curVal) ++cnt;
+            else {
+                if (cnt == 1) {
+                    // 중복되지 않은 노드를 정답 List에 추가
+                    ansCur->next= new ListNode(curVal);
+                    ansCur= ansCur->next;
+                }
+                // 새로운 값 counting 시작
+                curVal= cur->val;
+                cnt= 1;
+            }
+            cur= cur->next;
+        }
+        // 리스트의 끝
+        if (cnt == 1) ansCur->next= new ListNode(curVal);
+        return ansHead->next;
+    }
+};
+```
+
+## Complexity
+
+- Time: $O(n)$
+- Space: $O(1)$

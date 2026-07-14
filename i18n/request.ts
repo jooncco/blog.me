@@ -4,7 +4,11 @@ import { routing } from './routing';
 /**
  * Per-request next-intl config (Unit U3). Resolves the active locale from the
  * `[locale]` segment (falling back to the default) and loads its message
- * catalog from `messages/<locale>.json`.
+ * catalog. Messages are split across files so parallel units own disjoint files:
+ *   - messages/<locale>.json          (shell: nav/common/footer/theme/locale)
+ *   - messages/sections.<locale>.json (U4 home sections — namespace `sections`)
+ *   - messages/blog.<locale>.json     (U6 blog — namespace `blog`)
+ * Top-level namespaces don't overlap, so a shallow merge is sufficient.
  */
 export default getRequestConfig(async ({ requestLocale }) => {
   const requested = await requestLocale;
@@ -13,8 +17,14 @@ export default getRequestConfig(async ({ requestLocale }) => {
       ? requested
       : routing.defaultLocale;
 
+  const [base, sections, blog] = await Promise.all([
+    import(`../messages/${locale}.json`),
+    import(`../messages/sections.${locale}.json`).catch(() => ({ default: {} })),
+    import(`../messages/blog.${locale}.json`).catch(() => ({ default: {} })),
+  ]);
+
   return {
     locale,
-    messages: (await import(`../messages/${locale}.json`)).default,
+    messages: { ...base.default, ...sections.default, ...blog.default },
   };
 });

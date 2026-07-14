@@ -1,0 +1,79 @@
+---
+title: '[Codeforces] 1486B. Eastern Exhibition explained'
+date: '2021-02-20'
+category: competitive-programming
+tags:
+  - Geometry
+  - Math
+  - Sortings
+lastModified: '2021-02-20T08:13:00.000Z'
+teaser: 'Codeforces Round #703(Div.2) - problem B solution'
+ogImage: /blog/images/codeforces-teaser.png
+---
+
+## Problem
+
+[1486B. Eastern Exhibition](http://codeforces.com/contest/1486/problem/B)
+
+## Approach
+
+> **Observation 1**: minimum distance can be computed separately. ($y-axis$ and $x-axis$ each.)
+
+> **Observation 2**: in a 1-dimensional line, the minimal distance point always lies in between $left$ $median$ and $right$ $median$ .
+
+The number of optimal exibition point:
+
+(# of `x-axis` coordinates) x (# of `y-axis` coordinates)
+
+$\therefore ans = ( x*{rightMedian} - x*{leftMedian} + 1 ) \cdot ( x*{rightMedian} - x*{leftMedian} + 1) $
+
+## Code
+
+![](/blog/images/codeforces-1486B-result.png)
+
+```cpp
+/**
+ * author: jooncco
+ * written: 2021. 2. 20. Sat. 17:09:30 [UTC+9]
+ **/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#define FAST_IO ios_base::sync_with_stdio(0),cin.tie(0)
+typedef long long ll;
+typedef pair<int,int> ii;
+typedef vector<int> vi;
+typedef deque<int> di;
+
+int t,n;
+
+ll howMany(vi &arr) {
+
+    sort(arr.begin(),arr.end());
+
+    // right median - left median + 1
+    return arr[arr.size()/2] - arr[(arr.size()-1)/2] +1;
+}
+
+int main() {
+
+    FAST_IO;
+    cin >> t;
+    while (t--) {
+        cin >> n;
+        vi x(n),y(n);
+        for (int i=0; i < n; ++i) {
+            cin >> x[i] >> y[i];
+        }
+        // ll: prevent integer overflow
+        ll ans= howMany(x) * howMany(y);
+        cout << ans << "\n";
+    }
+}
+```
+
+## Complexity
+
+- Time: $O(n\cdot{\log}n)$
+- Space: $O(n)$

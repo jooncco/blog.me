@@ -1,0 +1,100 @@
+---
+title: '[백준] 18869. 멀티버스 Ⅱ 풀이'
+date: '2021-01-31'
+category: competitive-programming
+tags:
+  - Coordinate compression
+  - Sortings
+lastModified: '2021-01-31T13:12:00.000Z'
+teaser: BOJ problem 18869 solution
+ogImage: /blog/images/boj-teaser.png
+---
+
+## Problem
+
+[18869. 멀티버스 Ⅱ](https://www.acmicpc.net/problem/18869)
+
+## Approach
+
+- Brute force로 접근하면 복잡도는 $O(M^2 \cdot N^2)$.
+- M개중 2개를 골라 $O(M^2)$, 균등한지를 판별 $O(N^2)$.
+- '좌표 압축' 기법을 적용해야 시간안에 해결 가능한 문제.
+
+1. N개 행성 크기들을 좌표압축.
+2. 행성 배열을 압축 좌표의 permutation이 담긴 **string vector**로 변환 ( ==로 단순 비교 가능하도록 )
+3. 변환된 string vector들을 정렬 후, 같은 것들의 개수 n개가 발생하면, 그때마다 답에 ${_n}C_2$ 덧셈.
+
+## Code
+
+![](/blog/images/boj-18869-result.png)
+
+```cpp
+/**
+ * author: jooncco
+ * written: 2021. 1. 31. Sun. 21:47:19 [UTC+9]
+ **/
+
+#include <bits/stdc++.h>
+using namespace std;
+using ll= long long;
+using ii= pair<int,int>;
+using vi= vector<int>;
+using di= deque<int>;
+
+// idx == 7일 경우 "0007"로 변환해주는 함수
+inline string to4Digit(int idx) {
+
+    string ret= to_string(idx);
+    while (ret.length() < 4) ret= "0"+ret;
+    return ret;
+}
+
+int M,N;
+
+int main() {
+
+    cin >> M >> N;
+    vector<string> vecArr;
+    for (int i=0; i < M; ++i) {
+        vi arr(N),V(N);
+        for (int i=0; i < N; ++i) {
+            cin >> arr[i];
+            V[i]= arr[i];
+        }
+
+        // 좌표 압축
+        sort(V.begin(),V.end());
+        int cnt= 0; // idx
+        map<int,int> mapper;
+        mapper[V[0]]= cnt;
+        for (int i=1; i < N; ++i) {
+            if (V[i-1] != V[i]) mapper[V[i]]= ++cnt;
+        }
+        string vec= "";     // 이 행성 배열의 벡터
+        for (int i=0; i < N; ++i) {
+            vec += to4Digit(mapper[arr[i]]);
+        }
+        vecArr.push_back(vec);
+    }
+
+    // M개 중 같은 벡터가 몇개씩 있는지 찾고, 답을 구해준다
+    sort(vecArr.begin(),vecArr.end());
+    int cnt= 1, ans= 0;
+    for (int i=1; i < M; ++i) {
+        if (vecArr[i] == vecArr[i-1]) {
+            ++cnt;
+        }
+        else {
+            ans += cnt*(cnt-1)/2;
+            cnt= 1;
+        }
+    }
+    ans += cnt*(cnt-1)/2;   // 이걸 빼먹어서 한번 틀렸었다
+    cout << ans;
+}
+```
+
+## Complexity
+
+- Time: $O(M{\cdot}N{\cdot}{\log}N + M{\cdot}{\log}M + M)$
+- Space: $O(N)$

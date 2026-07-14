@@ -1,0 +1,70 @@
+---
+title: '[LeetCode] 153. Find Minimum in Rotated Sorted Array 풀이'
+date: '2021-12-29'
+category: competitive-programming
+tags:
+  - Binary search
+lastModified: '2021-12-29T07:48:00.000Z'
+teaser: Algorithm II - Day 2
+ogImage: /blog/images/leetcode-teaser.png
+---
+
+## Problem
+
+[153. Find Minimum in Rotated Sorted Array](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/)
+
+## Approach
+
+> 이진탐색으로 $nums[l]$, $nums[m]$, $nums[r]$ 값을 비교해준다.
+
+1. $nums[l] \le nums[m]$ 이면:  
+   최솟값은 index $m$보다 오른쪽에 있다.
+
+```cpp
+l <- m+1;
+```
+
+2. 아니면:  
+   최솟값은 $nums[m]$ **자체**이거나, index $m$보다 왼쪽에 있다.
+
+```cpp
+r <- m;
+```
+
+## Code
+
+![](/blog/images/leetcode-153-result.png)
+
+```cpp
+/**
+ * written: 2021. 12. 29. Wed. 15:51:07 [UTC+9]
+ * jooncco의 mac에서.
+ **/
+
+typedef vector<int> vi;
+
+class Solution {
+public:
+    int findMin(vi &nums) {
+        int n= nums.size();
+        // size가 1이거나 rotate가 일어나지 않은 경우
+        if (n == 1 || nums[0] < nums[n-1]) return nums[0];
+
+        int l= 0, r= n-1;
+        while (l < r) {
+            int m= l+(r-l)/2;
+            // nums[l], nums[m], nums[r] 값을 비교.
+            // nums[l] < nums[r]인 경우에 대한 예외처리를 포함
+            if (nums[l] <= nums[m] && nums[l] > nums[r]) l= m+1;
+            else r= m;
+        }
+        // l: 최소 index
+        return nums[l];
+    }
+};
+```
+
+## Complexity
+
+- Time: $O(\log n)$
+- Space: $O(1)$

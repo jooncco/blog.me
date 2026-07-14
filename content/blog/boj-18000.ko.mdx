@@ -1,0 +1,98 @@
+---
+title: '[백준] 18000. One of Each 풀이'
+date: '2021-04-18'
+category: competitive-programming
+tags:
+  - Stack
+lastModified: '2021-04-18T13:27:00.000Z'
+teaser: BOJ problem 18000 solution
+ogImage: /blog/images/boj-teaser.png
+---
+
+## Problem
+
+[18000. One of Each](https://www.acmicpc.net/problem/18000)
+
+## Approach
+
+> **Observation 1:** 이미 distinct한 배열이 주어지면, 그 자체가 답이다.
+
+ex) 31425 $\rightarrow$ 31425
+
+> **Observation 2:** 한 숫자가 두 번 이상 주어지면, 그 중 하나를 선택하게 된다.
+
+ex) 31**4**25**4** $\rightarrow$ 3125**4**
+
+주어진 수들을 Linear 탐색하면서, 이미 들어가있는 수 중에 빼도 되는건 빼고 넣자.
+
+이를 구현하기 위해, subsequence를 담을 Stack과 각 문자의 출현 빈도 수 array,  
+그리고 각 문자가 subsequence에 들어가있는지 체크하는 플래그용 array가 필요하다.
+
+"빼도 되는건"의 판단 기준:
+
+1. 이 문자가 뒤에도 또 나오고
+2. 이 문자가 지금 문자보다 더 클 때
+
+계속해서 pop 연산을 해준다.  
+지금 문자가 이미 subsequence안에 들어가있다면 위의 작업을 반복해줄 필요가 없다. (잘해야 이미 형성된 subsequence와 같아짐)
+
+ex) 413523145
+
+$$ 4 \rightarrow 1 \rightarrow 13 \rightarrow 135 \rightarrow 12 \rightarrow 123 \rightarrow 123 \rightarrow 1234 \rightarrow 12345 $$
+
+## Code
+
+
+    ![](/blog/images/boj-18000-result.png)
+
+
+```cpp
+/**
+ * author: jooncco
+ * written: 2021. 4. 13. Tue. 22:27:42 [UTC+9]
+ **/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#define FAST_IO ios_base::sync_with_stdio(0),cin.tie(0)
+typedef long long ll;
+typedef pair<int,int> ii;
+typedef pair<ii,int> iii;
+typedef vector<int> vi;
+
+int k,n,a[200010];
+
+int main() {
+
+    FAST_IO;
+    cin >> k >> n;
+    bool check[200010]= {0};
+    int cnt[200010]= {0};
+    vi S;
+    for (int i=0; i < k; ++i) {
+        cin >> a[i];
+        ++cnt[a[i]];
+    }
+    for (int i=0; i < k; ++i) {
+        --cnt[a[i]];
+        if (check[a[i]]) continue;
+        while (!S.empty() && S.back() > a[i] && cnt[S.back()])
+            check[S.back()]= 0, S.pop_back();
+        check[a[i]]= 1,S.push_back(a[i]);
+    }
+
+    for (int i=0; i < S.size(); ++i) {
+        if (i) cout << " ";
+        cout << S[i];
+    }
+}
+
+```
+
+## Complexity
+
+- Time: $O(n)$
+- Space: $O(n)$
+
+같은문제: [LeetCode #1081 Smallest Subsequence of Distinct Characters](https://leetcode.com/problems/smallest-subsequence-of-distinct-characters/)

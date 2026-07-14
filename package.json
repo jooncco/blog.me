@@ -20,6 +20,7 @@
     "axios": "^1.7.9",
     "date-fns": "^4.1.0",
     "gray-matter": "^4.0.3",
+    "katex": "^0.16.47",
     "maath": "^0.10.8",
     "next": "^15.1.6",
     "next-intl": "^3.26.3",
@@ -28,6 +29,11 @@
     "react-dom": "^18.3.1",
     "react-responsive": "^10.0.0",
     "react-tilt": "^1.0.2",
+    "rehype-highlight": "^7.0.2",
+    "rehype-katex": "^7.0.1",
+    "rehype-slug": "^6.0.0",
+    "remark-gfm": "^4.0.1",
+    "remark-math": "^6.0.0",
     "server-only": "^0.0.1",
     "three": "^0.172.0"
   },
@@ -50,5 +56,9 @@
     "tw-colors": "^3.3.2",
     "typescript": "^5.7.3",
     "vitest": "^2.1.8"
+  },
+  "overrides": {
+    "react": "$react",
+    "react-dom": "$react-dom"
   }
 }

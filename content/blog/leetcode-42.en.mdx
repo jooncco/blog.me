@@ -1,0 +1,69 @@
+---
+title: '[Leetcode] 42. Trapping Rain Water explained'
+date: '2022-09-18'
+category: competitive-programming
+tags:
+  - Stack
+lastModified: '2022-09-18T13:33:08.000Z'
+teaser: Leetcode daily challenge 2022 september 18th solution
+ogImage: /blog/images/leetcode-teaser.png
+---
+
+## Problem
+
+[42. Trapping Rain Water](https://leetcode.com/problems/bag-of-tokens/)
+
+## Approach
+
+Find water levels of each index.  
+The answer is
+
+$$ \sum\_{k=0}^{n-1} max ( 0 , waterLevel[k] - height[k] ) $$
+
+How can we find water levels?
+
+We keep `(height,index)` in a `stack`.  
+For i = [0, … n-1] do:
+
+1. While `stack` is not empty and `stack.top.height` $\le$ `height[i]`, update water levels in range `(stack.top.index,i)` to `stack.top.height` and stack.pop().
+2. If `stack` is not empty and `stack.top.height` $\gt$ `height[i]`, update water levels in range `(stack.top.index,i)` to `height[i]`. **Do not stack.pop()**.
+
+After above process, sum up water volumes.
+
+## Code
+
+![](/blog/images/leetcode-42-result.png)
+
+```java
+class Solution {
+    public int trap(int[] height) {
+        int n = height.length;
+        Stack<Integer[]> walls = new Stack<>();
+        int[] waterLevels = new int[n];
+        // find water levels.
+        for (int i = 0; i < n; ++i) {
+            if (height[i] > 0) {
+                while (!walls.isEmpty() && walls.peek()[0] <= height[i]) {
+                    Integer[] wall= walls.pop();
+                    for (int j=i-1; j > wall[1]; --j) waterLevels[j]= wall[0];
+                }
+                if (!walls.isEmpty() && walls.peek()[0] > height[i]) {
+                    Integer[] wall= walls.peek();
+                    for (int j=i-1; j > wall[1]; --j) waterLevels[j]= height[i];
+                }
+                walls.push(new Integer[]{height[i], i});
+            }
+        }
+
+        // sum up water volumes.
+        int ans= 0;
+        for (int i = 0; i < n; ++i) ans += Math.max(0, waterLevels[i] - height[i]);
+        return ans;
+    }
+}
+```
+
+## Complexity
+
+- Time: $O(n)$
+- Space: $O(n)$

@@ -1,0 +1,58 @@
+---
+title: '[백준] 15858. Simple Arighmetic 풀이'
+date: '2021-01-21'
+category: competitive-programming
+tags:
+  - Ad hoc
+lastModified: '2021-01-21T14:50:00.000Z'
+teaser: BOJ problem 15858 solution
+ogImage: /blog/images/boj-teaser.png
+---
+
+## Problem
+
+[15858. Simple Arighmetic](https://www.acmicpc.net/problem/15858)
+
+## Approach
+
+double로 계산하면 50점  
+long double로 계산하면 75점  
+문자열을 parsing해서 한 자리씩 계산하도록 직접 구현하면 **100점**
+
+## Code
+
+![](/blog/images/boj-15858-result.png)
+
+```cpp
+/**
+ * author: jooncco
+ * written: 2021. 1. 21. Thu. 22:26:54 [UTC+9]
+ **/
+
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long     ll;
+
+ll a,b,c;
+
+int main() {
+
+    cin >> a >> b >> c;
+    ll n= a*b;
+    string ans= to_string(n/c);
+    ans.push_back('.');
+    for (int i=0; i < 20; ++i) {
+        n %= c;
+        n *= 10;
+        if (n < c) ans.push_back('0');
+        else       ans.push_back((char)('0'+n/c));
+    }
+    cout << ans;
+}
+
+```
+
+## Complexity
+
+- Time: $O(1)$
+- Space: $O(1)$

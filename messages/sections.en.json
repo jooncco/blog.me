@@ -1,0 +1,142 @@
+{
+  "sections": {
+    "about": {
+      "kicker": "System online // Operator",
+      "greetingPre": "Hey there. I'm",
+      "name": "Daniel",
+      "roleLabel": "// ROLE",
+      "roles": [
+        "Solutions Architect",
+        "Full Stack Engineer",
+        "AI Agent Specialist",
+        "Algorithmic Trading Enthusiast"
+      ],
+      "bio": "I go by a few aliases, and \"jooncco\" is the one I use when I build things. I started out as a back-end engineer at LG CNS and grew into a full-stack engineer any team would love to work with. I've led business-critical projects of every size to the finish line — scroll down for the mission log.",
+      "cta": "View missions",
+      "avatarAlt": "Portrait of Daniel"
+    },
+    "capabilities": {
+      "solutionsArchitect": "Solutions Architect",
+      "fullStackEngineer": "Full Stack Engineer",
+      "aiAgentSpecialist": "AI Agent Specialist",
+      "algoTradingEnthusiast": "Algorithmic Trading Enthusiast"
+    },
+    "projects": {
+      "kicker": "Mission log",
+      "title": "Projects",
+      "companyLabel": "Client",
+      "viewProject": "View project",
+      "domains": {
+        "solutions-architecture": "Solutions Architecture",
+        "full-stack": "Full Stack",
+        "ai-agents": "AI Agents",
+        "algo-trading": "Algo Trading"
+      }
+    },
+    "skills": {
+      "kicker": "Reactor clusters",
+      "title": "Skills",
+      "toolsCount": "{count, plural, one {# tool} other {# tools}}",
+      "categories": {
+        "backend": "Back End",
+        "frontend": "Front End",
+        "mobile": "Mobile",
+        "devops": "DevOps",
+        "ai": "AI / ML"
+      }
+    },
+    "portfolio": {
+      "kicker": "Hangar bay",
+      "title": "Portfolio",
+      "all": "All",
+      "filterLabel": "Filter by category",
+      "github": "View source on GitHub",
+      "demo": "Open live demo",
+      "categories": {
+        "web": "Web",
+        "ml": "ML",
+        "tools": "Tools"
+      }
+    },
+    "cp": {
+      "kicker": "Problem solving",
+      "title": "Competitive Programming",
+      "rating": "Rating",
+      "rank": "Global rank",
+      "level": "Tier",
+      "contests": "Contests",
+      "topPercent": "Top",
+      "viewProfile": "View profile",
+      "live": "Live",
+      "fallback": "Cached"
+    },
+    "experience": {
+      "kicker": "Service record",
+      "title": "Experience",
+      "present": "Present"
+    },
+    "now": {
+      "kicker": "Status update",
+      "title": "Now",
+      "intro": "A snapshot of what I'm focused on right now — inspired by the /now movement.",
+      "updated": "Last updated {date}",
+      "items": {
+        "ai-agents": {
+          "label": "Building AI agents",
+          "detail": "Designing and shipping production RAG and agentic workflows on AWS Bedrock and Claude."
+        },
+        "algo-trading": {
+          "label": "Algorithmic trading",
+          "detail": "Researching systematic crypto strategies — price models, signals, and disciplined backtesting."
+        },
+        "writing": {
+          "label": "Writing on the blog",
+          "detail": "Documenting engineering deep-dives and competitive-programming notes as I go."
+        },
+        "learning": {
+          "label": "Always learning",
+          "detail": "Sharpening systems design and keeping up with the fast-moving AI tooling landscape."
+        }
+      }
+    },
+    "blog": {
+      "kicker": "Latest transmissions",
+      "title": "From the blog",
+      "readMore": "Read more",
+      "viewAll": "View all posts",
+      "empty": "No posts yet — check back soon."
+    },
+    "contact": {
+      "kicker": "Open a channel",
+      "title": "Contact",
+      "intro": "We're just a few bytes away. Drop me a message and I'll get back to you ASAP.",
+      "sceneLabel": "Signal standing by",
+      "name": "Your name",
+      "namePlaceholder": "What's your name?",
+      "email": "Your email",
+      "emailPlaceholder": "What's your email?",
+      "message": "Your message",
+      "messagePlaceholder": "What do you want to say?",
+      "send": "Send",
+      "sending": "Sending...",
+      "validation": {
+        "nameRequired": "Please enter your name.",
+        "nameTooLong": "That name is too long.",
+        "emailRequired": "Please enter your email.",
+        "emailInvalid": "That doesn't look like a valid email.",
+        "messageRequired": "Please enter a message.",
+        "messageTooShort": "Your message is a little too short.",
+        "messageTooLong": "Your message is too long."
+      },
+      "alerts": {
+        "invalidTitle": "Incomplete form",
+        "invalidBody": "Please fix the highlighted fields and try again.",
+        "sentTitle": "Message sent",
+        "sentBody": "Thanks — I'll get back to you ASAP ;)",
+        "errorTitle": "Send failed",
+        "errorBody": "Something went wrong. A very long message can trip this up — if so, please email me directly.",
+        "notConfiguredBody": "Email isn't configured on this deployment. Please reach out via the social links instead."
+      }
+    }
+  }
+}

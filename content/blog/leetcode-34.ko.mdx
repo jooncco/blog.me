@@ -1,0 +1,89 @@
+---
+title: '[LeetCode] 34. Find First and Last Position of Element in Sorted Array 풀이'
+date: '2021-12-29'
+category: competitive-programming
+tags:
+  - Binary search
+lastModified: '2021-12-28T15:20:00.000Z'
+teaser: Algorithm II - Day 1
+ogImage: /blog/images/leetcode-teaser.png
+---
+
+## Problem
+
+[34. Find First and Last Position of Element in Sorted Array](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
+
+## Approach
+
+> 첫 번째 출현은 그냥 Binary Search 그대로를 해주면 된다.
+
+배열 $[ 5, 7, 7, 8, 8, 10 ]$ 에서 원소 $8$을 이진탐색하면 결과는 $3$이 나온다.  
+코드 흐름을 한번 직접 따라가보면 이해가 된다.
+
+```cpp
+const vector<int> nums = {5, 7, 7, 8, 8, 10};
+const int target= 8;
+
+int l= 0, r= n-1;
+while (l < r) {
+    int m= l+(r-l)/2;
+    if (nums[m] < target) l= m+1;
+    else r= m;
+}
+// l == 3
+```
+
+> 마지막 출현은 target+1 값에 대해 이진 탐색을 하고, 인덱스를 하나 줄여주면 찾을 수 있다.
+
+$target == nums[l]$인 경우만 예외적으로 인덱스 $l$이 마지막 출현이 된다.
+
+## Code
+
+![](/blog/images/leetcode-34-result.png)
+
+```cpp
+/**
+ * written: 2021. 12. 29. Wed. 00:15:07 [UTC+9]
+ * jooncco의 mac에서.
+ **/
+
+typedef vector<int> vi;
+
+class Solution {
+public:
+    vi searchRange(vi &nums, int target) {
+        int n= nums.size();
+        if (n == 0) return vi(2,-1);
+        if (n == 1) return target == nums[0] ? vi(2,0) : vi(2,-1);
+
+        // 첫번째 인덱스
+        // 보통의 이진탐색은 첫 번째 출현을 찾게 된다. (integer division 특성 때문에)
+        int l= 0, r= n-1;
+        while (l < r) {
+            int m= l+(r-l)/2;
+            if (nums[m] < target) l= m+1;
+            else r= m;
+        }
+        if (nums[l] != target) return vi(2,-1); // 존재하지 않는 경우
+        int firstIdx= l;
+
+        // 마지막 인덱스
+        // {target+1}을 탐색해서 l-1.
+        // 예외 case: target보다 큰 값이 없는 경우 l 자체가 마지막 인덱스가 됨.
+        l= 0, r= n-1;
+        while (l < r) {
+            int m= l+(r-l)/2;
+            if (nums[m] < target+1) l= m+1;
+            else r= m;
+        }
+        int lastIdx= nums[l] == target ? l : l-1;
+
+        return {firstIdx, lastIdx};
+    }
+};
+```
+
+## Complexity
+
+- Time: $O(\log n)$
+- Space: $O(1)$

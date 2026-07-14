@@ -1,0 +1,61 @@
+---
+title: '[LeetCode] 2171. Removing Minimum Number of Magic Beans explained'
+date: '2022-03-03'
+category: competitive-programming
+tags:
+  - Math
+  - Sortings
+lastModified: '2022-03-03T13:37:00.000Z'
+teaser: Leetcode Weekly 280 - Q3
+ogImage: /blog/images/leetcode-teaser.png
+---
+
+## Problem
+
+[2171. Removing Minimum Number of Magic Beans](https://leetcode.com/problems/removing-minimum-number-of-magic-beans/)
+
+## Approach
+
+Sort the array `beans` in ascending order.  
+We can calculate the minimum beans we should remove in $O(1)$ time.
+
+ex) `beans` = [1,4,5,6]
+![figure.1](/blog/images/leetcode-2171-figure-1.png "figure.1")
+
+From left to right, calculate `beansToRemove` value of `beans[i]` and find minimum value among them.
+
+> **Note**  
+> use type `long long` to avoid integer overflow.  
+> (Take a look at the constraints.)
+
+## Code
+
+![](/blog/images/leetcode-2171-result.png)
+
+```cpp
+typedef vector<int> vi;
+typedef long long ll;
+
+class Solution {
+public:
+    ll minimumRemoval(vi &beans) {
+        int n= beans.size();
+        if (n == 1) return 0;
+
+        sort(beans.begin(), beans.end());
+        ll totalSum= 0;
+        for (auto bean : beans) totalSum += bean;
+
+        ll ans= totalSum;
+        for (int i=0; i < n; ++i) {
+            ans= min(ans, totalSum-(n-i)*(beans[i]*1ll));
+        }
+        return ans;
+    }
+};
+```
+
+## Complexity
+
+- Time: $O(N{\log}N + N)$
+- Space: $O(1)$

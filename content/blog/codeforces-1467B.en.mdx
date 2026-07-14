@@ -1,0 +1,95 @@
+---
+title: '[Codeforces] 1467B. Hills And Valleys explained'
+date: '2021-01-17'
+category: competitive-programming
+tags:
+  - Brute force
+lastModified: '2021-03-16T12:18:00.000Z'
+teaser: 'Codeforces Round #695(Div.2) - problem B solution'
+ogImage: /blog/images/codeforces-teaser.png
+---
+
+## Problem
+
+[1467B. Hills And Valleys](http://codeforces.com/contest/1467/problem/B)
+
+## Approach
+
+1. Calculate `intimidation value`, finding all the **indices** of hills and valleys.
+2. For all index `i` in **indices**, modify $a*i$ temporarily into either $a*{i-1}$ or $a_{i+1}$ and calculate the `dif`.
+3. Add minimum `dif` found in step 2 to `intimidation value`.
+
+All `dif` calculations take $O(1)$ since it only looks up indices$[i-2, i+2]$.  
+The constraint is $1 \le n \le 3\cdot10^5$.  
+We can apply brute force approach here.
+
+## Code
+
+![](/blog/images/codeforces-1467B-result.png)
+
+```cpp
+/**
+ * author: jooncco
+ * written: 2021. 1. 17. Sun. 18:43:44 [UTC+9]
+ **/
+
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long     ll;
+typedef vector<int>   vi;
+typedef deque<int>    di;
+typedef pair<int,int> ii;
+
+int t,n,arr[300010];
+
+int howMany(int idx) {
+    int cnt= 0;
+    for (int i=idx-1; i <= idx+1; ++i) {
+        if (i < 1 || i >= n-1) continue;
+        if ((arr[i] > arr[i-1] && arr[i] > arr[i+1]) ||
+            (arr[i] < arr[i-1] && arr[i] < arr[i+1])) {
+            ++cnt;
+        }
+    }
+    return cnt;
+}
+
+int main() {
+
+    cin >> t;
+    while (t--) {
+        cin >> n;
+        for (int i=0; i < n; ++i) cin >> arr[i];
+
+        int ans= 0;
+        vi indices;
+        for (int i=1; i < n-1; ++i) {
+            if ((arr[i] > arr[i-1] && arr[i] > arr[i+1]) ||
+                (arr[i] < arr[i-1] && arr[i] < arr[i+1])) {
+                ++ans;
+                indices.push_back(i);
+            }
+        }
+
+        int dif= 0;
+        for (int i=0; i < indices.size(); ++i) {
+            int idx= indices[i], orig= arr[idx];
+            int before= howMany(idx);
+
+            arr[idx]= max(arr[idx-1],arr[idx+1]);
+            dif= min(dif,howMany(idx)-before);
+
+            arr[idx]= min(arr[idx-1],arr[idx+1]);
+            dif= min(dif,howMany(idx)-before);
+
+            arr[idx]= orig;
+        }
+        cout << ans+dif << "\n";
+    }
+}
+```
+
+## Complexity
+
+- Time: $O(n)$
+- Space: $O(n)$

@@ -1,0 +1,51 @@
+---
+title: '[Leetcode] 814. Binary Tree Pruning explained'
+date: '2022-09-06'
+category: competitive-programming
+tags:
+  - Trees
+lastModified: '2022-09-06T04:11:08.000Z'
+teaser: Leetcode daily challenge 2022 september 6th solution
+ogImage: /blog/images/leetcode-teaser.png
+---
+
+## Problem
+
+[814. Binary Tree Pruning](https://leetcode.com/problems/binary-tree-pruning/)
+
+## Approach
+
+For each tree node, repeat below process.
+
+1. Prune left child.
+2. Prune right child.
+3. If left and right child is `null` and this node doesn't have value `1`, return `null` (prunning).
+
+## Code
+
+![](/blog/images/leetcode-814-result.png)
+
+```java
+/**
+ * author: jooncco
+ * written: 2022. 9. 6. Tue. 13:14:14 [UTC+9]
+ **/
+
+class Solution {
+    private final int TARGET_VALUE = 1;
+
+    public TreeNode pruneTree(TreeNode root) {
+        if (root == null) return null;
+
+        root.left= pruneTree(root.left);
+        root.right= pruneTree(root.right);
+        if (root.left == null && root.right == null && root.val != TARGET_VALUE) return null;
+        return root;
+    }
+}
+```
+
+## Complexity
+
+- Time: $O(n)$
+- Space: $O(n)$

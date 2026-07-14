@@ -1,0 +1,65 @@
+---
+title: '[LeetCode] 1. Two Sum 풀이'
+date: '2021-11-01'
+category: competitive-programming
+tags:
+  - Two pointers
+lastModified: '2021-11-01T14:24:00.000Z'
+teaser: Data Structure I - Day 2
+ogImage: /blog/images/leetcode-teaser.png
+---
+
+## Problem
+
+[1. Two Sum](https://leetcode.com/problems/two-sum/)
+
+## Approach
+
+> meet in the middle.
+
+- 답이되는 index 두개를 $l, r$ 이라고 했을 때 $arr[l] = target - arr[r]$.
+- $l$은 왼쪽에서 부터, $r$은 오른쪽에서부터 순회하면서 두 값의 합을 관찰해보면, $l$일때 너무 커서 감소시켰던 $r$값은 $l+1$이 되었을 때 다시 확인할 필요가 없다.
+
+## Code
+
+![](/blog/images/leetcode-1-result.png)
+
+```cpp
+/**
+ * author: jooncco
+ * written: 2021. 11. 01. Mon. 23:34:56 [UTC+9]
+ **/
+
+typedef pair<int,int> ii;
+typedef vector<ii> vii;
+typedef vector<int> vi;
+
+class Solution {
+public:
+    vi twoSum(vi& nums, int target) {
+        int n= nums.size();
+        vii arr;
+        for (int i=0; i < n; ++i)
+            arr.push_back({nums[i],i});
+
+        sort(arr.begin(), arr.end());
+        int l= 0, r= n-1;
+        while (l < r) {
+            while (arr[l].first+arr[r].first > target) --r;
+            if (arr[l].first+arr[r].first == target) {
+                int lIdx= min(arr[l].second, arr[r].second);
+                int rIdx= max(arr[l].second, arr[r].second);
+                return {lIdx, rIdx};
+            }
+            ++l;
+        }
+        return {0,0};
+    }
+};
+
+```
+
+## Complexity
+
+- Time: $O(n)$
+- Space: $O(n)$

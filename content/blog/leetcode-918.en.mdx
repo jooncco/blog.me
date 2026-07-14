@@ -1,0 +1,68 @@
+---
+title: '[LeetCode] 918. Maximum Sum Circular Subarray explained'
+date: '2022-03-06'
+category: competitive-programming
+tags:
+  - Dynamic programming
+lastModified: '2022-03-06T05:59:00.000Z'
+teaser: Dynamic Programming I - Day 5
+ogImage: /blog/images/leetcode-teaser.png
+---
+
+## Problem
+
+[918. Maximum Sum Circular Subarray](https://leetcode.com/problems/maximum-sum-circular-subarray/)
+
+## Approach
+
+This problem is an advanced version of **[$$LeetCode$$ 53. Maximum Subarray](https://jooncco.github.io/leetcode-53/)**.  
+The only differnce is that the `nums` array given is circular or not.
+
+The target subarray can be in two forms:
+
+**Wrapped around subarrays**  
+![](/blog/images/leetcode-918-figure-2.png)  
+In this case, sum of the rest subarray in the middle always becomes minimum.
+
+**Others**  
+![](/blog/images/leetcode-918-figure-1.png)
+
+Thus, we can calculate the maximum sum by `max(maxSubarraySum, totalSum-minSubarraySum)`.  
+From left to right, calculate the `maxSubarraySum` and `minSubarraySum` individually, and calculate the ultimate answer.
+
+> **Note**  
+> Think about this corner case: all the elements in `nums` array are negative integers.
+
+## Code
+
+![](/blog/images/leetcode-2171-result.png)
+
+```cpp
+typedef vector<int> vi;
+
+class Solution {
+private:
+    const int NEG_INF= -1e5;
+    const int POS_INF= 1e5;
+
+public:
+    int maxSubarraySumCircular(vi &nums) {
+        int n= nums.size(), totalSum= 0, maxSum= NEG_INF, minSum= POS_INF;
+        int curMax= NEG_INF, curMin= POS_INF;
+        for (int i=0; i < n; ++i) {
+            curMax= max(nums[i], curMax+nums[i]);
+            maxSum= max(maxSum, curMax);
+            curMin= min(nums[i], curMin+nums[i]);
+            minSum= min(minSum, curMin);
+            totalSum += nums[i];
+        }
+        if (maxSum < 0) return maxSum;
+        return max(maxSum, totalSum-minSum);
+    }
+};
+```
+
+## Complexity
+
+- Time: $O(N)$
+- Space: $O(1)$

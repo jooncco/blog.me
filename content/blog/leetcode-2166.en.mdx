@@ -1,0 +1,133 @@
+---
+title: '[LeetCode] 2166. Design Bitset explained'
+date: '2022-02-11'
+category: competitive-programming
+tags:
+  - Ad hoc
+lastModified: '2022-02-11T08:17:00.000Z'
+teaser: Weekly Contest 279 Q3
+ogImage: /blog/images/leetcode-teaser.png
+---
+
+## Problem
+
+[2166. Design Bitset](https://leetcode.com/problems/design-bitset/)
+
+## Approach
+
+> All operations can be done in $O(1)$ time.
+
+- `n`: size
+- `cnt`: number of 1's
+- `flipped`: check if it's flipped ⭐️
+- `bitset`: vector array of bits
+- `orig`: to_string() value of bitset
+- `comp`: to_string() value of flipped bitset
+
+### `fix(idx)`:
+
+if that bit needs flip,  
+increment `cnt`  
+flip `bitset[idx]`, `orig[idx]`, `comp[idx]`
+
+### `unfix(idx)`:
+
+if that bit needs flip,  
+decrement `cnt`  
+flip `bitset[idx]`, `orig[idx]`, `comp[idx]`
+
+### `flip()`:
+
+`cnt` = n-cnt  
+`flipped` = flipped ^ 1
+
+### `all()`:
+
+return `cnt == n`
+
+### `one()`:
+
+return `cnt > 0`
+
+### `count()`:
+
+return `cnt`
+
+### `toString()`:
+
+return `flipped ? comp : orig`
+
+## Code
+
+![](/blog/images/leetcode-2167-result.png)
+
+```cpp
+/**
+ * written: 2022. 02. 11. Fri. 17:41:01 [UTC+9]
+ * jooncco의 mac에서.
+ **/
+
+typedef vector<int> vi;
+
+class Bitset {
+private:
+    int n, cnt, flipped;
+    vi bitset;
+    string orig, comp;
+
+public:
+    Bitset(int size) {
+        n= size;
+        cnt= flipped= 0;
+        bitset= vi(size,0);$
+        orig= string(size,'0');
+        comp= string(size,'1');
+    }
+
+    void fix(int idx) {
+        // need flip ?
+        if ((bitset[idx]^flipped) == 0) {
+            ++cnt;
+            bitset[idx] ^= 1;
+            orig[idx]= (char)(((orig[idx]-'0') ^ 1) + '0');
+            comp[idx]= (char)(((comp[idx]-'0') ^ 1) + '0');
+        }
+    }
+
+    void unfix(int idx) {
+        // need flip ?
+        if ((bitset[idx]^flipped) == 1) {
+            --cnt;
+            bitset[idx] ^= 1;
+            orig[idx]= (char)(((orig[idx]-'0') ^ 1) + '0');
+            comp[idx]= (char)(((comp[idx]-'0') ^ 1) + '0');
+        }
+    }
+
+    void flip() {
+        cnt= n-cnt;
+        flipped ^= 1;
+    }
+
+    bool all() {
+        return cnt == n;
+    }
+
+    bool one() {
+        return cnt > 0;
+    }
+
+    int count() {
+        return cnt;
+    }
+
+    string toString() {
+        return flipped ? comp : orig;
+    }
+};
+```
+
+## Complexity
+
+- Time: $O(1)$
+- Space: $O(size)$

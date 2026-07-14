@@ -1,0 +1,142 @@
+{
+  "sections": {
+    "about": {
+      "kicker": "시스템 온라인 // 오퍼레이터",
+      "greetingPre": "안녕하세요. 저는",
+      "name": "Daniel",
+      "roleLabel": "// 역할",
+      "roles": [
+        "솔루션 아키텍트",
+        "풀스택 엔지니어",
+        "AI 에이전트 스페셜리스트",
+        "알고리즘 트레이딩 애호가"
+      ],
+      "bio": "몇 개의 별명을 쓰는데, 무언가를 만들 때는 \"jooncco\"라는 이름을 씁니다. LG CNS에서 백엔드 엔지니어로 시작해, 어느 팀이든 함께 일하고 싶어 할 풀스택 엔지니어로 성장했습니다. 규모를 가리지 않고 비즈니스에 중요한 프로젝트들을 끝까지 이끌어 왔습니다 — 아래 미션 로그를 확인해 보세요.",
+      "cta": "미션 보기",
+      "avatarAlt": "Daniel의 프로필 사진"
+    },
+    "capabilities": {
+      "solutionsArchitect": "솔루션 아키텍트",
+      "fullStackEngineer": "풀스택 엔지니어",
+      "aiAgentSpecialist": "AI 에이전트 스페셜리스트",
+      "algoTradingEnthusiast": "알고리즘 트레이딩 애호가"
+    },
+    "projects": {
+      "kicker": "미션 로그",
+      "title": "프로젝트",
+      "companyLabel": "고객사",
+      "viewProject": "프로젝트 보기",
+      "domains": {
+        "solutions-architecture": "솔루션 아키텍처",
+        "full-stack": "풀스택",
+        "ai-agents": "AI 에이전트",
+        "algo-trading": "알고리즘 트레이딩"
+      }
+    },
+    "skills": {
+      "kicker": "리액터 클러스터",
+      "title": "기술 스택",
+      "toolsCount": "{count, plural, other {기술 #개}}",
+      "categories": {
+        "backend": "백엔드",
+        "frontend": "프론트엔드",
+        "mobile": "모바일",
+        "devops": "데브옵스",
+        "ai": "AI / ML"
+      }
+    },
+    "portfolio": {
+      "kicker": "격납고",
+      "title": "포트폴리오",
+      "all": "전체",
+      "filterLabel": "카테고리로 필터",
+      "github": "GitHub에서 소스 보기",
+      "demo": "라이브 데모 열기",
+      "categories": {
+        "web": "웹",
+        "ml": "ML",
+        "tools": "도구"
+      }
+    },
+    "cp": {
+      "kicker": "문제 해결",
+      "title": "알고리즘 대회",
+      "rating": "레이팅",
+      "rank": "글로벌 랭크",
+      "level": "티어",
+      "contests": "참가 대회",
+      "topPercent": "상위",
+      "viewProfile": "프로필 보기",
+      "live": "실시간",
+      "fallback": "캐시"
+    },
+    "experience": {
+      "kicker": "경력 기록",
+      "title": "경력",
+      "present": "현재"
+    },
+    "now": {
+      "kicker": "상태 업데이트",
+      "title": "Now",
+      "intro": "지금 제가 집중하고 있는 것들의 스냅샷입니다 — /now 무브먼트에서 영감을 받았습니다.",
+      "updated": "마지막 업데이트: {date}",
+      "items": {
+        "ai-agents": {
+          "label": "AI 에이전트 구축",
+          "detail": "AWS Bedrock과 Claude 기반의 프로덕션 RAG 및 에이전트 워크플로를 설계하고 배포하고 있습니다."
+        },
+        "algo-trading": {
+          "label": "알고리즘 트레이딩",
+          "detail": "가격 모델, 시그널, 그리고 체계적인 백테스팅으로 크립토 전략을 연구하고 있습니다."
+        },
+        "writing": {
+          "label": "블로그 집필",
+          "detail": "엔지니어링 심화 내용과 알고리즘 대회 노트를 기록하고 있습니다."
+        },
+        "learning": {
+          "label": "끊임없는 학습",
+          "detail": "시스템 설계를 다듬고 빠르게 변하는 AI 툴링 생태계를 따라가고 있습니다."
+        }
+      }
+    },
+    "blog": {
+      "kicker": "최신 전송",
+      "title": "블로그에서",
+      "readMore": "더 읽기",
+      "viewAll": "모든 글 보기",
+      "empty": "아직 글이 없습니다 — 곧 다시 확인해 주세요."
+    },
+    "contact": {
+      "kicker": "채널 열기",
+      "title": "연락하기",
+      "intro": "우리는 몇 바이트 거리에 있을 뿐입니다. 메시지를 남겨 주시면 최대한 빨리 답장 드리겠습니다.",
+      "sceneLabel": "신호 대기 중",
+      "name": "이름",
+      "namePlaceholder": "이름이 어떻게 되시나요?",
+      "email": "이메일",
+      "emailPlaceholder": "이메일 주소를 알려 주세요.",
+      "message": "메시지",
+      "messagePlaceholder": "어떤 이야기를 하고 싶으신가요?",
+      "send": "보내기",
+      "sending": "보내는 중...",
+      "validation": {
+        "nameRequired": "이름을 입력해 주세요.",
+        "nameTooLong": "이름이 너무 깁니다.",
+        "emailRequired": "이메일을 입력해 주세요.",
+        "emailInvalid": "유효한 이메일 형식이 아닙니다.",
+        "messageRequired": "메시지를 입력해 주세요.",
+        "messageTooShort": "메시지가 조금 짧습니다.",
+        "messageTooLong": "메시지가 너무 깁니다."
+      },
+      "alerts": {
+        "invalidTitle": "입력이 완료되지 않았습니다",
+        "invalidBody": "표시된 항목을 확인한 뒤 다시 시도해 주세요.",
+        "sentTitle": "메시지를 보냈습니다",
+        "sentBody": "감사합니다 — 최대한 빨리 답장 드릴게요 ;)",
+        "errorTitle": "전송 실패",
+        "errorBody": "문제가 발생했습니다. 메시지가 너무 길면 실패할 수 있으니, 그럴 경우 직접 이메일로 연락해 주세요.",
+        "notConfiguredBody": "이 배포 환경에는 이메일이 설정되어 있지 않습니다. 소셜 링크로 연락해 주세요."
+      }
+    }
+  }
+}
