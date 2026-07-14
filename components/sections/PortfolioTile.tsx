@@ -33,7 +33,7 @@ export function PortfolioTile({ item, githubLabel, demoLabel }: PortfolioTilePro
         src={item.thumbnail}
         alt={item.title}
         loading="lazy"
-        className="absolute inset-0 h-full w-full object-cover opacity-40 transition-all duration-300 group-hover:scale-105 group-hover:opacity-60"
+        className="absolute inset-0 h-full w-full object-cover opacity-100 transition-transform duration-300 group-hover:scale-105"
       />
       <Scanline
         intensity="soft"
@@ -42,7 +42,7 @@ export function PortfolioTile({ item, githubLabel, demoLabel }: PortfolioTilePro
 
       <div
         data-testid={`portfolio-tile-${item.id}`}
-        className="relative z-10 flex h-full flex-col justify-end gap-2 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4">
+        className="relative z-10 flex h-full flex-col justify-end gap-2 bg-gradient-to-t from-black/90 via-black/45 to-black/10 p-4">
         <h3 className="font-display text-base font-semibold uppercase tracking-wide text-white">
           {item.title}
         </h3>

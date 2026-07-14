@@ -2,23 +2,25 @@
   "sections": {
     "about": {
       "kicker": "시스템 온라인 // 오퍼레이터",
-      "greetingPre": "안녕하세요. 저는",
-      "name": "Daniel",
-      "roleLabel": "// 역할",
+      "greetingPre": "안녕하세요.",
+      "name": "정준하",
+      "nameSuffix": "입니다.",
+      "rolePrefix": "저는",
+      "roleSuffix": "입니다.",
       "roles": [
-        "솔루션 아키텍트",
+        "솔루션즈 아키텍트",
         "풀스택 엔지니어",
-        "AI 에이전트 스페셜리스트",
+        "AI 에이전트 빌더",
         "알고리즘 트레이딩 애호가"
       ],
-      "bio": "몇 개의 별명을 쓰는데, 무언가를 만들 때는 \"jooncco\"라는 이름을 씁니다. LG CNS에서 백엔드 엔지니어로 시작해, 어느 팀이든 함께 일하고 싶어 할 풀스택 엔지니어로 성장했습니다. 규모를 가리지 않고 비즈니스에 중요한 프로젝트들을 끝까지 이끌어 왔습니다 — 아래 미션 로그를 확인해 보세요.",
+      "bio": "\"jooncco\"라는 이름은 제가 무언가를 만들 때 쓰는 닉네임입니다. 대학생때 알고리즘 문제풀이에 푹 빠져있을 때 쓰던 닉네임인데, 지금은 AI 코딩 에이전트와 손을 잡고 무언가 만드는 일에 매료되어 있습니다. LG CNS에서 백엔드 엔지니어로 시작해, 규모를 불문하고 비즈니스에 중요한 프로젝트들을 끝까지 책임지고 완성해 왔습니다 — 아래 미션 로그를 확인해 보세요.",
       "cta": "미션 보기",
-      "avatarAlt": "Daniel의 프로필 사진"
+      "avatarAlt": "정준하의 프로필 사진"
     },
     "capabilities": {
-      "solutionsArchitect": "솔루션 아키텍트",
+      "solutionsArchitect": "솔루션즈 아키텍트",
       "fullStackEngineer": "풀스택 엔지니어",
-      "aiAgentSpecialist": "AI 에이전트 스페셜리스트",
+      "aiAgentSpecialist": "AI 에이전트 빌더",
       "algoTradingEnthusiast": "알고리즘 트레이딩 애호가"
     },
     "projects": {
@@ -27,9 +29,9 @@
       "companyLabel": "고객사",
       "viewProject": "프로젝트 보기",
       "domains": {
-        "solutions-architecture": "솔루션 아키텍처",
-        "full-stack": "풀스택",
-        "ai-agents": "AI 에이전트",
+        "solutions-architecture": "솔루션즈 아키텍트",
+        "full-stack": "풀스택 엔지니어",
+        "ai-agents": "AI 에이전트 빌더",
         "algo-trading": "알고리즘 트레이딩"
       }
     },
@@ -73,7 +75,8 @@
     "experience": {
       "kicker": "경력 기록",
       "title": "경력",
-      "present": "현재"
+      "present": "현재",
+      "loadingMore": "불러오는 중"
     },
     "now": {
       "kicker": "상태 업데이트",
@@ -100,8 +103,8 @@
       }
     },
     "blog": {
-      "kicker": "최신 전송",
-      "title": "블로그에서",
+      "kicker": "최근 활동",
+      "title": "최근 포스팅",
       "readMore": "더 읽기",
       "viewAll": "모든 글 보기",
       "empty": "아직 글이 없습니다 — 곧 다시 확인해 주세요."

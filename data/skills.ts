@@ -48,6 +48,7 @@ export const SKILLS: SkillCategory[] = [
       { name: 'Docker', icon: '/assets/images/skills/docker.png', level: 4 },
       { name: 'AWS VPC', icon: '/assets/images/skills/awsvpc.png', level: 3 },
       { name: 'Amazon EC2', icon: '/assets/images/skills/amazonec2.png', level: 4 },
+      { name: 'Amazon EKS', icon: '/assets/images/skills/amazoneks.png', level: 3 },
       { name: 'Amazon S3', icon: '/assets/images/skills/amazons3.png', level: 4 },
       { name: 'AWS CodePipeline', icon: '/assets/images/skills/awscodepipeline.png', level: 3 },
       { name: 'Amazon RDS', icon: '/assets/images/skills/amazonrds.png', level: 4 },

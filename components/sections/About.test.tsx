@@ -23,7 +23,7 @@ describe('About', () => {
     expect(titles).toEqual([
       'Solutions Architect',
       'Full Stack Engineer',
-      'AI Agent Specialist',
+      'AI Agent Builder',
       'Algorithmic Trading Enthusiast',
     ]);
   });

@@ -1,51 +1,74 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { GlowText, HudButton, HudFrame, usePrefersReducedMotion } from '@/components/hud';
 import { CapabilityCard } from './CapabilityCard';
+import { buildTypingFrames } from './hangulTypewriter';
 import type { AboutData } from '@/data/about';
 
 export type AboutProps = { data: AboutData };
 
-const TYPE_SPEED = 90;
-const HOLD_MS = 1600;
+const EN_TYPE_SPEED = 100;
+const KO_TYPE_SPEED = 45; // Korean assembles ~2–3 jamo frames per syllable, so type faster per frame.
+const DELETE_SPEED = 35;
+const HOLD_MS = 1500;
 
-/** Cycles a typewriter through the localized capability roles. */
+const HANGUL_RE = /[가-힣㄰-㆏]/;
+
+/**
+ * Cycles a typewriter through the localized capability roles, assembling each
+ * role frame-by-frame (jamo-by-jamo for Korean; see buildTypingFrames).
+ */
 function useTypewriter(roles: string[], enabled: boolean): string {
-  const [text, setText] = useState('');
-  const state = useRef({ roleIdx: 0, deleting: false });
+  const framesByRole = useMemo(() => roles.map(buildTypingFrames), [roles]);
+  const speedByRole = useMemo(
+    () => roles.map((r) => (HANGUL_RE.test(r) ? KO_TYPE_SPEED : EN_TYPE_SPEED)),
+    [roles],
+  );
+  const [display, setDisplay] = useState('');
+  const state = useRef({ roleIdx: 0, frameIdx: 0, deleting: false });
 
   useEffect(() => {
-    if (!enabled || roles.length === 0) return;
+    if (!enabled || framesByRole.length === 0) return;
+    state.current = { roleIdx: 0, frameIdx: 0, deleting: false };
     let timer: ReturnType<typeof setTimeout>;
 
     const tick = () => {
-      const { roleIdx, deleting } = state.current;
-      const full = roles[roleIdx % roles.length];
-      setText((prev) => {
-        const next = deleting ? full.slice(0, prev.length - 1) : full.slice(0, prev.length + 1);
+      const s = state.current;
+      const frames = framesByRole[s.roleIdx % framesByRole.length];
+      const typeSpeed = speedByRole[s.roleIdx % speedByRole.length];
 
-        if (!deleting && next === full) {
-          state.current.deleting = true;
+      if (!s.deleting) {
+        setDisplay(frames[s.frameIdx]);
+        if (s.frameIdx >= frames.length - 1) {
+          s.deleting = true;
           timer = setTimeout(tick, HOLD_MS);
-        } else if (deleting && next === '') {
-          state.current.deleting = false;
-          state.current.roleIdx = (roleIdx + 1) % roles.length;
-          timer = setTimeout(tick, TYPE_SPEED);
         } else {
-          timer = setTimeout(tick, deleting ? TYPE_SPEED / 2 : TYPE_SPEED);
+          s.frameIdx += 1;
+          timer = setTimeout(tick, typeSpeed);
         }
-        return next;
-      });
+      } else {
+        if (s.frameIdx <= 0) {
+          s.deleting = false;
+          s.roleIdx = (s.roleIdx + 1) % framesByRole.length;
+          s.frameIdx = 0;
+          setDisplay('');
+          timer = setTimeout(tick, typeSpeed);
+        } else {
+          s.frameIdx -= 1;
+          setDisplay(frames[s.frameIdx]);
+          timer = setTimeout(tick, DELETE_SPEED);
+        }
+      }
     };
 
-    timer = setTimeout(tick, TYPE_SPEED);
+    timer = setTimeout(tick, EN_TYPE_SPEED);
     return () => clearTimeout(timer);
-    // roles is stable per-locale; re-run when it or `enabled` changes.
-  }, [roles, enabled]);
+    // framesByRole is stable per-locale; re-run when it or `enabled` changes.
+  }, [framesByRole, speedByRole, enabled]);
 
-  return text;
+  return display;
 }
 
 /** Hero — greeting, typewriter roles, bio, avatar, and the capabilities grid. */
@@ -69,17 +92,19 @@ export function About({ data }: AboutProps) {
           </p>
           <h1 className="mt-3 font-display text-4xl font-bold uppercase leading-tight text-text sm:text-5xl lg:text-6xl">
             {t('about.greetingPre')} <GlowText color="cyan">{t('about.name')}</GlowText>
+            {t('about.nameSuffix')}
           </h1>
           <p
-            className="mt-4 flex items-center gap-2 font-mono text-lg text-text/80 sm:text-xl"
+            className="mt-4 font-mono text-lg text-text/80 sm:text-xl"
             data-testid="about-typewriter">
-            <span className="text-hud-cyan/70">{t('about.roleLabel')}</span>
+            <span className="text-text/80">{t('about.rolePrefix')} </span>
             <GlowText color="gold">{display}</GlowText>
-            <span aria-hidden="true" className="animate-hud-pulse font-bold text-hud-red">
+            {t('about.roleSuffix') ? <span className="text-text">{t('about.roleSuffix')}</span> : null}
+            <span aria-hidden="true" className="ml-1 animate-hud-pulse font-bold text-hud-red">
               |
             </span>
           </p>
-          <p className="mt-6 max-w-2xl font-sans text-sm leading-relaxed text-text/70 sm:text-base">
+          <p className="mt-6 max-w-2xl font-sans text-sm leading-relaxed text-text sm:text-base dark:text-text/80">
             {t('about.bio')}
           </p>
           <div className="mt-6">

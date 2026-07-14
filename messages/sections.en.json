@@ -4,11 +4,13 @@
       "kicker": "System online // Operator",
       "greetingPre": "Hey there. I'm",
       "name": "Daniel",
-      "roleLabel": "// ROLE",
+      "nameSuffix": "",
+      "rolePrefix": "// ROLE",
+      "roleSuffix": "",
       "roles": [
         "Solutions Architect",
         "Full Stack Engineer",
-        "AI Agent Specialist",
+        "AI Agent Builder",
         "Algorithmic Trading Enthusiast"
       ],
       "bio": "I go by a few aliases, and \"jooncco\" is the one I use when I build things. I started out as a back-end engineer at LG CNS and grew into a full-stack engineer any team would love to work with. I've led business-critical projects of every size to the finish line — scroll down for the mission log.",
@@ -18,7 +20,7 @@
     "capabilities": {
       "solutionsArchitect": "Solutions Architect",
       "fullStackEngineer": "Full Stack Engineer",
-      "aiAgentSpecialist": "AI Agent Specialist",
+      "aiAgentSpecialist": "AI Agent Builder",
       "algoTradingEnthusiast": "Algorithmic Trading Enthusiast"
     },
     "projects": {
@@ -27,10 +29,10 @@
       "companyLabel": "Client",
       "viewProject": "View project",
       "domains": {
-        "solutions-architecture": "Solutions Architecture",
-        "full-stack": "Full Stack",
-        "ai-agents": "AI Agents",
-        "algo-trading": "Algo Trading"
+        "solutions-architecture": "Solutions Architect",
+        "full-stack": "Full Stack Engineer",
+        "ai-agents": "AI Agent Builder",
+        "algo-trading": "Algorithmic Trading"
       }
     },
     "skills": {
@@ -73,7 +75,8 @@
     "experience": {
       "kicker": "Service record",
       "title": "Experience",
-      "present": "Present"
+      "present": "Present",
+      "loadingMore": "Loading more"
     },
     "now": {
       "kicker": "Status update",
@@ -100,8 +103,8 @@
       }
     },
     "blog": {
-      "kicker": "Latest transmissions",
-      "title": "From the blog",
+      "kicker": "Recent activity",
+      "title": "Recent posts",
       "readMore": "Read more",
       "viewAll": "View all posts",
       "empty": "No posts yet — check back soon."
