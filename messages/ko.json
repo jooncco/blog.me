@@ -1,0 +1,39 @@
+{
+  "nav": {
+    "about": "소개",
+    "projects": "프로젝트",
+    "skills": "기술 스택",
+    "portfolio": "포트폴리오",
+    "experience": "경력",
+    "contact": "연락처",
+    "blog": "블로그",
+    "now": "근황",
+    "openMenu": "메뉴 열기",
+    "closeMenu": "메뉴 닫기"
+  },
+  "common": {
+    "siteName": "jooncco.me",
+    "tagline": "멈추지 않는 개발자.",
+    "loading": "불러오는 중",
+    "backHome": "홈으로 돌아가기",
+    "notFoundTitle": "신호 유실",
+    "notFoundBody": "요청하신 좌표에 해당하는 페이지가 없습니다."
+  },
+  "footer": {
+    "rights": "모든 시스템 정상.",
+    "copyright": "© {year} 정준하",
+    "social": "소셜 링크"
+  },
+  "theme": {
+    "toggle": "테마 전환",
+    "light": "라이트 모드",
+    "dark": "다크 모드"
+  },
+  "locale": {
+    "switch": "언어 변경",
+    "en": "EN",
+    "ko": "KO",
+    "enLong": "English",
+    "koLong": "한국어"
+  }
+}

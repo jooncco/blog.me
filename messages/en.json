@@ -1,0 +1,39 @@
+{
+  "nav": {
+    "about": "About",
+    "projects": "Projects",
+    "skills": "Skills",
+    "portfolio": "Portfolio",
+    "experience": "Experience",
+    "contact": "Contact",
+    "blog": "Blog",
+    "now": "Now",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "common": {
+    "siteName": "jooncco.me",
+    "tagline": "This cool nerd never stops.",
+    "loading": "Loading",
+    "backHome": "Back to home",
+    "notFoundTitle": "Signal lost",
+    "notFoundBody": "The coordinates you requested don't map to any page."
+  },
+  "footer": {
+    "rights": "All systems nominal.",
+    "copyright": "© {year} Junha Jeong",
+    "social": "Social links"
+  },
+  "theme": {
+    "toggle": "Toggle theme",
+    "light": "Light mode",
+    "dark": "Dark mode"
+  },
+  "locale": {
+    "switch": "Switch language",
+    "en": "EN",
+    "ko": "KO",
+    "enLong": "English",
+    "koLong": "한국어"
+  }
+}
