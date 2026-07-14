@@ -3,6 +3,7 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
+import rehypeUnwrapImages from 'rehype-unwrap-images';
 import type { MDXRemoteProps } from 'next-mdx-remote/rsc';
 
 /**
@@ -15,6 +16,9 @@ import type { MDXRemoteProps } from 'next-mdx-remote/rsc';
  *                   author expression degrades gracefully instead of breaking)
  * - rehype-highlight → server-side syntax highlighting (`.hljs-*` classes,
  *                   themed in `blog.css`)
+ * - rehype-unwrap-images → removes the `<p>` wrapper around lone images so the
+ *                   block `<figure>` (from MdxComponents.img) is not nested
+ *                   inside a `<p>` (invalid HTML → hydration mismatch)
  *
  * Frontmatter is already stripped by gray-matter in the loader, so
  * `parseFrontmatter` stays off.
@@ -25,6 +29,7 @@ export const mdxOptions: MDXRemoteProps['options'] = {
     remarkPlugins: [remarkGfm, remarkMath],
     rehypePlugins: [
       rehypeSlug,
+      rehypeUnwrapImages,
       [rehypeKatex, { throwOnError: false, strict: false }],
       rehypeHighlight,
     ],
