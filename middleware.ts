@@ -22,7 +22,7 @@ const isDev = process.env.NODE_ENV !== 'production';
  *    scripts (RSC flight data / hydration). `'unsafe-eval'` is added ONLY in
  *    development because the React refresh/dev runtime relies on eval; it is
  *    never emitted in production builds.
- *  - `style-src 'unsafe-inline'`: Material Tailwind and KaTeX inject inline
+ *  - `style-src 'unsafe-inline'`: KaTeX injects inline
  *    `style=""` attributes / <style> tags at runtime that cannot be nonce'd, so
  *    inline styles must be permitted. Styles carry no script-execution risk.
  *  - `connect-src`: the CP snapshot refresh route and the client email form talk

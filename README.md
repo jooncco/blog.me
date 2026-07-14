@@ -5,9 +5,9 @@
     <img src="public/preview_light.png" alt="preview_light" width="50%" />
 </figure>
 
-A distinctive **Iron Man / high-tech HUD** developer portfolio **and bilingual (EN/KO) MDX blog**, built with **Next.js 15 (App Router) + TypeScript**, Tailwind CSS, and Material Tailwind. Live demo: [jooncco.me](https://jooncco.me).
+A distinctive **Iron Man / high-tech HUD** developer portfolio **and bilingual (EN/KO) MDX blog**, built with **Next.js 15 (App Router) + TypeScript**, Tailwind CSS. Live demo: [jooncco.me](https://jooncco.me).
 
-This is a [GitHub template repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template) — all personal content lives in `data/*`, `messages/*`, and `content/blog/**`, so you can rebrand it **without editing components**. If it helps you, a star ⭐ is appreciated.
+This is a [GitHub template repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template) — all personal content lives in `data/*`, `messages/*`, and `content/blog/**`, so you can rebrand it **without editing components**. If it helps you, don't forget to drop a ⭐.
 
 ## Features
 
@@ -21,7 +21,7 @@ This is a [GitHub template repository](https://docs.github.com/en/repositories/c
 
 ## Tech stack
 
-Next.js 15 (App Router, RSC) · React 18 · TypeScript (strict) · Tailwind CSS + Material Tailwind · next-intl (i18n) · next-mdx-remote + gray-matter (blog) · EmailJS (contact) · Vitest.
+Next.js 15 (App Router, RSC) · React 18 · TypeScript (strict) · Tailwind CSS · next-intl (i18n) · next-mdx-remote + gray-matter (blog) · EmailJS (contact) · Vitest.
 
 ## Getting started
 
@@ -98,7 +98,7 @@ You should never need to touch component code. Edit these instead:
 ## SEO & security
 
 - **SEO** is centralized in `lib/seo` (`buildMetadata`, JSON-LD builders) and consumed by every route's `generateMetadata`; `app/sitemap.ts` and `app/robots.ts` enumerate all locale × page/post URLs. Update `SITE_URL` to your own domain.
-- **Security headers** (CSP, HSTS, `X-Frame-Options`, etc.) are set in `middleware.ts`. The CSP allowlists `self` plus EmailJS/LeetCode/Codeforces for the features that call them; `'unsafe-inline'` for styles is required by Material Tailwind + KaTeX and is documented inline.
+- **Security headers** (CSP, HSTS, `X-Frame-Options`, etc.) are set in `middleware.ts`. The CSP allowlists `self` plus EmailJS/LeetCode/Codeforces for the features that call them; `'unsafe-inline'` for styles is required by KaTeX and is documented inline.
 - **Dependency audit**: `npm audit` runs in CI. A few advisories remain that are only fixable via breaking major upgrades of dev tooling (Vitest/Vite/esbuild) or of `next` / `next-intl` / `next-mdx-remote`; they are not exploitable in this static, no-auth, trusted-local-MDX setup and are intentionally not force-upgraded.
 
 ## Deployment

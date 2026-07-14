@@ -1,8 +1,7 @@
 /** @type {import('tailwindcss').Config} */
-const withMT = require('@material-tailwind/react/utils/withMT');
 const {createThemes} = require('tw-colors');
 
-module.exports = withMT({
+module.exports = {
   content: [
     './app/**/*.{js,jsx,ts,tsx}',
     './components/**/*.{js,jsx,ts,tsx}',
@@ -281,4 +280,4 @@ module.exports = withMT({
       },
     }),
   ],
-});
+};

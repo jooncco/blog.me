@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
-    "@material-tailwind/react": "^2.1.10",
     "axios": "^1.7.9",
     "gray-matter": "^4.0.3",
     "katex": "^0.16.47",
@@ -54,5 +53,8 @@
   "overrides": {
     "react": "$react",
     "react-dom": "$react-dom"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }
