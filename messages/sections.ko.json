@@ -250,24 +250,21 @@
     "now": {
       "kicker": "상태 업데이트",
       "title": "Now",
-      "intro": "지금 제가 집중하고 있는 것들의 스냅샷입니다 — /now 무브먼트에서 영감을 받았습니다.",
+      "intro": "지금 제가 집중하고 있는 것들의 스냅샷입니다.",
       "updated": "마지막 업데이트: {date}",
+      "followInstagram": "인스타그램에서 팔로우하세요",
       "items": {
-        "ai-agents": {
-          "label": "AI 에이전트 구축",
-          "detail": "AWS Bedrock과 Claude 기반의 프로덕션 RAG 및 에이전트 워크플로를 설계하고 배포하고 있습니다."
-        },
         "algo-trading": {
           "label": "알고리즘 트레이딩",
-          "detail": "가격 모델, 시그널, 그리고 체계적인 백테스팅으로 크립토 전략을 연구하고 있습니다."
+          "detail": "MAS(Multi-Agent System) 기반의 해외 선물(금/골드/나스닥/비트코인) 자동 매매 시스템을 사이드 프로젝트로 진행 중입니다. 심심하면 둘러보러 오세요."
         },
-        "writing": {
-          "label": "블로그 집필",
-          "detail": "엔지니어링 심화 내용과 알고리즘 대회 노트를 기록하고 있습니다."
+        "reading": {
+          "label": "독서(Reading)",
+          "detail": "AI 에이전트 생태계 — 조쉬(이주환), 로드북"
         },
-        "learning": {
-          "label": "끊임없는 학습",
-          "detail": "시스템 설계를 다듬고 빠르게 변하는 AI 툴링 생태계를 따라가고 있습니다."
+        "baseball": {
+          "label": "야구",
+          "detail": "대학 때 하던 야구를 다시 시작했습니다."
         }
       }
     },

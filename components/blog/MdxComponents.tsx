@@ -29,7 +29,7 @@ function heading(level: 2 | 3 | 4) {
         {...rest}>
         {id ? (
           <a href={`#${id}`} className="no-underline">
-            <span className="mr-2 text-hud-cyan/40 opacity-0 transition-opacity group-hover:opacity-100">
+            <span className="mr-2 text-hud-cyan/50 transition-colors group-hover:text-hud-cyan">
               #
             </span>
             {children}

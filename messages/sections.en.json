@@ -250,24 +250,21 @@
     "now": {
       "kicker": "Status update",
       "title": "Now",
-      "intro": "A snapshot of what I'm focused on right now — inspired by the /now movement.",
+      "intro": "A snapshot of what I'm focused on right now.",
       "updated": "Last updated {date}",
+      "followInstagram": "Follow me on Instagram",
       "items": {
-        "ai-agents": {
-          "label": "Building AI agents",
-          "detail": "Designing and shipping production RAG and agentic workflows on AWS Bedrock and Claude."
-        },
         "algo-trading": {
           "label": "Algorithmic trading",
-          "detail": "Researching systematic crypto strategies — price models, signals, and disciplined backtesting."
+          "detail": "Building a MAS (Multi-Agent System) auto-trading system for overseas futures (Gold, Nasdaq, Bitcoin) as a side project. Swing by if you're curious."
         },
-        "writing": {
-          "label": "Writing on the blog",
-          "detail": "Documenting engineering deep-dives and competitive-programming notes as I go."
+        "reading": {
+          "label": "Reading",
+          "detail": "'AI 에이전트 생태계' — Josh (Juhwan Lee), Roadbook."
         },
-        "learning": {
-          "label": "Always learning",
-          "detail": "Sharpening systems design and keeping up with the fast-moving AI tooling landscape."
+        "baseball": {
+          "label": "Baseball",
+          "detail": "Picked up baseball again — a sport I played back in college."
         }
       }
     },

@@ -1,10 +1,16 @@
 // "Now" page content (Unit U4) — what I'm focused on right now.
 //
-// Inspired by nownownow.com. Item labels/details are localized via the `sections` namespace
-// using each item `id` (sections.now.items.<id>.{label,detail}); this module holds the order
-// and the "updated" date. Placeholder-but-plausible seed content — edit freely.
+// Item labels/details are localized via the `sections` namespace using each item `id`
+// (sections.now.items.<id>.{label,detail}); this module holds the order, the "updated"
+// date, and structural links (repo link / Instagram handle).
 
-export type NowItemDef = { id: string };
+export type NowItemDef = {
+  id: string;
+  /** Optional outbound repo/link shown under the detail. */
+  link?: { href: string; label: string };
+  /** Optional Instagram handle → renders a "follow" CTA linking to the profile. */
+  instagram?: string;
+};
 
 export type NowData = {
   /** ISO date the page was last updated. */
@@ -13,11 +19,13 @@ export type NowData = {
 };
 
 export const NOW: NowData = {
-  updated: '2026-07-01',
+  updated: '2026-07-14',
   items: [
-    { id: 'ai-agents' },
-    { id: 'algo-trading' },
-    { id: 'writing' },
-    { id: 'learning' },
+    {
+      id: 'algo-trading',
+      link: { href: 'https://github.com/jooncco/billion-dollar-baby', label: 'billion-dollar-baby' },
+    },
+    { id: 'reading' },
+    { id: 'baseball', instagram: 'jooncco' },
   ],
 };

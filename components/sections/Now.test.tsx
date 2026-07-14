@@ -17,7 +17,11 @@ describe('Now', () => {
   it('renders every focus item with a localized label', () => {
     renderIntl(<Now data={NOW} />);
     expect(screen.getByTestId('now-items')).toBeInTheDocument();
-    expect(screen.getByText('Building AI agents')).toBeInTheDocument();
     expect(screen.getByText('Algorithmic trading')).toBeInTheDocument();
+    expect(screen.getByText('Reading')).toBeInTheDocument();
+    expect(screen.getByText('Baseball')).toBeInTheDocument();
+    // Repo link + Instagram CTA render from structural data.
+    expect(screen.getByTestId('now-link-algo-trading')).toBeInTheDocument();
+    expect(screen.getByTestId('now-instagram-baseball')).toBeInTheDocument();
   });
 });
