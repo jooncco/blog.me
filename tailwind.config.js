@@ -4,8 +4,8 @@ const {createThemes} = require('tw-colors');
 
 module.exports = withMT({
   content: [
-    './app/**/*.{js,jsx}',
-    './components/**/*.{js,jsx}',
+    './app/**/*.{js,jsx,ts,tsx}',
+    './components/**/*.{js,jsx,ts,tsx}',
     './content/**/*.mdx',
   ],
   theme: {
@@ -178,38 +178,106 @@ module.exports = withMT({
         800: '#9f1239',
         900: '#881337',
         950: '#4c0519',
-      }
+      },
+      // HUD hot-rod red alert accent.
+      'alert': {
+        DEFAULT: '#DA0037',
+        50: '#ffe5ec',
+        100: '#ffb3c6',
+        200: '#ff6690',
+        300: '#ff3369',
+        400: '#ef4444',
+        500: '#DA0037',
+        600: '#b3002d',
+        700: '#8a0023',
+        800: '#61001a',
+        900: '#3d0010',
+      },
+      // HUD subtle gold highlight.
+      'gold': {
+        DEFAULT: '#FFB000',
+        50: '#fff8e6',
+        100: '#ffedb3',
+        200: '#ffdd70',
+        300: '#ffcb33',
+        400: '#ffbf14',
+        500: '#FFB000',
+        600: '#cc8d00',
+        700: '#996a00',
+        800: '#664700',
+        900: '#332400',
+      },
     },
     extend: {
+      colors: {
+        // Semantic HUD aliases (resolve to CSS variables defined in globals.css so
+        // they follow the active light/dark theme). Usable as e.g. `text-hud-cyan`.
+        hud: {
+          cyan: 'rgb(var(--hud-cyan) / <alpha-value>)',
+          red: 'rgb(var(--hud-red) / <alpha-value>)',
+          gold: 'rgb(var(--hud-gold) / <alpha-value>)',
+        },
+      },
       boxShadow: {
         card: '0px 35px 120px -15px #211e35',
+        // HUD interactive / focus glows.
+        'glow-cyan': '0 0 4px rgb(var(--hud-cyan) / 0.7), 0 0 16px rgb(var(--hud-cyan) / 0.45)',
+        'glow-cyan-lg': '0 0 6px rgb(var(--hud-cyan) / 0.8), 0 0 28px rgb(var(--hud-cyan) / 0.5)',
+        'glow-red': '0 0 4px rgb(var(--hud-red) / 0.7), 0 0 16px rgb(var(--hud-red) / 0.45)',
+        'glow-gold': '0 0 4px rgb(var(--hud-gold) / 0.7), 0 0 16px rgb(var(--hud-gold) / 0.45)',
       },
       screens: {
         xs: '450px',
       },
       fontFamily: {
-        sans: ['raleway', 'sans-serif'],
+        // Wired to CSS variables from lib/fonts.ts (with safe web-safe fallbacks
+        // so styling still resolves in tests / before fonts load).
+        sans: ['var(--font-sans)', 'raleway', 'sans-serif'],
+        display: ['var(--font-display)', 'Rajdhani', 'sans-serif'],
+        'display-alt': ['var(--font-display-alt)', 'Orbitron', 'sans-serif'],
+        mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
+      },
+      keyframes: {
+        'hud-scan': {
+          '0%': { transform: 'translateY(-100%)' },
+          '100%': { transform: 'translateY(100%)' },
+        },
+        'hud-spin': {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+        'hud-pulse': {
+          '0%, 100%': { opacity: '0.6' },
+          '50%': { opacity: '1' },
+        },
+      },
+      animation: {
+        'hud-scan': 'hud-scan 3.5s linear infinite',
+        'hud-spin': 'hud-spin 12s linear infinite',
+        'hud-pulse': 'hud-pulse 2.4s ease-in-out infinite',
       },
     },
   },
   darkMode: 'class',
   plugins: [
     createThemes({
+      // HUD palette. Key names kept (base/text/primary/secondary/neutral/neutral2)
+      // so existing .jsx pages keep resolving bg-base/text-text/etc.
       light: {
-        base: '#FFFFFF',
-        text: '#000000',
-        primary: '#7BC7E8',
-        secondary: '#725FFF',
-        neutral: '#F4F9F9',
-        neutral2: '#F3F3F3',
+        base: '#F2F7FA', // cyan-tinted near-white
+        text: '#0A0E14',
+        primary: '#06b6d4', // arc-reactor cyan (darker for AA contrast on light)
+        secondary: '#DA0037', // hot-rod red alert
+        neutral: '#E4EEF3', // surface
+        neutral2: '#D8E6EC',
       },
       dark: {
-        base: '#000000',
-        text: '#FFFFFF',
-        primary: '#4E188F',
-        secondary: '#DA0037',
-        neutral: '#0F0F0F',
-        neutral2: '#191919',
+        base: '#05070A', // near-black
+        text: '#E5F6FF', // cyan-tinted near-white
+        primary: '#22d3ee', // arc-reactor cyan
+        secondary: '#DA0037', // hot-rod red alert
+        neutral: '#0B0F14', // surface
+        neutral2: '#10161D',
       },
     }),
   ],

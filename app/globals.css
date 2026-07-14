@@ -25,6 +25,147 @@
   scroll-behavior: smooth;
 }
 
+/* ============================================================
+   HUD Design System (Unit U2)
+   ============================================================ */
+
+/* Semantic HUD accent channels as space-separated RGB triplets so Tailwind's
+   `rgb(var(--hud-cyan) / <alpha>)` aliases and glow shadows can alpha-tune them.
+   Defaults target the near-black dark theme; `.light` overrides below. */
+:root {
+  --hud-cyan: 34 211 238; /* #22d3ee arc-reactor cyan */
+  --hud-red: 218 0 55; /* #DA0037 hot-rod red */
+  --hud-gold: 255 176 0; /* #FFB000 gold highlight */
+  --hud-grid: 34 211 238; /* grid/scanline tint */
+  --hud-bracket: 34 211 238; /* corner bracket color */
+  --hud-panel-bg: 11 15 20; /* #0B0F14 surface */
+  --hud-border: 34 211 238;
+}
+
+/* tw-colors applies the active theme via a `.light` / `.dark` class (or
+   matching data-theme). Match both so vars follow the theme toggle. */
+.light,
+[data-theme='light'] {
+  --hud-cyan: 6 182 212; /* #06b6d4 darker cyan for AA contrast on light */
+  --hud-red: 218 0 55;
+  --hud-gold: 204 141 0; /* deepened gold for light-bg legibility */
+  --hud-grid: 6 182 212;
+  --hud-bracket: 6 182 212;
+  --hud-panel-bg: 228 238 243; /* #E4EEF3 surface */
+  --hud-border: 6 182 212;
+}
+
+/* --- Overlays: scanlines + grid ---------------------------------------- */
+
+/* Fine horizontal scanlines. Pair with .hud-scanline--strong to intensify. */
+.hud-scanline {
+  position: relative;
+}
+.hud-scanline::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgb(var(--hud-grid) / 0.06) 0px,
+    rgb(var(--hud-grid) / 0.06) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: screen;
+  opacity: 0.5;
+}
+.hud-scanline--strong::after {
+  opacity: 0.9;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgb(var(--hud-grid) / 0.12) 0px,
+    rgb(var(--hud-grid) / 0.12) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* Standalone scanline paint — for an absolutely-positioned overlay element
+   (the <Scanline> component) that must NOT force its own positioning. */
+.hud-scanline-fill {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgb(var(--hud-grid) / 0.06) 0px,
+    rgb(var(--hud-grid) / 0.06) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: screen;
+  opacity: 0.5;
+}
+.hud-scanline-fill--strong {
+  opacity: 0.9;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgb(var(--hud-grid) / 0.12) 0px,
+    rgb(var(--hud-grid) / 0.12) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* Blueprint grid background. */
+.hud-grid-bg {
+  background-image: linear-gradient(
+      to right,
+      rgb(var(--hud-grid) / 0.06) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgb(var(--hud-grid) / 0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* --- Glow text utilities ---------------------------------------------- */
+.hud-text-glow-cyan {
+  color: rgb(var(--hud-cyan));
+  text-shadow: 0 0 8px rgb(var(--hud-cyan) / 0.75), 0 0 2px rgb(var(--hud-cyan) / 0.9);
+}
+.hud-text-glow-red {
+  color: rgb(var(--hud-red));
+  text-shadow: 0 0 8px rgb(var(--hud-red) / 0.75), 0 0 2px rgb(var(--hud-red) / 0.9);
+}
+.hud-text-glow-gold {
+  color: rgb(var(--hud-gold));
+  text-shadow: 0 0 8px rgb(var(--hud-gold) / 0.75), 0 0 2px rgb(var(--hud-gold) / 0.9);
+}
+
+/* --- Panel surface ----------------------------------------------------- */
+.hud-panel-surface {
+  background-color: rgb(var(--hud-panel-bg) / 0.72);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgb(var(--hud-border) / 0.25);
+}
+
+/* --- Reduced motion + mobile lightening -------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Soften overlay intensity on small screens for performance/legibility. */
+@media (max-width: 640px) {
+  .hud-scanline::after,
+  .hud-scanline-fill {
+    opacity: 0.3;
+  }
+  .hud-grid-bg {
+    background-size: 24px 24px;
+  }
+}
+
 .hash-span {
   margin-top: -100px;
   padding-bottom: 100px;
