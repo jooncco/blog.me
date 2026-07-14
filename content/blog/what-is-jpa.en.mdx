@@ -1,0 +1,221 @@
+---
+title: '[Java] What is JPA?'
+date: '2021-05-09'
+category: web
+tags:
+  - Back End
+lastModified: '2024-03-06T09:01:00.000Z'
+ogImage: /blog/images/jpa-teaser.png
+---
+
+> Spoiler
+
+This post explains the concept and structure of JPA, along with a rough overview of how it works.
+
+## What is JPA
+
+### Java Persistence API
+
+> The java ORM standard for storing, accessing, and managing java objects in a relational database
+
+![](/blog/images/what-is-jpa-figure-1.png)
+
+- It is an API defined in Java, and it is both the ORM standard and a specification.
+- Since it is not an implementation, it does not perform any action on its own.
+- A representative implementation is [Hibernate](https://hibernate.org/), which maps Java objects to DB tables.
+- Some JPA implementations also support NoSQL DBs ([EclipseLink](https://www.eclipse.org/eclipselink/)).
+
+JDBC: Java DataBase Connectivity
+
+![](/blog/images/what-is-jpa-figure-2.png)
+
+A Java API defined to manage the connection between the DB and a Java app and to pass queries along.
+You can assume that nearly every Java-based Data Access Layer uses it internally.
+JPA, too, ultimately accesses the Persistence Layer through JDBC.
+
+## The Difference Between ORM and SQL Mapper
+
+### ORM (Object-Relational Mapping)
+
+**_Object $\leftrightarrow$ Relation(Tables)_**
+
+- It resolves the paradigm mismatch between objects and table data.
+- It lets you handle DB data indirectly from application code through objects.
+- It automatically generates SQL statements so that the developer does not have to write SQL directly.
+- A representative implementation is [Hibernate](https://hibernate.org/).
+
+### SQL Mapper
+
+**_Repository methods $\leftrightarrow$ SQL statements_**
+
+- The developer must write SQL directly in xml form.
+- The SQL statements you write are mapped to the methods of the application repository.
+- If the DBMS changes, the application code also needs to change.
+- Representative implementations are [Mybatis](https://mybatis.org/mybatis-3/) and [JdbcTemplate](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/jdbc/core/JdbcTemplate.html).
+
+## Advantages of JPA
+
+1. The developer can delegate SQL to JPA and focus on business logic.
+2. Because there is no DB Vendor dependency, you can change the DBMS without changing the application source code.
+3. It supports JPQL (Java Persistence Query Language), which lets you write queries through objects.
+4. You can enjoy the benefits of optimizations (lazy loading, caching, write behind, etc.).
+
+## Persistence in JPA
+
+![](/blog/images/what-is-jpa-figure-3.png)
+
+To implement persistence, JPA manages something called the **persistence context**.
+
+Suppose that JPA's **Entity Manager** is active and, within a transaction (a scope annotated with `@Transactional`), an object of a class managed as an Entity is declared.
+
+At this point, the **persistence context** of this object is maintained, and in this state, if you change the value of a member variable, the data of the **table record** to which that object is mapped is updated at the moment the transaction ends. The update occurs even without calling an `update` method in the source code, and this is called a _Dirty check_.
+
+- If you use Spring Data JPA, the **Entity Manager** is active by default.
+- The **persistence context** is a set that holds entities, and it cannot be accessed directly (only through the Entity Manager).
+
+## How JPA Works
+
+![](/blog/images/what-is-jpa-figure-4.png)
+
+1. The backend logic calls a JPA API method (e.g., `persist`)
+2. JPA's implementation (e.g., Hibernate) generates a query
+3. The generated query is passed to the DB through the DB connection managed by JDBC
+
+Let's take a closer look with examples.
+
+### insert
+
+![](/blog/images/what-is-jpa-figure-5.png)
+
+When the `persist` method of the `Member` Entity is called:
+
+1. Inspect the Member object
+2. Generate an INSERT SQL by the JPA implementation
+3. Pass the generated query to the DB through a JDBC API call
+
+### find
+
+![](/blog/images/what-is-jpa-figure-6.png)
+
+When the `find` method of `MemberRepository` is called:
+
+1. Check whether the Entity object already exists in the persistence context (in memory)
+2. If it exists, return that Entity
+3. If it does not exist, generate a SELECT query by the JPA implementation
+4. Pass the generated query through a JDBC API call
+5. Put the retrieved data into the fields of a Member object and return it
+
+## Optimizations JPA Handles for You
+
+JPA is also middleware, and among the methods that middleware commonly uses to improve performance, there are the following two.
+
+1. Minimizing overhead through `Buffering`
+2. Improving query performance through `Caching`
+
+Let's briefly look at what these mean.
+
+### Buffering
+
+Transactional write-behind
+
+#### insert
+
+```java
+public void jpaExampleService() {
+  transaction.begin();
+
+  jpaRepository.save(entityA);
+  jpaRepository.save(entityB);
+  // 여기까지는 entityA, entityB와 관련된 테이블 데이터에 변경이 없다.
+
+  transaction.commit(); // DB connection이 이때 할당되고 테이블 데이터가 변경된다.
+}
+```
+
+#### update
+
+```java
+public void jpaExampleService() {
+  transaction.begin();
+
+  jpaRepository.update(entityA);
+  jpaRepository.delete(entityB);
+  // 여기까지는 entityA, entityB와 관련된 DB 테이블 데이터에 변경이 없다.
+  doBusiness(); // 비즈니스 로직을 수행하는 동안 DB lock이 발생하지 않는다.
+
+  transaction.commit(); // DB lock을 이때 획득. 변경사항이 테이블 데이터에 반영된다.
+}
+```
+
+### Caching
+
+If it is recent data that has already been queried, no DB query is generated or passed along.
+
+```java
+public void jpaExampleService() {
+  String entityId= "sameId";
+
+  Entity instanceA, instanceB;
+  instanceA= jpaRepository.find(Entity.class, entityId); // entity 조회
+  instanceB= jpaRepository.find(Entity.class, entityId); // cached retrieval
+
+  boolean isInstanceSame= instanceA == instanceB; // true
+}
+```
+
+### Lazy loading
+
+Defers the query until the moment the data is actually used.
+
+Let's say `Team` : `Member` = 1 : N.  
+The `Member` entity holds, as a member variable, the `Team` entity corresponding to the team it belongs to.
+
+```java
+public void jpaExampleService() {
+  Member member = memberRepository.find(memberId);
+  // SELECT * FROM member WHERE member_id = memberId;
+
+  Team team = member.getTeam();
+  // No SQL executed here
+
+  String teamName = team.getName();
+  // SELECT * FROM team WHERE team_id = member.teamId;
+}
+```
+
+In the example above, query passing happens twice.
+
+However, if in most situations the Team data is also referenced whenever the Member data is referenced, you can consider **Eager Loading**.
+
+### Eager loading
+
+: A strategy that **fetches in advance** all of the associated objects
+
+```java
+public void jpaExampleService() {
+  Member member = memberRepository.find(memberId);
+  // SELECT *
+  //   FROM member WHERE member_id = memberId
+  //   JOIN team WHERE member.team.team_id = team.team_id;
+
+  Team team = member.getTeam();
+  // No SQL executed here
+
+  String teamName = team.getName();
+  // No SQL executed here
+}
+```
+
+The default setting of a JPA implementation is Lazy Loading.  
+It is recommended to investigate how frequently the `Member` entity and the `Team` entity are referenced together, and to apply Eager Loading only when they are referenced together in most cases.
+
+## Wrapping Up. Spring Data JPA
+
+![](/blog/images/what-is-jpa-figure-7.png)
+
+JPA and **Spring Data JPA** are decidedly different. (light green and red)
+
+**Spring Data JPA** is a kind of **framework** provided by the Spring framework to make it easy to use a JPA implementation (e.g., Hibernate), and it lets you easily swap the JPA implementation and the connected DB via application configuration.
+
+- When Java's Redis client shifted its mainstream from Jedis to Lettuce, if you had been using **Spring Data Redis**, the swap would have been effortless.
+- Because the subprojects of the **Spring Data** project such as Spring Data JPA, Spring Data mongoDB, and Spring Data Redis implement the same **interface** (findAll, save, etc.), you do not need to modify Java source code even if you change the DB.

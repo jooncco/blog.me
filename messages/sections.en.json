@@ -33,6 +33,98 @@
         "full-stack": "Full Stack Engineer",
         "ai-agents": "AI Agent Builder",
         "algo-trading": "Algorithmic Trading"
+      },
+      "items": {
+        "aboitiz-ocr-meter": {
+          "title": "OCR Meter Reading Application",
+          "outcome": "Led a successful PoC for an image-based intelligent electricity-meter reading app — from architecture through production Flutter delivery.",
+          "contributions": [
+            "Designed the prototype web-app architecture and drove the PoC to sign-off.",
+            "Built the React front end and a serverless backend on AWS Lambda.",
+            "Shipped the production Flutter mobile application."
+          ]
+        },
+        "gcbio-genai-audit": {
+          "title": "GenAI Audit Assistant Bot",
+          "outcome": "Delivered a Claude 3.5 Sonnet RAG assistant that augments regular audits with bilingual (KO/EN) knowledge retrieval.",
+          "contributions": [
+            "Customized the AWS Bedrock RAG sample (bedrock-claude-chat) for the audit workflow.",
+            "Prompt-engineered multi-language (Korean, English) knowledge augmentation.",
+            "Wrote the AWS Lambda trigger for knowledge-base sync workloads."
+          ]
+        },
+        "gsglobal-t4k-feedback": {
+          "title": "Automated Feedback Notification System",
+          "outcome": "Architected an anomaly-detection pipeline that scrapes KakaoTalk feedback, scores sentiment, and automatically alerts the responsible team.",
+          "contributions": [
+            "Owned the overall system design.",
+            "Built the Scrapper — a Python app that automates export of KakaoTalk chat content.",
+            "Built the Uploader — a Spring Boot app that parses chat text and uploads it to S3."
+          ]
+        },
+        "lguplus-ucmp": {
+          "title": "UCMP — Cloud Resource Management Platform",
+          "outcome": "Built a platform to provision standardized GCP/AWS resources and projects in a few clicks, with email 2FA and notifications.",
+          "contributions": [
+            "Implemented email-based two-factor authentication.",
+            "Built the sign-up / sign-out pages and their REST APIs.",
+            "Built the cloud-resource creation page and its REST APIs.",
+            "Added email notifications via Amazon SES."
+          ]
+        },
+        "krx-fast-download": {
+          "title": "Fast Download for TB-scale Files",
+          "outcome": "Cut download time for a 1.2 TB file by 40% with a custom multipart download module in a Next.js app.",
+          "contributions": [
+            "Designed and implemented a multipart download module with Axios.",
+            "Built the front-end app with Next.js and Tailwind CSS."
+          ]
+        },
+        "lge-iptv-modernization": {
+          "title": "IPTV Web Application Modernization",
+          "outcome": "Modernized next-generation IPTV web servers and halved a device-initialization API's latency with executor threads.",
+          "contributions": [
+            "Implemented REST APIs for IPTV device authentication and initialization from device metadata.",
+            "Reduced a device-initialization API's execution time by 50% using executor threads.",
+            "Built a batch microservice that periodically ships log files to S3 for monitoring."
+          ]
+        },
+        "bithumb-naemo-nft": {
+          "title": "NFT Marketplace \"Naemo World\"",
+          "outcome": "Shipped wallet, social OAuth, and launchpad features for an NFT marketplace serving creators and collectors.",
+          "contributions": [
+            "Built the My Wallet page and related REST APIs (wallet connect, balances, etc.).",
+            "Implemented SNS OAuth (Twitter, Discord, Telegram, Instagram).",
+            "Built the SNS event mission page and Ethereum/Solana withdraw APIs.",
+            "Built the admin Launchpad list page and its REST APIs."
+          ]
+        },
+        "hanwha-p3-points": {
+          "title": "Life-Insurance Point Platform \"P3\"",
+          "outcome": "Delivered blockchain-ledger-backed point transactions (payment, transfer, refund) for a life-insurance rewards platform.",
+          "contributions": [
+            "Built point-transaction REST APIs: payment, transfer, refund.",
+            "Built the admin point-usage history page and its REST APIs."
+          ]
+        },
+        "okimoki-coffee-bot": {
+          "title": "\"Okimoki\" — Coffee Order Chatbot",
+          "outcome": "Designed and built three backend microservices (store, menu, order) powering coffee ordering inside KakaoTalk.",
+          "contributions": [
+            "Designed and implemented three back-end microservices: store, menu, order.",
+            "Modeled coffee-coupon data.",
+            "Designed and implemented two-factor authentication."
+          ]
+        },
+        "algo-trading-research": {
+          "title": "Systematic Crypto Trading Research",
+          "outcome": "Exploring systematic crypto strategies — from LSTM/regression price models to backtested signal research.",
+          "contributions": [
+            "Built market-indicator + Google-Trend feature pipelines for price prediction.",
+            "Prototyped regression and LSTM RNN forecasting models.",
+            "Backtests trading signals against historical OHLCV data."
+          ]
+        }
       }
     },
     "skills": {
@@ -76,7 +168,84 @@
       "kicker": "Service record",
       "title": "Experience",
       "present": "Present",
-      "loadingMore": "Loading more"
+      "loadingMore": "Loading more",
+      "items": {
+        "aboitiz-power": {
+          "role": "Prototyping Engineer",
+          "summary": "Prototyping and productionizing an image-based intelligent meter-reading app.",
+          "highlights": [
+            "Designed the PoC architecture and led it to sign-off.",
+            "Built the React front end and an AWS Lambda serverless backend.",
+            "Shipped the production Flutter application."
+          ]
+        },
+        "gc-biopharma": {
+          "role": "Prototyping Engineer",
+          "summary": "Delivered a Claude 3.5 Sonnet RAG assistant for regular audits.",
+          "highlights": [
+            "Customized an AWS Bedrock RAG application for the audit workflow.",
+            "Prompt-engineered bilingual (KO/EN) knowledge augmentation."
+          ]
+        },
+        "krx": {
+          "role": "Frontend Engineer",
+          "summary": "Built a Next.js app with high-throughput multipart download for TB-scale files.",
+          "highlights": [
+            "Cut a 1.2 TB file's download time by 40% with a multipart module.",
+            "Implemented the front end with Next.js and Tailwind CSS."
+          ]
+        },
+        "gs-global": {
+          "role": "Solutions Architect",
+          "summary": "Architected an automated KakaoTalk-feedback anomaly-detection pipeline.",
+          "highlights": [
+            "Owned the overall system design.",
+            "Built the KakaoTalk scrapper and the Spring Boot uploader to S3."
+          ]
+        },
+        "lg-electronics": {
+          "role": "Backend Engineer",
+          "summary": "Modernized next-generation IPTV web servers.",
+          "highlights": [
+            "Implemented IPTV device authentication and initialization REST APIs.",
+            "Reduced a device-initialization API's latency by 50% with executor threads.",
+            "Built a batch microservice shipping logs to S3 for monitoring."
+          ]
+        },
+        "bithumb-meta": {
+          "role": "Full Stack Engineer",
+          "summary": "Shipped wallet, social-OAuth, and launchpad features for the \"Naemo World\" NFT marketplace.",
+          "highlights": [
+            "Built the My Wallet page and related REST APIs.",
+            "Implemented SNS OAuth and Ethereum/Solana withdraw APIs.",
+            "Built the admin Launchpad list page and its REST APIs."
+          ]
+        },
+        "lg-uplus": {
+          "role": "Full Stack Engineer",
+          "summary": "Built UCMP, a cloud resource management platform for GCP/AWS.",
+          "highlights": [
+            "Implemented email 2FA, sign-up/out, and their REST APIs.",
+            "Built the cloud-resource creation page and Amazon SES notifications."
+          ]
+        },
+        "hanwha": {
+          "role": "Full Stack Engineer",
+          "summary": "Delivered the \"P3\" blockchain-ledger point platform for life insurance.",
+          "highlights": [
+            "Built point-transaction REST APIs: payment, transfer, refund.",
+            "Built the admin point-usage history page and its APIs."
+          ]
+        },
+        "okimoki": {
+          "role": "Backend Engineer",
+          "summary": "Built the \"Okimoki\" coffee-order chatbot backend inside KakaoTalk.",
+          "highlights": [
+            "Designed and built three microservices: store, menu, order.",
+            "Modeled coffee-coupon data and implemented 2FA."
+          ]
+        }
+      }
     },
     "now": {
       "kicker": "Status update",

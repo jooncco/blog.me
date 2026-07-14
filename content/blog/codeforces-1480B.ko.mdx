@@ -1,0 +1,77 @@
+---
+title: '[Codeforces] 1480B. The Great Hero 풀이'
+date: '2021-03-17'
+category: competitive-programming
+tags:
+  - Greedy
+  - Math
+lastModified: '2022-09-17T09:13:00.000Z'
+teaser: 'Codeforces Round #700(Div.2) - problem B solution'
+ogImage: /blog/images/codeforces-teaser.png
+---
+
+## Problem
+
+[1480B. The Great Hero](http://codeforces.com/contest/1480/problem/B)
+
+## Approach
+
+`YES`라고 답하기 위한 조건:
+
+$$^{\exists i} ( B - \sum_{k=1}^n (\lceil{\frac{b[k]}{A}}\rceil \cdot a[k]) \gt - a[i] )$$
+
+## Code
+
+![](/blog/images/codeforces-1480B-result.png)
+
+```cpp
+/**
+ * author: jooncco
+ * written: 2021. 3. 16. Tue. 22:20:10 [UTC+9]
+ **/
+
+#include <iostream>
+#include <iomanip>
+#include <algorithm>
+#include <string>
+#include <string.h>
+#include <vector>
+#include <deque>
+#include <queue>
+#include <set>
+#include <cmath>
+using namespace std;
+
+#define FAST_IO ios_base::sync_with_stdio(0),cin.tie(0)
+typedef long long ll;
+typedef pair<ll,ll> ii;
+typedef vector<int> vi;
+typedef deque<int> di;
+typedef deque<ii> dii;
+
+ll t,n,A,B,a[100010],b[100010];
+
+int main() {
+
+    FAST_IO;
+    cin >> t;
+    while (t--) {
+        cin >> A >> B >> n;
+        for (int i=0; i < n; ++i) cin >> a[i];
+        for (int i=0; i < n; ++i) cin >> b[i];
+        for (int i=0; i < n; ++i) {
+            B -= (b[i]+A-1)/A*a[i];
+        }
+        bool yes= 0;
+        for (int i=0; i < n; ++i) {
+            if (B > -a[i]) yes= 1;
+        }
+        cout << (yes ? "YES\n":"NO\n");
+    }
+}
+```
+
+## Complexity
+
+- Time: $O(n)$
+- Space: $O(n)$

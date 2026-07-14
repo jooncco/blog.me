@@ -1,0 +1,98 @@
+---
+title: '[BOJ] 14226. Emoticon Explained'
+date: '2021-02-27'
+category: competitive-programming
+tags:
+  - Breadth first search
+lastModified: '2021-02-27T13:44:00.000Z'
+teaser: BOJ problem 14226 solution
+ogImage: /blog/images/boj-teaser.png
+---
+
+## Problem
+
+[14226. 이모티콘](https://www.acmicpc.net/problem/14226)
+
+## Approach
+
+A typical bfs problem.
+
+The data structure of the element that goes into the queue:
+$ \{ \{ \text{current emoticon count}, \text{clipboard emoticon count} \} , \text{operation count} \} $
+
+Start from $ \{ \{ 1, 0 \} , 0 \}$, and at each step additionally explore the following search spaces.
+
+$s := \text{current emoticon count}$
+$clip := \text{clipboard emoticon count}$
+$o := \text{operation count}$
+
+- If $s = S$, print $o$ and terminate.
+- If $s \gt 1$ and $visited[s-1][clip] = false$, explore $\{\{ s-1, clip\} , o+1\}$
+- If $s + clip \le 1001$ and $visited[s+clip][clip] = false$, explore $ \{ \{ s+clip, clip \} , o+1 \}$
+- If $visited[s][s] = false$, explore $\{ \{ s, s \} , o+1 \}$
+
+## Code
+
+![](/blog/images/boj-14226-result.png)
+
+```cpp
+/**
+ * author: jooncco
+ * written: 2021. 2. 27. Sat. 22:23:27 [UTC+9]
+ **/
+
+#include <iostream>
+#include <iomanip>
+#include <algorithm>
+#include <string>
+#include <string.h>
+#include <vector>
+#include <deque>
+#include <queue>
+#include <set>
+#include <cmath>
+using namespace std;
+
+#define FAST_IO ios_base::sync_with_stdio(0),cin.tie(0)
+typedef long long ll;
+typedef pair<int,int> ii;
+typedef vector<int> vi;
+typedef deque<int> di;
+typedef deque<ii> dii;
+
+const int LIMIT= 1001;
+
+int S;
+bool visited[1010][1010]= {0};
+
+int main() {
+
+    FAST_IO;
+    cin >> S;
+
+    queue<pair<ii,int>> Q;
+    Q.push(make_pair({1,0},0));
+    int ans= 0;
+    while (!Q.empty()) {
+        pair<ii,int> cur= Q.front(); Q.pop();
+        int s= cur.first.first, clip= cur.first.second;
+        int cnt= cur.second;
+
+        if (s == S) {
+            ans= cnt;
+            break;
+        }
+
+        if ( s+clip <= LIMIT && !visited[s+clip][clip] ) visited[s+clip][clip]= 1, Q.push( make_pair({s+clip,clip}, cnt+1) );
+        if ( !visited[s][s] ) visited[s][s]= 1, Q.push( make_pair({s,s}, cnt+1));
+        if ( s > 1 && !visited[s-1][clip] ) visited[s-1][clip]= 1, Q.push( {make_pair(s-1,clip}, cnt+1) );
+    }
+
+    cout << ans;
+}
+```
+
+## Complexity
+
+- Time: $O(S^2)$
+- Space: $O(S^2)$

@@ -1,0 +1,83 @@
+---
+title: '[LeetCode] 15. 3 Sum Explained'
+date: '2021-12-31'
+category: competitive-programming
+tags:
+  - Two pointers
+lastModified: '2021-12-31T07:27:00.000Z'
+teaser: Algorithm II - Day 3
+ogImage: /blog/images/leetcode-teaser.png
+---
+
+## Problem
+
+[15. 3 Sum](https://leetcode.com/problems/3sum/)
+
+## Approach
+
+> The brute force approach is $O(n^3)$, but $0 \le nums.length \le 3000$.  
+> That's $9 \cdot 10^9$ calculations? It (of course) gives **TLE**.
+
+> Once you fix the first index $i$, the problem turns into finding $l, r$ values such that $num[l] + num[r] = -num[i]$.
+
+> Sort the array and, for each $i$, run two pointers as shown below.
+
+![](/blog/images/leetcode-15-figure-1.png)
+
+When implementing, I reduced unnecessary calculations by skipping when the element value stays the same after moving the $l, r$ indices.
+
+## Code
+
+![](/blog/images/leetcode-15-result.png)
+
+```cpp
+/**
+ * written: 2021. 12. 31. Fri. 16:46:01 [UTC+9]
+ * jooncco의 mac에서.
+ **/
+
+typedef vector<int> vi;
+typedef vector<vi> vvi;
+
+class Solution {
+public:
+    vvi threeSum(vi &nums) {
+        int n= nums.size();
+        if (n < 3) return vvi();
+
+        // 오름차순 정렬
+        sort(nums.begin(), nums.end());
+
+        // 순회하면서 two pointers를 수행
+        set<vi> ans;
+        for (int i=0; i < n-2; ++i) {
+            int l= i+1, r= n-1;
+            while (l < r) {
+                if (nums[i] + nums[l] + nums[r] == 0) {
+                    ans.insert({nums[i], nums[l], nums[r]});
+                }
+
+                if (nums[i] + nums[l] + nums[r] > 0) {
+                    // 같은 값 skip
+                    while (l < r-1 && nums[r-1] == nums[r]) --r;
+                    // r을 왼쪽으로
+                    --r;
+                }
+                else {
+                    // 같은 값 skip
+                    while (l+1 < r && nums[l] == nums[l+1]) ++l;
+                    // l을 오른쪽으로
+                    ++l;
+                }
+
+            }
+        }
+        return vvi(ans.begin(), ans.end());
+    }
+};
+```
+
+## Complexity
+
+- Time: $O(n{\log}n + n^2)$
+- Space: $O(n)$

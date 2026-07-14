@@ -1,0 +1,98 @@
+---
+title: '[BOJ] 18000. One of Each Explained'
+date: '2021-04-18'
+category: competitive-programming
+tags:
+  - Stack
+lastModified: '2021-04-18T13:27:00.000Z'
+teaser: BOJ problem 18000 solution
+ogImage: /blog/images/boj-teaser.png
+---
+
+## Problem
+
+[18000. One of Each](https://www.acmicpc.net/problem/18000)
+
+## Approach
+
+> **Observation 1:** If the given array is already distinct, it is the answer itself.
+
+e.g.) 31425 $\rightarrow$ 31425
+
+> **Observation 2:** If a number is given two or more times, we get to choose one of them.
+
+e.g.) 31**4**25**4** $\rightarrow$ 3125**4**
+
+While linearly scanning the given numbers, let's remove the ones that can be removed among those already inserted, and then insert.
+
+To implement this, we need a Stack to hold the subsequence, an array of occurrence counts for each character,
+and a flag array to check whether each character is already in the subsequence.
+
+The criteria for "can be removed":
+
+1. this character appears again later, and
+2. this character is greater than the current character.
+
+Keep performing the pop operation.
+If the current character is already in the subsequence, there is no need to repeat the above work. (At best it would end up equal to the already-formed subsequence.)
+
+e.g.) 413523145
+
+$$ 4 \rightarrow 1 \rightarrow 13 \rightarrow 135 \rightarrow 12 \rightarrow 123 \rightarrow 123 \rightarrow 1234 \rightarrow 12345 $$
+
+## Code
+
+
+    ![](/blog/images/boj-18000-result.png)
+
+
+```cpp
+/**
+ * author: jooncco
+ * written: 2021. 4. 13. Tue. 22:27:42 [UTC+9]
+ **/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#define FAST_IO ios_base::sync_with_stdio(0),cin.tie(0)
+typedef long long ll;
+typedef pair<int,int> ii;
+typedef pair<ii,int> iii;
+typedef vector<int> vi;
+
+int k,n,a[200010];
+
+int main() {
+
+    FAST_IO;
+    cin >> k >> n;
+    bool check[200010]= {0};
+    int cnt[200010]= {0};
+    vi S;
+    for (int i=0; i < k; ++i) {
+        cin >> a[i];
+        ++cnt[a[i]];
+    }
+    for (int i=0; i < k; ++i) {
+        --cnt[a[i]];
+        if (check[a[i]]) continue;
+        while (!S.empty() && S.back() > a[i] && cnt[S.back()])
+            check[S.back()]= 0, S.pop_back();
+        check[a[i]]= 1,S.push_back(a[i]);
+    }
+
+    for (int i=0; i < S.size(); ++i) {
+        if (i) cout << " ";
+        cout << S[i];
+    }
+}
+
+```
+
+## Complexity
+
+- Time: $O(n)$
+- Space: $O(n)$
+
+Same problem: [LeetCode #1081 Smallest Subsequence of Distinct Characters](https://leetcode.com/problems/smallest-subsequence-of-distinct-characters/)

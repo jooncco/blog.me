@@ -1,0 +1,252 @@
+---
+title: '[Algorithms] Bitmask'
+date: '2021-04-30'
+category: competitive-programming
+tags:
+  - Tips
+lastModified: '2022-03-12T01:41:00.000Z'
+ogImage: /blog/images/bitmask-teaser.png
+---
+
+**A way to handle sets efficiently in both memory and time.**
+
+We use the `binary` representation of an integer as a data structure.
+To represent the subset $\{ C, E \}$ of the set $\{ A, B, C, D, E \}$, we get $10100_{(2)}$.
+
+## 1. Advantages
+
+### Fast operation speed
+
+Most operations have a time complexity of `O(1)`.
+e.g.) To check whether a specific element exists, there is no need for a linear search—just check whether the result of the AND operation is greater than 0.
+
+### Memory efficient
+
+The `bool` type in `vector<bool>` is allocated 1 byte, but since only 1 bit is used to store true or false, the remaining 7 bits are wasted.
+
+### Since arrays are replaced by integers, they can be used as an index
+
+Strictly speaking, C++ STL's `map<T,T>` container also allows `vector<T>` as the key type, so an array form isn't entirely unusable as an index.
+However, representing an array with a `bitmask` and using it as a key yields a more concise result.
+
+Suppose we have a `cache` variable that has array-form keys.
+
+```cpp
+map<vector<bool>,int> cache;
+```
+
+Using a bitmask, it becomes this concise.
+
+```cpp
+map<int,int> cache;
+```
+
+```cpp
+int cache[];
+```
+
+## 2. Bit Operations
+
+### Basics
+
+```cpp
+a & b    // AND    000101 & 000011 = 000001
+a | b    // OR     000101 |  000011 = 000111
+a ^ b    // XOR    000101 ^ 000011 = 000110
+~a       // NOT   ~000101 = 111010
+a << b   // SHIFT  000101 << 000011 = 101000
+a >> b   // SHIFT  000101 >> 000011 = 000000
+```
+
+### Common mistakes
+
+Forgetting `operator precedence`
+
+```cpp
+bool a = (6 & 3 == 2);
+// a = 0 (the comparison operator "==" is evaluated first.)
+```
+
+Overlooking `integer overflow`
+
+```cpp
+bool isFlagUpBad(uint64_t a, int idx) {
+  return (a & (1 << idx)) > 0;
+} // 1 is of type int. If idx is greater than 32, overflow occurs.
+
+bool isFlagUpGood(uint64_t a, int idx) {
+  return (a & (1ull << idx)) > 0;
+} // Still constrained: idx < 64
+```
+
+## 3. Representing a Set
+
+There is a pizza with 20 kinds of toppings.
+
+### Empty set and full set
+
+```cpp
+uint32_t dough = 0;
+// 0000 0000 0000 0000 0000 0000 0000 0000
+```
+
+```cpp
+uint32_t fullPizza = (1 << 20)-1;
+// 0000 0000 0000 0000 0000 0000 0000 0001
+// 0000 0000 0001 0000 0000 0000 0000 0000
+// 0000 0000 0000 1111 1111 1111 1111 1111
+```
+
+### Adding an element
+
+```cpp
+pizza |= (1 << toppingIdx);
+```
+
+### Checking whether an element exists
+
+```cpp
+if (pizza & (1 << hamIdx)) {
+  cout << "My pizza has ham on it !!\n"; // good
+}
+
+if ((pizza & (1 << hamIdx)) == 1) {
+  cout << "naa..\n"; // bad. The result of the & operation is not 1.
+}
+```
+
+### Removing an element
+
+```cpp
+pizza &= ~(1 << toppingIdx);  // good
+pizza -= (1 << toppingIdx);   // bad. If that bit was originally 0, you get a nonsensical value.
+```
+
+### Toggling an element
+
+```cpp
+pizza ^= (1 << toppingIdx);
+```
+
+### Set operations
+
+```cpp
+uint32_t unionSet = a | b;      // union
+uint32_t intersection = a & b;  // intersection
+uint32_t removed = a & ~b;      // difference
+uint32_t xor = a ^ b;           // the union minus the intersection
+```
+
+### Counting the number of elements
+
+Shift the bits to the right one at a time while counting the number of 1s.
+
+```cpp
+int howManyToppings(uint32_t s) {
+  int sz= 0;
+  while (s) {
+    sz += (s&1);
+    s >>= 1;
+  }
+  return sz;
+}
+```
+
+You can also do it recursively.
+
+```cpp
+int howManyToppings2(uint32_t s) {
+  if (s == 0) return 0;
+  return (s & 1) + howManyToppings2(s >> 1);
+}
+```
+
+### Finding the least element
+
+```cpp
+uint32_t firstTopping= pizza & -pizza;
+//          pizza = 01101100
+//         -pizza = 10010100    two's complement
+// pizza & -pizza = 00000100
+```
+
+### Clearing the least element
+
+```cpp
+uint32_t removed = pizza & (pizza-1);
+//             pizza = 01101100
+//           pizza-1 = 01101011
+// pizza & (pizza-1) = 01101000
+```
+
+### Iterating over subsets excluding the empty set
+
+```cpp
+uint32_t pizza;
+for (int subset= pizza; subset; subset= (subset-1) & pizza) {
+  // do something with subset
+}
+// subset = 01101100
+// subset = 01101000
+// subset = 01100100
+// subset = 01100000
+// subset = 01001100
+// subset = 01001000
+// subset = 01000100
+// subset = 01000000
+// subset = 00101100
+// subset = 00101000
+// subset = 00100100
+// subset = 00100000
+// subset = 00001100
+// subset = 00001000
+// subset = 00000100
+```
+
+## 4. Simple Examples
+
+### 15 Puzzle
+
+![](/blog/images/bitmask-15puzzle.png)
+
+Let's represent a **4x4 puzzle** whose cells hold values from 0 to 15.
+The first representation that comes to mind is a 2D array.
+
+```cpp
+int arr[4][4];
+```
+
+Since it only holds values in the range 0-15, 4 bits each is enough. Reducing the size,
+
+```cpp
+char arr[4][4];
+```
+
+The `char` type is 1 byte, so it still wastes 4 bits,
+and crucially, this way it is cumbersome to use this `state` as an `index`.
+
+4 bits x 16 = 64.
+The cleanest approach is a `bitmask` of type `uint64_t`.
+
+```cpp
+uint64_t bitmask;
+```
+
+Implementing a getter and setter to access the value of $arr[i][j]$: labeling the `bitmask`
+indices,
+![](/blog/images/bitmask-15puzzle-index.png)
+
+```cpp
+
+int getValue(uint64_t mask, int r, int c) {
+  int idx= (r << 2) + c;
+  return (mask >> (idx << 2)) & 15;
+}
+
+void setValue(uint64_t &mask, int r, int c, uint64_t value) {
+  int idx= (r << 2) + c;
+  mask= mask & ~(15ull << (idx << 2)) | (value << (idx << 2));
+  //            ...111100001111...      ...0000{value}0000...
+}
+
+```

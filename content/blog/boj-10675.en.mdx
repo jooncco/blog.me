@@ -1,0 +1,69 @@
+---
+title: '[BOJ] 10675. Cow Routing Explained'
+date: '2021-01-21'
+category: competitive-programming
+tags:
+  - Ad hoc
+lastModified: '2021-01-21T14:44:00.000Z'
+teaser: BOJ problem 10675 solution
+ogImage: /blog/images/boj-teaser.png
+---
+
+## Problem
+
+[10675. Cow Routing](https://www.acmicpc.net/problem/10675)
+
+## Approach
+
+This problem asks us to find, among the flights whose route includes both the origin and the destination, the one with the minimum cost.
+
+$ans \leftarrow \infty $
+For each of the N flights, iterate over the cities and do the following.
+
+1. If this is the starting point, $flag \leftarrow true$
+2. If this is the destination and $flag == true$, update the minimum.
+
+After iterating over all flights, print $-1$ if $ans$ is still $\infty$, otherwise print the value of $ans$.
+
+## Code
+
+![](/blog/images/boj-10675-result.png)
+
+```cpp
+/**
+ * author: jooncco
+ * written: 2021. 1. 21. Thu. 22:39:49 [UTC+9]
+ **/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+const int INF= 9999;
+int A,B,N;
+
+int main() {
+
+    cin >> A >> B >> N;
+    int ans= INF;
+    int price, cities;
+    for (int plane=0; plane < N; ++plane) {
+        cin >> price >> cities;
+        bool start= 0, end= 0;
+        int here;
+        for (int j= 0; j < cities; ++j) {
+            cin >> here;
+            if (here == A) start= 1;
+            if (here == B && start) {
+                end= 1;
+            }
+        }
+        if (end) ans= min(ans,price);
+    }
+    cout << (ans == INF ? -1 : ans);
+}
+```
+
+## Complexity
+
+- Time: $O(N \cdot lengthOfRoute)$
+- Space: $O(1)$

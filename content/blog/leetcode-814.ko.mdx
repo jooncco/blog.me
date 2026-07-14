@@ -1,0 +1,51 @@
+---
+title: '[Leetcode] 814. Binary Tree Pruning 풀이'
+date: '2022-09-06'
+category: competitive-programming
+tags:
+  - Trees
+lastModified: '2022-09-06T04:11:08.000Z'
+teaser: Leetcode daily challenge 2022 september 6th solution
+ogImage: /blog/images/leetcode-teaser.png
+---
+
+## Problem
+
+[814. Binary Tree Pruning](https://leetcode.com/problems/binary-tree-pruning/)
+
+## Approach
+
+각 트리 노드에 대해 아래 과정을 반복합니다.
+
+1. 왼쪽 자식을 가지치기(prune)합니다.
+2. 오른쪽 자식을 가지치기(prune)합니다.
+3. 왼쪽과 오른쪽 자식이 `null`이고 이 노드가 값 `1`을 가지고 있지 않으면, `null`을 반환합니다 (가지치기).
+
+## Code
+
+![](/blog/images/leetcode-814-result.png)
+
+```java
+/**
+ * author: jooncco
+ * written: 2022. 9. 6. Tue. 13:14:14 [UTC+9]
+ **/
+
+class Solution {
+    private final int TARGET_VALUE = 1;
+
+    public TreeNode pruneTree(TreeNode root) {
+        if (root == null) return null;
+
+        root.left= pruneTree(root.left);
+        root.right= pruneTree(root.right);
+        if (root.left == null && root.right == null && root.val != TARGET_VALUE) return null;
+        return root;
+    }
+}
+```
+
+## Complexity
+
+- Time: $O(n)$
+- Space: $O(n)$

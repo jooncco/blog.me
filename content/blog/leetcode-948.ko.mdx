@@ -1,0 +1,67 @@
+---
+title: '[Leetcode] 948. Bag of Tokens 풀이'
+date: '2022-09-12'
+category: competitive-programming
+tags:
+  - Sortings
+  - Two pointers
+lastModified: '2022-09-12T13:39:08.000Z'
+teaser: Leetcode daily challenge 2022 september 12th solution
+ogImage: /blog/images/leetcode-teaser.png
+---
+
+## Problem
+
+[948. Bag of Tokens](https://leetcode.com/problems/bag-of-tokens/)
+
+## Approach
+
+`tokens` 배열을 오름차순으로 정렬합니다.  
+`initialPower`로 사용할 수 있는 허용된 토큰을 나타내는 `left`와 `right` 인덱스를 유지합니다.
+
+`left` $\leftarrow$ 0  
+`right` $\leftarrow$ n-1
+
+`left` &lt;= `right` 인 동안:
+
+1. `[left, right]`의 토큰으로 만들 수 있는 최대 `score`를 구하고 `maximumScore`를 갱신합니다.
+2. `initialPower`에서 `tokens[l]`을 빼고 `tokens[r]`을 `initialPower`에 더합니다.
+3. `left`를 1 증가시키고, `right`를 1 감소시킵니다.
+
+마지막에 `maxScore` 값을 반환합니다.
+
+정렬은 명백히 $O(n{\log}n)$이 걸립니다.  
+인덱스 `left`와 `right`는 모든 n개의 토큰을 커버하며, 매번 n의 복잡도를 가지는 계산이 있습니다.  
+이로 인해 시간 복잡도는 $O(n^2)$이 됩니다.
+
+## Code
+
+![](/blog/images/leetcode-948-result.png)
+
+```java
+class Solution {
+    public int bagOfTokensScore(int[] tokens, int initialPower) {
+        Arrays.sort(tokens);
+        int n= tokens.length, l= 0, r= n-1;
+        int maxScore= 0;
+        while (l <= r) {
+            if (tokens[l] > initialPower) break;
+            int idx= l, score= 0, power= initialPower;
+            while (idx <= r && tokens[idx] <= power) {
+                power -= tokens[idx++];
+                ++score;
+            }
+            maxScore= Math.max(maxScore, score);
+
+            initialPower += (tokens[r]-tokens[l]);
+            ++l; --r;
+        }
+        return maxScore;
+    }
+}
+```
+
+## Complexity
+
+- Time: $O(n{\log}n + n^2)$
+- Space: $O(1)$

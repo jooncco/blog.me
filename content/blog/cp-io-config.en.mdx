@@ -1,0 +1,89 @@
+---
+title: '[Algorithms] Configuring C++ Standard I/O'
+date: '2021-04-09'
+category: competitive-programming
+tags:
+  - Tips
+ogImage: /blog/images/cpp-teaser.png
+---
+
+> "Let's prevent bottlenecks in the I/O process when there are many test-case inputs and outputs."
+
+When doing CP contests, the opening lines of other participants' C++ solutions always have something like this.
+
+```cpp
+ios_base::sync_with_stdio(false);
+std::cin.tie(NULL);
+```
+
+## What happens on each line?
+
+```cpp
+ios_base::sync_with_stdio(false);
+```
+
+Disable I/O buffer synchronization between the **cin stream** and **C's stdio tools** (scanf, gets, etc.).
+
+By default, C/C++ programs share the standard I/O buffer and perform synchronization (which is why you can mix scanf and cin), but this setting makes it skip that work.
+(Each gets its own independent I/O buffer.)
+
+The overhead removed in this process gives cin a speed boost.
+
+```cpp
+std::cin.tie(NULL);
+```
+
+**Untie** cin and cout.
+
+By default, the standard I/O buffer is flushed before every cin (they are tied together).  
+For example, given a test case and code like the following,
+
+```bash
+2
+apple
+banana
+```
+
+```cpp
+int t;
+string str;
+
+int main() {
+  cin >> t;
+  while (t--) {
+    cin >> str;
+    cout << "I like " << str << "\n";
+  }
+}
+```
+
+it executes in the order:
+
+1. flush
+2. cin >> t
+3. flush
+4. cin >> str
+5. flush (prints "I like apple")
+6. cin >> str
+7. flush (prints "I like banana")
+
+As the input size grows, the number of flushes increases linearly.  
+Let's see how this changes after **untie**.
+
+1. cin >> t
+2. cin >> str
+3. cin >> str
+4. flush (prints "i like apple\nI like banana")
+
+Much more relieving. Let's use the code below as a template.
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+#define FAST_IO ios_base::sync_with_stdio(0),cin.tie(0)
+
+int main() {
+  FAST_IO;
+  cout << "도움이 되셨으면 좋겠습니다.\n";
+}
+```

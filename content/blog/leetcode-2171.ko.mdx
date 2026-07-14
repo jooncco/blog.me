@@ -1,0 +1,61 @@
+---
+title: '[LEETCODE] 2171. Removing Minimum Number of Magic Beans 풀이'
+date: '2022-03-03'
+category: competitive-programming
+tags:
+  - Math
+  - Sortings
+lastModified: '2022-03-03T13:37:00.000Z'
+teaser: Leetcode Weekly 280 - Q3
+ogImage: /blog/images/leetcode-teaser.png
+---
+
+## Problem
+
+[2171. Removing Minimum Number of Magic Beans](https://leetcode.com/problems/removing-minimum-number-of-magic-beans/)
+
+## Approach
+
+배열 `beans`를 오름차순으로 정렬합니다.  
+제거해야 할 콩의 최솟값을 $O(1)$ 시간에 계산할 수 있습니다.
+
+예) `beans` = [1,4,5,6]
+![figure.1](/blog/images/leetcode-2171-figure-1.png "figure.1")
+
+왼쪽에서 오른쪽으로 `beans[i]`의 `beansToRemove` 값을 계산하고, 그중 최솟값을 찾습니다.
+
+> **Note**  
+> 정수 오버플로를 방지하기 위해 `long long` 타입을 사용합니다.  
+> (제약 조건을 살펴보세요.)
+
+## Code
+
+![](/blog/images/leetcode-2171-result.png)
+
+```cpp
+typedef vector<int> vi;
+typedef long long ll;
+
+class Solution {
+public:
+    ll minimumRemoval(vi &beans) {
+        int n= beans.size();
+        if (n == 1) return 0;
+
+        sort(beans.begin(), beans.end());
+        ll totalSum= 0;
+        for (auto bean : beans) totalSum += bean;
+
+        ll ans= totalSum;
+        for (int i=0; i < n; ++i) {
+            ans= min(ans, totalSum-(n-i)*(beans[i]*1ll));
+        }
+        return ans;
+    }
+};
+```
+
+## Complexity
+
+- Time: $O(N{\log}N + N)$
+- Space: $O(1)$

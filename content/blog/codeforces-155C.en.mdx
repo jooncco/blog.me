@@ -1,0 +1,110 @@
+---
+title: '[Codeforces] 155C. Hometask Explained'
+date: '2021-05-08'
+category: competitive-programming
+tags:
+  - Greedy
+lastModified: '2021-05-08T14:09:00.000Z'
+teaser: 'Codeforces Round #109(Div.2) - problem C solution'
+ogImage: /blog/images/codeforces-teaser.png
+---
+
+## Problem
+
+[155C. Hometask](http://codeforces.com/problemset/problem/155/C)
+
+## Approach
+
+> "each letter is included in no more than one pair."
+
+If **a** appears in the forbidden pair **&#123;a,b&#125;**, it will not also appear in another pair like **&#123;a,c&#125;**, so
+each substring can be solved independently.
+
+For example, when the forbidden pairs are **&#123;a,b&#125;, &#123;x,y&#125;**,
+if the given string is **aabxyyxyxyxabcdabxxxy**,
+this means we can split it into **aab / xyyxyxyx / ab / cd / ab / xxxy** and find the minimum count for each substring.
+
+- Since we delete the minimum number of letters, at least one remains in each substring. Therefore, simply summing the minimum deletion count found for each substring gives the answer.
+- In each substring, we must delete all of the letter that appears with the lower frequency among the two letters.
+
+Therefore,
+
+1. Find the **substrings** (continuous subsequences) made up of a forbidden pair, and
+2. Add up the minimum number of letters to delete (**greedy**) in each of them.
+
+## Code
+
+![](/blog/images/codeforces-155C-result.png)
+
+```cpp
+/**
+ * author: jooncco
+ * written: 2021. 5. 8. Sat. 23:05:16 [UTC+9]
+ **/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#define FAST_IO ios_base::sync_with_stdio(0),cin.tie(0)
+
+string str, forbidden[20];
+int k;
+
+int main() {
+
+    FAST_IO;
+    cin >> str >> k;
+    int len= str.length();
+
+    vector<vector<string>> arr;
+    for (int i=0; i < k; ++i) {
+        vector<string> vec; // array storing the substrings made up of the k-th forbidden pair
+        cin >> forbidden[i];
+
+        // find substrings made up of the letters of forbidden[i] and store them in vec
+        bool subStr= 0;
+        string S= "";
+        for (int idx=0; idx < len; ++idx) {
+            if (str[idx] == forbidden[i][0] || str[idx] == forbidden[i][1]) {
+                if (subStr) {
+                    S.push_back(str[idx]);
+                }
+                else {
+                    subStr= 1;
+                    S= string(1,str[idx]);
+                }
+            }
+            else {
+                if (subStr) {
+                    vec.push_back(S);
+                    S= "";
+                }
+                subStr= 0;
+            }
+        }
+        if (subStr) vec.push_back(S);       // don't miss the last substring either
+        arr.push_back(vec);
+    }
+
+    int ans= 0;
+    for (int i=0; i < k; ++i) {
+        // add to ans the minimum number of letters to delete for the i-th substring
+        for (int j=0; j < arr[i].size(); ++j) {
+            int cnt[2]= {0};
+            string s= arr[i][j];
+            for (int idx= 0; idx < s.length(); ++idx) {
+                if (s[idx] == forbidden[i][0]) ++cnt[0];
+                if (s[idx] == forbidden[i][1]) ++cnt[1];
+            }
+            if (cnt[0] < cnt[1]) ans += cnt[0];
+            else ans += cnt[1];
+        }
+    }
+    cout << ans;
+}
+```
+
+## Complexity
+
+- Time: $O( k \cdot \lvert s \rvert )$
+- Space: $O( k \cdot \lvert s \rvert )$

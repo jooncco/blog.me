@@ -1,0 +1,100 @@
+---
+title: '[BOJ] 18869. Multiverse Ⅱ Explained'
+date: '2021-01-31'
+category: competitive-programming
+tags:
+  - Coordinate compression
+  - Sortings
+lastModified: '2021-01-31T13:12:00.000Z'
+teaser: BOJ problem 18869 solution
+ogImage: /blog/images/boj-teaser.png
+---
+
+## Problem
+
+[18869. 멀티버스 Ⅱ](https://www.acmicpc.net/problem/18869)
+
+## Approach
+
+- A brute-force approach has complexity $O(M^2 \cdot N^2)$.
+- Choosing 2 out of M is $O(M^2)$, and checking whether they are equivalent is $O(N^2)$.
+- This is a problem that can only be solved in time by applying the 'coordinate compression' technique.
+
+1. Coordinate-compress the sizes of the N planets.
+2. Convert the planet array into a **string vector** holding the permutation of compressed coordinates (so that it can be compared simply with ==).
+3. Sort the converted string vectors, and whenever a group of n equal ones occurs, add ${_n}C_2$ to the answer each time.
+
+## Code
+
+![](/blog/images/boj-18869-result.png)
+
+```cpp
+/**
+ * author: jooncco
+ * written: 2021. 1. 31. Sun. 21:47:19 [UTC+9]
+ **/
+
+#include <bits/stdc++.h>
+using namespace std;
+using ll= long long;
+using ii= pair<int,int>;
+using vi= vector<int>;
+using di= deque<int>;
+
+// a function that converts idx == 7 into "0007"
+inline string to4Digit(int idx) {
+
+    string ret= to_string(idx);
+    while (ret.length() < 4) ret= "0"+ret;
+    return ret;
+}
+
+int M,N;
+
+int main() {
+
+    cin >> M >> N;
+    vector<string> vecArr;
+    for (int i=0; i < M; ++i) {
+        vi arr(N),V(N);
+        for (int i=0; i < N; ++i) {
+            cin >> arr[i];
+            V[i]= arr[i];
+        }
+
+        // coordinate compression
+        sort(V.begin(),V.end());
+        int cnt= 0; // idx
+        map<int,int> mapper;
+        mapper[V[0]]= cnt;
+        for (int i=1; i < N; ++i) {
+            if (V[i-1] != V[i]) mapper[V[i]]= ++cnt;
+        }
+        string vec= "";     // the vector of this planet array
+        for (int i=0; i < N; ++i) {
+            vec += to4Digit(mapper[arr[i]]);
+        }
+        vecArr.push_back(vec);
+    }
+
+    // find how many equal vectors there are among the M, and compute the answer
+    sort(vecArr.begin(),vecArr.end());
+    int cnt= 1, ans= 0;
+    for (int i=1; i < M; ++i) {
+        if (vecArr[i] == vecArr[i-1]) {
+            ++cnt;
+        }
+        else {
+            ans += cnt*(cnt-1)/2;
+            cnt= 1;
+        }
+    }
+    ans += cnt*(cnt-1)/2;   // I got it wrong once by forgetting this
+    cout << ans;
+}
+```
+
+## Complexity
+
+- Time: $O(M{\cdot}N{\cdot}{\log}N + M{\cdot}{\log}M + M)$
+- Space: $O(N)$

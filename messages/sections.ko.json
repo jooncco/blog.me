@@ -33,6 +33,98 @@
         "full-stack": "풀스택 엔지니어",
         "ai-agents": "AI 에이전트 빌더",
         "algo-trading": "알고리즘 트레이딩"
+      },
+      "items": {
+        "aboitiz-ocr-meter": {
+          "title": "OCR 검침 애플리케이션",
+          "outcome": "이미지 기반 지능형 전력 계량기 검침 앱의 PoC를 성공적으로 이끌었습니다 — 아키텍처 설계부터 프로덕션 Flutter 배포까지 담당했습니다.",
+          "contributions": [
+            "프로토타입 웹 앱 아키텍처를 설계하고 PoC를 최종 승인까지 이끌었습니다.",
+            "React 프런트엔드와 AWS Lambda 기반 서버리스 백엔드를 구축했습니다.",
+            "프로덕션 Flutter 모바일 애플리케이션을 출시했습니다."
+          ]
+        },
+        "gcbio-genai-audit": {
+          "title": "GenAI 감사 어시스턴트 봇",
+          "outcome": "정기 감사를 한국어·영어 지식 검색으로 보조하는 Claude 3.5 Sonnet 기반 RAG 어시스턴트를 구축했습니다.",
+          "contributions": [
+            "AWS Bedrock RAG 샘플(bedrock-claude-chat)을 감사 워크플로에 맞게 커스터마이즈했습니다.",
+            "다국어(한국어·영어) 지식 증강을 위한 프롬프트 엔지니어링을 수행했습니다.",
+            "지식 베이스 동기화 작업을 위한 AWS Lambda 트리거를 작성했습니다."
+          ]
+        },
+        "gsglobal-t4k-feedback": {
+          "title": "자동 피드백 알림 시스템",
+          "outcome": "카카오톡 피드백을 수집하고 감성 분석 점수를 매겨 담당 팀에 자동으로 알리는 이상 탐지 파이프라인을 설계했습니다.",
+          "contributions": [
+            "전체 시스템 설계를 주도했습니다.",
+            "Scrapper를 구축했습니다 — 카카오톡 대화 내용 내보내기를 자동화하는 Python 앱입니다.",
+            "Uploader를 구축했습니다 — 대화 텍스트를 파싱해 S3에 업로드하는 Spring Boot 앱입니다."
+          ]
+        },
+        "lguplus-ucmp": {
+          "title": "UCMP — 클라우드 리소스 관리 플랫폼",
+          "outcome": "표준화된 GCP/AWS 리소스와 프로젝트를 몇 번의 클릭으로 프로비저닝하고, 이메일 2단계 인증(2FA)과 알림을 제공하는 플랫폼을 구축했습니다.",
+          "contributions": [
+            "이메일 기반 2단계 인증(2FA)을 구현했습니다.",
+            "회원가입/로그아웃 페이지와 REST API를 구축했습니다.",
+            "클라우드 리소스 생성 페이지와 REST API를 구축했습니다.",
+            "Amazon SES를 통한 이메일 알림을 추가했습니다."
+          ]
+        },
+        "krx-fast-download": {
+          "title": "TB급 파일 고속 다운로드",
+          "outcome": "Next.js 앱에서 커스텀 멀티파트 다운로드 모듈로 1.2TB 파일의 다운로드 시간을 40% 단축했습니다.",
+          "contributions": [
+            "Axios를 사용해 멀티파트 다운로드 모듈을 설계·구현했습니다.",
+            "Next.js와 Tailwind CSS로 프런트엔드 앱을 구축했습니다."
+          ]
+        },
+        "lge-iptv-modernization": {
+          "title": "IPTV 웹 애플리케이션 현대화",
+          "outcome": "차세대 IPTV 웹 서버를 현대화하고 Executor 스레드로 기기 초기화 API의 지연 시간을 절반으로 줄였습니다.",
+          "contributions": [
+            "기기 메타데이터 기반의 IPTV 기기 인증·초기화 REST API를 구현했습니다.",
+            "Executor 스레드를 활용해 기기 초기화 API의 실행 시간을 50% 단축했습니다.",
+            "로그 파일을 주기적으로 S3로 전송해 모니터링하는 배치 마이크로서비스를 구축했습니다."
+          ]
+        },
+        "bithumb-naemo-nft": {
+          "title": "NFT 마켓플레이스 \"Naemo World\"",
+          "outcome": "크리에이터와 컬렉터를 위한 NFT 마켓플레이스에 지갑, 소셜 OAuth, 런치패드 기능을 출시했습니다.",
+          "contributions": [
+            "My Wallet 페이지와 관련 REST API(지갑 연결, 잔액 조회 등)를 구축했습니다.",
+            "SNS OAuth(Twitter, Discord, Telegram, Instagram)를 구현했습니다.",
+            "SNS 이벤트 미션 페이지와 이더리움/솔라나 출금 API를 구축했습니다.",
+            "관리자 런치패드 목록 페이지와 REST API를 구축했습니다."
+          ]
+        },
+        "hanwha-p3-points": {
+          "title": "생명보험 포인트 플랫폼 \"P3\"",
+          "outcome": "생명보험 리워드 플랫폼을 위한 블록체인 원장 기반 포인트 거래(결제, 이체, 환불)를 구현했습니다.",
+          "contributions": [
+            "포인트 거래 REST API(결제, 이체, 환불)를 구축했습니다.",
+            "관리자 포인트 사용 내역 페이지와 REST API를 구축했습니다."
+          ]
+        },
+        "okimoki-coffee-bot": {
+          "title": "\"Okimoki\" — 커피 주문 챗봇",
+          "outcome": "카카오톡 내 커피 주문을 지원하는 백엔드 마이크로서비스 3종(매장, 메뉴, 주문)을 설계·구축했습니다.",
+          "contributions": [
+            "백엔드 마이크로서비스 3종(매장, 메뉴, 주문)을 설계·구현했습니다.",
+            "커피 쿠폰 데이터를 모델링했습니다.",
+            "2단계 인증(2FA)을 설계·구현했습니다."
+          ]
+        },
+        "algo-trading-research": {
+          "title": "체계적 크립토 트레이딩 리서치",
+          "outcome": "LSTM/회귀 가격 모델부터 백테스팅 기반 시그널 리서치까지, 체계적인 크립토 전략을 탐구하고 있습니다.",
+          "contributions": [
+            "가격 예측을 위한 시장 지표 + Google 트렌드 피처 파이프라인을 구축했습니다.",
+            "회귀 및 LSTM RNN 예측 모델을 프로토타이핑했습니다.",
+            "과거 OHLCV 데이터로 트레이딩 시그널을 백테스팅합니다."
+          ]
+        }
       }
     },
     "skills": {
@@ -76,7 +168,84 @@
       "kicker": "경력 기록",
       "title": "경력",
       "present": "현재",
-      "loadingMore": "불러오는 중"
+      "loadingMore": "불러오는 중",
+      "items": {
+        "aboitiz-power": {
+          "role": "프로토타이핑 엔지니어",
+          "summary": "이미지 기반 지능형 검침 앱을 프로토타이핑하고 프로덕션화했습니다.",
+          "highlights": [
+            "PoC 아키텍처를 설계하고 최종 승인까지 이끌었습니다.",
+            "React 프런트엔드와 AWS Lambda 서버리스 백엔드를 구축했습니다.",
+            "프로덕션 Flutter 애플리케이션을 출시했습니다."
+          ]
+        },
+        "gc-biopharma": {
+          "role": "프로토타이핑 엔지니어",
+          "summary": "정기 감사를 위한 Claude 3.5 Sonnet 기반 RAG 어시스턴트를 구축했습니다.",
+          "highlights": [
+            "AWS Bedrock RAG 애플리케이션을 감사 워크플로에 맞게 커스터마이즈했습니다.",
+            "한국어·영어 지식 증강을 위한 프롬프트 엔지니어링을 수행했습니다."
+          ]
+        },
+        "krx": {
+          "role": "프론트엔드 엔지니어",
+          "summary": "TB급 파일을 위한 고성능 멀티파트 다운로드를 갖춘 Next.js 앱을 구축했습니다.",
+          "highlights": [
+            "멀티파트 모듈로 1.2TB 파일의 다운로드 시간을 40% 단축했습니다.",
+            "Next.js와 Tailwind CSS로 프런트엔드를 구현했습니다."
+          ]
+        },
+        "gs-global": {
+          "role": "솔루션즈 아키텍트",
+          "summary": "카카오톡 피드백 이상 탐지 파이프라인을 설계했습니다.",
+          "highlights": [
+            "전체 시스템 설계를 주도했습니다.",
+            "카카오톡 Scrapper와 S3로 업로드하는 Spring Boot Uploader를 구축했습니다."
+          ]
+        },
+        "lg-electronics": {
+          "role": "백엔드 엔지니어",
+          "summary": "차세대 IPTV 웹 서버를 현대화했습니다.",
+          "highlights": [
+            "IPTV 기기 인증·초기화 REST API를 구현했습니다.",
+            "Executor 스레드로 기기 초기화 API의 지연 시간을 50% 줄였습니다.",
+            "로그를 S3로 전송해 모니터링하는 배치 마이크로서비스를 구축했습니다."
+          ]
+        },
+        "bithumb-meta": {
+          "role": "풀스택 엔지니어",
+          "summary": "\"Naemo World\" NFT 마켓플레이스에 지갑, 소셜 OAuth, 런치패드 기능을 출시했습니다.",
+          "highlights": [
+            "My Wallet 페이지와 관련 REST API를 구축했습니다.",
+            "SNS OAuth와 이더리움/솔라나 출금 API를 구현했습니다.",
+            "관리자 런치패드 목록 페이지와 REST API를 구축했습니다."
+          ]
+        },
+        "lg-uplus": {
+          "role": "풀스택 엔지니어",
+          "summary": "GCP/AWS를 위한 클라우드 리소스 관리 플랫폼 UCMP를 구축했습니다.",
+          "highlights": [
+            "이메일 2FA, 회원가입/로그아웃과 REST API를 구현했습니다.",
+            "클라우드 리소스 생성 페이지와 Amazon SES 알림을 구축했습니다."
+          ]
+        },
+        "hanwha": {
+          "role": "풀스택 엔지니어",
+          "summary": "생명보험을 위한 \"P3\" 블록체인 원장 기반 포인트 플랫폼을 구축했습니다.",
+          "highlights": [
+            "포인트 거래 REST API(결제, 이체, 환불)를 구축했습니다.",
+            "관리자 포인트 사용 내역 페이지와 API를 구축했습니다."
+          ]
+        },
+        "okimoki": {
+          "role": "백엔드 엔지니어",
+          "summary": "카카오톡 내 \"Okimoki\" 커피 주문 챗봇 백엔드를 구축했습니다.",
+          "highlights": [
+            "매장, 메뉴, 주문 마이크로서비스 3종을 설계·구축했습니다.",
+            "커피 쿠폰 데이터를 모델링하고 2FA를 구현했습니다."
+          ]
+        }
+      }
     },
     "now": {
       "kicker": "상태 업데이트",

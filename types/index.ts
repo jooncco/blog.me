@@ -17,14 +17,12 @@ export type ExpertiseDomain =
   | 'ai-agents'
   | 'algo-trading';
 
+// Structural project data; display text (title/outcome/contributions) is localized
+// under the `sections.projects.items.<id>` message namespace.
 export type Project = {
   id: string;
-  title: string;
   domain: ExpertiseDomain;
-  company?: string;
   period?: string;
-  outcome: string;
-  contributions: string[];
   tech: string[];
   link?: { href: string; label: string };
   featured?: boolean;
@@ -62,14 +60,12 @@ export type CPStat = {
   source: 'live' | 'fallback';
 };
 
+// Structural experience data; display text (role/summary/highlights) is localized
+// under the `sections.experience.items.<id>` message namespace.
 export type ExperienceEntry = {
   id: string;
-  role: string;
-  org: string;
   start: string;
   end?: string;
-  summary: string;
-  highlights: string[];
 };
 
 export type PostMeta = {

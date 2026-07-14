@@ -1,0 +1,63 @@
+---
+title: '[Codeforces] 1611B. Team Composition: Programmers and Mathematicians Explained'
+date: '2021-11-30'
+category: competitive-programming
+tags:
+  - Math
+lastModified: '2021-11-30T06:40:00.000Z'
+teaser: 'Codeforces Round #756(Div.3) - problem B solution'
+ogImage: /blog/images/codeforces-teaser.png
+---
+
+## Problem
+
+[1611B. Team Composition: Programmers and Mathematicians](https://codeforces.com/contest/1611/problem/B)
+
+## Approach
+
+Let the larger value be a and the smaller value be b.  
+Focus on $dif := a - b$.  
+Forming a team with a $3 : 1$ ratio is equivalent to subtracting 2 from this $dif$ value.
+
+Therefore, the maximum number of teams that can be formed with a $3 : 1$ ratio is $teams = \min( \lfloor {dif \over 2} \rfloor, b )$.  
+Subtract this $teams$ value from $b$, and form teams with the remaining people ($b$) using a $2 : 2$ ratio.
+
+$ans = \min( \lfloor {dif \over 2} \rfloor, b ) + \lfloor {b - \min( \lfloor {dif \over 2} \rfloor, b ) \over 2} \rfloor$
+
+## Code
+
+![](/blog/images/codeforces-1611B-result.png)
+
+```cpp
+/**
+ * written: 2021. 11. 30. Tue. 15:33:05 [UTC+9]
+ * jooncco의 mac에서.
+ **/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#define FAST_IO ios_base::sync_with_stdio(0),cin.tie(0)
+
+int a,b;
+
+void solve() {
+    cin >> a >> b;
+    if (a < b) swap(a,b);
+    int dif= abs(a-b);
+    int threeAndOne= dif/2;
+    int ans= min(threeAndOne,b) + (b-min(threeAndOne,b))/2;
+    cout << ans << "\n";
+}
+
+int main() {
+    FAST_IO;
+    int t; cin >> t;
+    while (t--) solve();
+}
+```
+
+## Complexity
+
+- Time: $O(1)$
+- Space: $O(1)$

@@ -1,0 +1,133 @@
+---
+title: '[LEETCODE] 2166. Design Bitset 풀이'
+date: '2022-02-11'
+category: competitive-programming
+tags:
+  - Ad hoc
+lastModified: '2022-02-11T08:17:00.000Z'
+teaser: Weekly Contest 279 Q3
+ogImage: /blog/images/leetcode-teaser.png
+---
+
+## Problem
+
+[2166. Design Bitset](https://leetcode.com/problems/design-bitset/)
+
+## Approach
+
+> 모든 연산은 $O(1)$ 시간에 처리할 수 있습니다.
+
+- `n`: 크기
+- `cnt`: 1의 개수
+- `flipped`: 반전되었는지 확인 ⭐️
+- `bitset`: 비트들의 벡터 배열
+- `orig`: bitset의 to_string() 값
+- `comp`: 반전된 bitset의 to_string() 값
+
+### `fix(idx)`:
+
+해당 비트를 반전해야 한다면,  
+`cnt`를 1 증가시키고  
+`bitset[idx]`, `orig[idx]`, `comp[idx]`를 반전합니다
+
+### `unfix(idx)`:
+
+해당 비트를 반전해야 한다면,  
+`cnt`를 1 감소시키고  
+`bitset[idx]`, `orig[idx]`, `comp[idx]`를 반전합니다
+
+### `flip()`:
+
+`cnt` = n-cnt  
+`flipped` = flipped ^ 1
+
+### `all()`:
+
+`cnt == n`을 반환합니다
+
+### `one()`:
+
+`cnt > 0`을 반환합니다
+
+### `count()`:
+
+`cnt`를 반환합니다
+
+### `toString()`:
+
+`flipped ? comp : orig`을 반환합니다
+
+## Code
+
+![](/blog/images/leetcode-2167-result.png)
+
+```cpp
+/**
+ * written: 2022. 02. 11. Fri. 17:41:01 [UTC+9]
+ * jooncco의 mac에서.
+ **/
+
+typedef vector<int> vi;
+
+class Bitset {
+private:
+    int n, cnt, flipped;
+    vi bitset;
+    string orig, comp;
+
+public:
+    Bitset(int size) {
+        n= size;
+        cnt= flipped= 0;
+        bitset= vi(size,0);$
+        orig= string(size,'0');
+        comp= string(size,'1');
+    }
+
+    void fix(int idx) {
+        // need flip ?
+        if ((bitset[idx]^flipped) == 0) {
+            ++cnt;
+            bitset[idx] ^= 1;
+            orig[idx]= (char)(((orig[idx]-'0') ^ 1) + '0');
+            comp[idx]= (char)(((comp[idx]-'0') ^ 1) + '0');
+        }
+    }
+
+    void unfix(int idx) {
+        // need flip ?
+        if ((bitset[idx]^flipped) == 1) {
+            --cnt;
+            bitset[idx] ^= 1;
+            orig[idx]= (char)(((orig[idx]-'0') ^ 1) + '0');
+            comp[idx]= (char)(((comp[idx]-'0') ^ 1) + '0');
+        }
+    }
+
+    void flip() {
+        cnt= n-cnt;
+        flipped ^= 1;
+    }
+
+    bool all() {
+        return cnt == n;
+    }
+
+    bool one() {
+        return cnt > 0;
+    }
+
+    int count() {
+        return cnt;
+    }
+
+    string toString() {
+        return flipped ? comp : orig;
+    }
+};
+```
+
+## Complexity
+
+- Time: $O(1)$
+- Space: $O(size)$

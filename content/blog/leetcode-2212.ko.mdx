@@ -1,0 +1,126 @@
+---
+title: '[LEETCODE] 2212. Maximum Points in an Archery Competition 풀이'
+date: '2022-03-20'
+category: competitive-programming
+tags:
+  - Bitmask
+  - Brute force
+lastModified: '2022-03-20T07:34:00.000Z'
+teaser: Leetcode Weekly 285 - Q3
+ogImage: /blog/images/leetcode-teaser.png
+---
+
+## Problem
+
+[2212. Maximum Points in an Archery Competition](https://leetcode.com/problems/maximum-points-in-an-archery-competition/")
+
+## Approach
+
+점수의 범위가 `{ 0, 1, ... 11 }`로 상당히 짧다는 점에 주목하세요.  
+부분집합의 총 개수는 $2^{12} = 4096$이며, 화살이 충분하다면 각각이 Bob의 선택이 될 수 있습니다.
+
+`bitmask`를 사용해 모든 경우를 완전 탐색하고, 특정 조건을 만족하는 Bob의 최대 총점을 찾습니다:
+
+```cpp
+int maxPoint= 0, maxMask;
+for (int mask=0; mask < (1<<12); ++mask) {
+    if (totalPoint(mask) > maxPoint &&
+        arrowsNeeded(mask, aliceArrows) <= numArrows) {
+        maxPoint= totalPoint(mask);
+        maxMask= mask;
+    }
+}
+```
+
+헬퍼 함수:
+
+```cpp
+private:
+    int totalPoint(int mask) {
+        int point= 0;
+        for (int i=0; i < 12; ++i) {
+            if (mask & (1<<i)) point += i;
+        }
+        return point;
+    }
+
+    int arrowsNeeded(int mask, vi &aliceArrows) {
+        int arrows= 0;
+        for (int i=0; i < 12; ++i) {
+            if (mask & (1<<i)) {
+                arrows += aliceArrows[i]+1;
+            }
+        }
+        return arrows;
+    }
+```
+
+이제 `maxMask`를 얻었으니, 정답 배열을 구성합니다:
+
+```cpp
+vi ret(12,0);
+int cnt= numArrows;
+for (int i=1; i < 12; ++i) {
+    if (maxMask & (1<<i)) {
+        ret[i]= aliceArrows[i]+1;
+        cnt -= ret[i];
+    }
+}
+ret[0]= cnt;
+```
+
+## Code
+
+![](/blog/images/leetcode-2212-result.png)
+
+```cpp
+typedef vector<int> vi;
+
+class Solution {
+private:
+    int totalPoint(int mask) {
+        int point= 0;
+        for (int i=0; i < 12; ++i) {
+            if (mask & (1<<i)) point += i;
+        }
+        return point;
+    }
+
+    int arrowsNeeded(int mask, vi &aliceArrows) {
+        int arrows= 0;
+        for (int i=0; i < 12; ++i) {
+            if (mask & (1<<i)) {
+                arrows += aliceArrows[i]+1;
+            }
+        }
+        return arrows;
+    }
+
+public:
+    vi maximumBobPoints(int numArrows, vi &aliceArrows) {
+        int maxPoint= 0, maxMask;
+        for (int mask=0; mask < (1<<12); ++mask) {
+            if (totalPoint(mask) > maxPoint &&
+                arrowsNeeded(mask, aliceArrows) <= numArrows) {
+                maxPoint= totalPoint(mask);
+                maxMask= mask;
+            }
+        }
+        vi ret(12,0);
+        int cnt= numArrows;
+        for (int i=1; i < 12; ++i) {
+            if (maxMask & (1<<i)) {
+                ret[i]= aliceArrows[i]+1;
+                cnt -= ret[i];
+            }
+        }
+        ret[0]= cnt;
+        return ret;
+    }
+};
+```
+
+## Complexity
+
+- Time: $O(1)$
+- Space: $O(1)$

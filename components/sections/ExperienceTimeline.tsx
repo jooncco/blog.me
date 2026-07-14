@@ -51,7 +51,13 @@ export function ExperienceTimeline({ entries }: ExperienceTimelineProps) {
           aria-hidden="true"
           className="absolute bottom-2 left-1.5 top-2 w-px bg-gradient-to-b from-hud-cyan/60 via-hud-cyan/20 to-transparent"
         />
-        {visible.map((entry) => (
+        {visible.map((entry) => {
+          const copy = t.raw(`experience.items.${entry.id}`) as {
+            role: string;
+            summary: string;
+            highlights: string[];
+          };
+          return (
           <li key={entry.id} className="relative" data-testid={`experience-${entry.id}`}>
             <span
               aria-hidden="true"
@@ -60,16 +66,16 @@ export function ExperienceTimeline({ entries }: ExperienceTimelineProps) {
             <HudFrame variant="panel" className="flex flex-col gap-2 p-4">
               <div className="flex flex-wrap items-baseline justify-between gap-2">
                 <h3 className="font-display text-base font-semibold uppercase tracking-wide text-text">
-                  {entry.role}
+                  {copy.role}
                 </h3>
                 <span className="font-mono text-xs text-text/50">
                   {entry.start} – {entry.end ?? t('experience.present')}
                 </span>
               </div>
-              <p className="font-sans text-sm text-text/70">{entry.summary}</p>
-              {entry.highlights.length > 0 && (
+              <p className="font-sans text-sm text-text/70">{copy.summary}</p>
+              {copy.highlights.length > 0 && (
                 <ul className="flex flex-col gap-1 font-mono text-xs text-text/55">
-                  {entry.highlights.map((h, i) => (
+                  {copy.highlights.map((h, i) => (
                     <li key={i} className="flex gap-2">
                       <span aria-hidden="true" className="text-hud-cyan/60">
                         ▸
@@ -81,7 +87,8 @@ export function ExperienceTimeline({ entries }: ExperienceTimelineProps) {
               )}
             </HudFrame>
           </li>
-        ))}
+          );
+        })}
       </ol>
 
       {hasMore && (

@@ -1,0 +1,104 @@
+---
+title: '[Codeforces] 1519C. Berland Regional Explained'
+date: '2021-05-08'
+category: competitive-programming
+tags:
+  - Math
+lastModified: '2021-05-08T05:45:00.000Z'
+teaser: 'Educational Codeforces Round #108(Div.2) - problem C solution'
+ogImage: /blog/images/codeforces-teaser.png
+---
+
+## Problem
+
+[1519C. Berland Regional](http://codeforces.com/contest/1519/problem/C)
+
+## Approach
+
+- Each university can be computed separately.
+- If a university has $sz$ students, it only affects the k values with $1 \le k \le sz$.
+
+The first example.
+
+```
+7
+1 2 1 2 1 2 1
+6 8 3 1 5 1 5
+```
+
+Putting each university into a list and sorting gives
+
+```
+univ[1]: 3 5 5 6
+univ[2]: 1 1 8
+```
+
+Computing $univ[1]$: when $k = 3$, 6 is excluded, so 6 is dropped only from $ans[3]$.
+
+```
+ans: 0 19 19 13 19 0 0 0
+```
+
+That is, the ** first $sz \mod k$ ones (starting from the smallest) are dropped.
+
+1. Sort per university.
+2. Convert the $univ[i] (1 \le i \le n)$ array into a prefix-sum array.
+3. Iterate over the $univ$ array, and for each $k$ value $(1 \le k \le sz)$, add $(\text{total} - univ[i][sz\%k-1])$ to $ans[k]$.
+
+## Code
+
+![](/blog/images/codeforces-1519C-result.png)
+
+```cpp
+/**
+ * author: jooncco
+ * written: 2021. 5. 8. Sat. 00:22:56 [UTC+9]
+ **/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+#define FAST_IO ios_base::sync_with_stdio(0),cin.tie(0)
+typedef long long ll;
+typedef vector<ll> vl;
+
+int t,n;
+ll u[200010], s;
+
+int main() {
+
+    FAST_IO;
+    cin >> t;
+    while (t--) {
+        cin >> n;
+        for (int i=0; i < n; ++i) cin >> u[i];
+        vector<vl> univ(n+1,vl());
+        ll ans[200010]= {0};
+        for (int i=0; i < n; ++i) {
+            cin >> s;
+            univ[u[i]].push_back(s);
+        }
+        for (int i=1; i <= n; ++i) {
+            int sz= univ[i].size();
+            if (sz) {
+                sort(univ[i].begin(),univ[i].end());
+                for (int j=1; j < sz; ++j) univ[i][j] += univ[i][j-1];
+                for (int k=1; k <= sz; ++k) {
+                    ans[k] += univ[i][sz-1];
+                    if (sz%k > 0) ans[k] -= univ[i][sz%k-1];
+                }
+            }
+        }
+        for (int i=1; i <= n; ++i) {
+            if (i > 1) cout << " ";
+            cout << ans[i];
+        }
+        cout << "\n";
+    }
+}
+```
+
+## Complexity
+
+- Time: $O(n{\log}n)$
+- Space: $O(n)$

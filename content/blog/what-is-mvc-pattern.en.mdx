@@ -1,0 +1,74 @@
+---
+title: '[Design Pattern] MVC'
+date: '2021-06-01'
+category: web
+tags:
+  - System Design
+lastModified: '2024-03-10T10:22:00.000Z'
+ogImage: /blog/images/design-pattern-teaser.png
+---
+
+## Design Patterns
+
+A collection of the **BP (Best Practices)** used by object-oriented developers. They contain solutions to problems faced during development, obtained over a long period through **trial & error**.
+
+## What is the MVC Pattern?
+
+> Model + View + Controller
+
+![](/blog/images/mvc-figure-1.png)
+
+A pattern that divides the composition of an application into three concerns.  
+By separating the UI shown to the user from the Business Logic, you can build an application in which each can be easily modified without affecting the other.
+
+### 🎈Model
+
+The part that handles data and its processing
+
+- An object, or a Java **[POJO](https://en.wikipedia.org/wiki/Plain_old_Java_object)**.
+- It must not have internal attributes that reference the View or the Controller (to prevent direct modification).
+- The part that notifies the Controller when a change occurs must be implemented.
+
+### 🎈View
+
+The part that composes the screen
+
+- An element that represents the data held by the Model.
+- It must not store data separately, and should merely represent the data it receives.
+- The part that queries the Model to update itself must be implemented.
+
+### 🎈Controller
+
+The part that receives and processes user input
+
+- The role of receiving user input and validating it.
+- It controls the data flow going into the Model, and each time a change occurs in the Model, it selects the View to be updated.
+- In doing so, it plays the role of separating the Model and the View.
+- It monitors changes in the Model and the View.
+
+## Order of Operation
+
+1. The Controller detects and validates user input
+2. The Controller identifies the action and performs the business logic (manipulating the Model).
+3. The Controller selects the View to be shown after that action
+4. The View displays the screen using the Model
+
+Because the Controller's role ends at selecting the View to show, the View fetches data using the Model's methods.
+
+### 3 Ways to Update the View
+
+1. Directly using the Model class
+2. The Model notifies the Views registered as its Observers  
+   (**[Observer pattern](<https://ko.wikipedia.org/wiki/%EC%98%B5%EC%84%9C%EB%B2%84_%ED%8C%A8%ED%84%B4#:~:text=%EC%98%B5%EC%84%9C%EB%B2%84%20%ED%8C%A8%ED%84%B4(observer%20pattern)%EC%9D%80,%ED%95%98%EB%8F%84%EB%A1%9D%20%ED%95%98%EB%8A%94%20%EB%94%94%EC%9E%90%EC%9D%B8%20%ED%8C%A8%ED%84%B4%EC%9D%B4%EB%8B%A4.>)**).
+3. Detecting changes & updating through the View's polling
+
+## Characteristics of the MVC Pattern
+
+The relationship between Controller and View is not **1:1** but **1:N**.  
+Therefore, the larger the application grows, the heavier the Controller's burden becomes, and this can become a bottleneck.
+
+![](/blog/images/mvc-figure-3.png)
+
+Satirizing this situation, it is called a **Massive ViewController** (the initials happen to be the same).
+
+And because the structure has the View use the Model when it needs to update, it can be said to be a pattern with high coupling between the Model and the View.

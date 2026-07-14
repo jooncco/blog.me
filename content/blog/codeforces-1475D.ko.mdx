@@ -1,0 +1,123 @@
+---
+title: '[Codeforces] 1475D. Cleaning the Phone 풀이'
+date: '2021-01-30'
+category: competitive-programming
+tags:
+  - Two pointers
+  - Sortings
+  - Meet in the middle
+lastModified: '2021-12-31T07:26:00.000Z'
+teaser: 'Codeforces Round #697(Div.3) - problem D solution'
+ogImage: /blog/images/codeforces-teaser.png
+---
+
+## Problem
+
+[1475D. Cleaning the Phone](http://codeforces.com/problemset/problem/1475/D)
+
+## Approach
+
+이 문제는 **"Two pointers"** 문제입니다.
+
+먼저 편의 점수를 기준으로 $a_i$를 두 개의 배열로 나누고, 각각을 내림차순으로 **정렬**합니다.  
+이 배열들을 각각 `one`과 `two`라고 부르겠습니다.
+
+![figure.1](/blog/images/codeforces-1475D-figure-1.png "figure.1")
+
+`one`에서 `l`개의 앱을, `two`에서 `r`개의 앱을 선택한다고 합시다.  
+시작은 다음과 같습니다.
+
+- `l`= 0
+- `r`= two.size()
+
+이미 삭제하기로 결정한 앱(`r`개)을 제외할 때는, 크기가 작은 앱부터 탐욕적으로 선택합니다.  
+반대로 새로운 앱을 추가할 때는 크기가 큰 앱부터 선택합니다.
+
+처음에는 메모리의 합이 각각 `sum1` = 0, `sum2` = 6입니다.
+
+![figure.2](/blog/images/codeforces-1475D-figure-2.png "figure.2")
+
+이제 `l` = 0, 1, ... one.size()에 대해 **다음을 반복합니다**:
+
+1. $sum1 + sum2 >= m$이 만족될 때까지 $sum2 = sum2 - two[r-1]$를 수행하고 `r`을 감소시킵니다.
+2. answer = min(answer, `l` + 2\*`r`)
+3. $sum1 = sum1 + one[l]$
+
+![figure.3](/blog/images/codeforces-1475D-figure-3.png "figure.3")
+
+![figure.4](/blog/images/codeforces-1475D-figure-4.png "figure.4")
+
+![figure.5](/blog/images/codeforces-1475D-figure-5.png "figure.5")
+
+정렬에 $O(n\log{n})$이, 순회에 $O(n)$이 걸립니다.
+
+## Code
+
+![](/blog/images/codeforces-1475D-result.png)
+
+```cpp
+/**
+ * written: 2022-03-17 20:26:37 Thu [KST]
+ * @jooncco's mac.
+ **/
+#include <bits/stdc++.h>
+using namespace std;
+
+#define FAST_IO ios_base::sync_with_stdio(0),cin.tie(0),cout.tie(0)
+#define f first
+#define s second
+typedef long long ll;
+typedef unsigned long long ull;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef vector<int> vi;
+typedef vector<ll> vl;
+typedef deque<int> di;
+typedef deque<ll> dl;
+typedef priority_queue<int, vi, less<int> > maxHeap;
+typedef priority_queue<int, vi, greater<int> > minHeap;
+
+const ll INF= 1e16;
+
+int n,m;
+
+void solve() {
+    cin >> n >> m;
+    vi arr(n);
+    for (int &mem : arr) cin >> mem;
+    vi one, two;
+    int conv;
+    for (int i=0; i < n; ++i) {
+        cin >> conv;
+        if (conv == 1) one.push_back(arr[i]);
+        if (conv == 2) two.push_back(arr[i]);
+    }
+    sort(one.rbegin(), one.rend());
+    sort(two.rbegin(), two.rend());
+
+    ll ans= INF;
+    ll sum1= 0, sum2= accumulate(two.begin(), two.end(), 0ll);
+    int r= two.size();
+    for (int l=0; l <= one.size(); ++l) {
+        while (r > 0 && sum1 + sum2 - two[r-1] >= m) {
+            sum2 -= two[--r];
+        }
+        if (r > -1 && sum1 + sum2 >= m) ans= min(ans, l+2ll*r);
+        if (l < one.size()) sum1 += one[l];
+    }
+
+    cout << (ans == INF ? -1 : ans) << "\n";
+}
+
+int main() {
+    FAST_IO;
+    int t; cin >> t;
+    while (t--) solve();
+}
+
+```
+
+## Complexity
+
+- Time: $O(n\log{n} + n)$
+- Space: $O(n)$

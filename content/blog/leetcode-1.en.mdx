@@ -1,0 +1,65 @@
+---
+title: '[LeetCode] 1. Two Sum Explained'
+date: '2021-11-01'
+category: competitive-programming
+tags:
+  - Two pointers
+lastModified: '2021-11-01T14:24:00.000Z'
+teaser: Data Structure I - Day 2
+ogImage: /blog/images/leetcode-teaser.png
+---
+
+## Problem
+
+[1. Two Sum](https://leetcode.com/problems/two-sum/)
+
+## Approach
+
+> meet in the middle.
+
+- If we call the two answer indices $l, r$, then $arr[l] = target - arr[r]$.
+- Traversing $l$ from the left and $r$ from the right while observing the sum of the two values: the $r$ value that we decreased because it was too large at $l$ doesn't need to be re-checked when we move to $l+1$.
+
+## Code
+
+![](/blog/images/leetcode-1-result.png)
+
+```cpp
+/**
+ * author: jooncco
+ * written: 2021. 11. 01. Mon. 23:34:56 [UTC+9]
+ **/
+
+typedef pair<int,int> ii;
+typedef vector<ii> vii;
+typedef vector<int> vi;
+
+class Solution {
+public:
+    vi twoSum(vi& nums, int target) {
+        int n= nums.size();
+        vii arr;
+        for (int i=0; i < n; ++i)
+            arr.push_back({nums[i],i});
+
+        sort(arr.begin(), arr.end());
+        int l= 0, r= n-1;
+        while (l < r) {
+            while (arr[l].first+arr[r].first > target) --r;
+            if (arr[l].first+arr[r].first == target) {
+                int lIdx= min(arr[l].second, arr[r].second);
+                int rIdx= max(arr[l].second, arr[r].second);
+                return {lIdx, rIdx};
+            }
+            ++l;
+        }
+        return {0,0};
+    }
+};
+
+```
+
+## Complexity
+
+- Time: $O(n)$
+- Space: $O(n)$

@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { Chip, GlowText, HudFrame } from '@/components/hud';
 import type { Project } from '@/types';
 
@@ -7,8 +8,13 @@ export type MissionCardProps = {
   viewLabel: string;
 };
 
+type ProjectCopy = { title: string; outcome: string; contributions: string[] };
+
 /** A single project as a HUD "mission briefing" — outcome-first, tech chips, period under the title. */
 export function MissionCard({ project, viewLabel }: MissionCardProps) {
+  const t = useTranslations('sections');
+  const copy = t.raw(`projects.items.${project.id}`) as ProjectCopy;
+
   return (
     <HudFrame
       as="article"
@@ -21,7 +27,7 @@ export function MissionCard({ project, viewLabel }: MissionCardProps) {
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <h3 className="font-display text-lg font-semibold uppercase tracking-wide text-text">
-            {project.title}
+            {copy.title}
           </h3>
           {project.period && (
             <p className="mt-1 font-mono text-xs text-text/50" data-testid="mission-period">
@@ -37,12 +43,12 @@ export function MissionCard({ project, viewLabel }: MissionCardProps) {
       </div>
 
       <p className="font-sans text-sm leading-relaxed text-text/80" data-testid="mission-outcome">
-        <GlowText color="cyan">▸</GlowText> {project.outcome}
+        <GlowText color="cyan">▸</GlowText> {copy.outcome}
       </p>
 
-      {project.contributions.length > 0 && (
+      {copy.contributions.length > 0 && (
         <ul className="flex flex-col gap-1.5 font-mono text-xs text-text/60">
-          {project.contributions.map((c, i) => (
+          {copy.contributions.map((c, i) => (
             <li key={i} className="flex gap-2">
               <span aria-hidden="true" className="text-hud-cyan/60">
                 {'//'}

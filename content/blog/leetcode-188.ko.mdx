@@ -1,0 +1,122 @@
+---
+title: '[Leetcode] 188. Best Time to Buy and Sell Stock IV 풀이'
+date: '2022-09-11'
+category: competitive-programming
+tags:
+  - Dynamic programming
+lastModified: '2022-09-10T16:24:08.000Z'
+teaser: Leetcode daily challenge 2022 september 11th solution
+ogImage: /blog/images/leetcode-teaser.png
+---
+
+## Problem
+
+[188. Best Time to Buy and Sell Stock IV](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/)
+
+## Approach
+
+이 문제는 전형적인 dynamic programming 문제입니다.
+
+본론에 들어가기 전에, 거래 횟수가 무제한이라고 가정해 봅시다(`k` $= \infty$. `k` $= \frac{k}{2}$면 충분히 큽니다).  
+그러면 어제보다 높은 가격을 발견할 때마다 거래를 수행할 수 있고, 그것이 우리의 최대 이익이 됩니다.  
+풀이의 `quickSolve` 메서드를 참고하시기 바랍니다.
+
+이제 본론으로 들어가 봅시다.
+
+구간 `[0, endIdx]`(양 끝 포함)에서 `k`번의 거래로 얻는 최대 이익을 찾는 재귀 헬퍼 함수 `findMaxProfit`을 정의합니다.
+
+```java
+private int findMaxProfit(final int[] prices, int endIdx, int k) {
+    if (endIdx == -1 || k == 0) return 0;
+
+    int maxProfit= 0;
+    for (int i=0; i < endIdx; ++i) {
+        if (prices[i] < prices[endIdx]) {
+            int spotProfit= prices[endIdx] - prices[i];
+            maxProfit= Math.max(maxProfit, findMaxProfit(prices, i-1, k-1) + spotProfit);
+        } else {
+            maxProfit= Math.max(maxProfit, findMaxProfit(prices, i, k));
+        }
+    }
+    return maxProfit;
+}
+```
+
+하지만 이것만으로는 충분하지 않습니다.  
+`maxProfit` 값을 반복해서 계산하게 되는데, 이는 dp에서 overlapping subproblems로 알려져 있습니다.
+
+아래는 `memoization`을 사용한 `findMaxProfit`의 최적화 버전입니다.
+
+```java
+private int findMaxProfit(final int[] prices, int endIdx, int k) {
+        if (endIdx == -1 || k == 0) return 0;
+
+        if (cache[endIdx][k] != -1) return cache[endIdx][k];
+        cache[endIdx][k]= 0;
+        for (int i=0; i < endIdx; ++i) {
+            if (prices[i] < prices[endIdx]) {
+                int spotProfit= prices[endIdx] - prices[i];
+                cache[endIdx][k]= Math.max(cache[endIdx][k], findMaxProfit(prices, i-1, k-1) + spotProfit);
+            } else {
+                cache[endIdx][k]= Math.max(cache[endIdx][k], findMaxProfit(prices, i, k));
+            }
+        }
+        return cache[endIdx][k];
+    }
+```
+
+이제 단순히 `findMaxProfit(prices, n-1, k)`를 반환하면 됩니다.
+
+## Code
+
+![](/blog/images/leetcode-188-result.png)
+
+```java
+/**
+ * author: jooncco
+ * written: 2022. 9. 11. Tue. 02:04:14 [UTC+9]
+ **/
+
+class Solution {
+    private int n;
+    private int[][] cache;
+
+    public int maxProfit(int k, int[] prices) {
+        n= prices.length;
+        if (k >= n/2) return quickSolve(prices, k);
+
+        cache= new int[n+1][k+1];
+        for (int[] row : cache) Arrays.fill(row, -1);
+        return findMaxProfit(prices, n-1, k);
+    }
+
+    private int findMaxProfit(final int[] prices, int endIdx, int k) {
+        if (endIdx == -1 || k == 0) return 0;
+
+        if (cache[endIdx][k] != -1) return cache[endIdx][k];
+        cache[endIdx][k]= 0;
+        for (int i=0; i < endIdx; ++i) {
+            if (prices[i] < prices[endIdx]) {
+                int spotProfit= prices[endIdx] - prices[i];
+                cache[endIdx][k]= Math.max(cache[endIdx][k], findMaxProfit(prices, i-1, k-1) + spotProfit);
+            } else {
+                cache[endIdx][k]= Math.max(cache[endIdx][k], findMaxProfit(prices, i, k));
+            }
+        }
+        return cache[endIdx][k];
+    }
+
+    private int quickSolve(final int[] prices, int k) {
+        int maxProfit= 0;
+        for (int i=1; i < n; ++i) {
+            if (prices[i] > prices[i-1]) maxProfit += prices[i] - prices[i-1];
+        }
+        return maxProfit;
+    }
+}
+```
+
+## Complexity
+
+- Time: $O(n^2)$
+- Space: $O(n{\cdot}k)$

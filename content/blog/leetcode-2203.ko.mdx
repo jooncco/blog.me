@@ -1,0 +1,122 @@
+---
+title: '[LEETCODE] 2203. Minimum Weighted Subgraph With the Required Paths 풀이'
+date: '2022-03-14'
+category: competitive-programming
+tags:
+  - Graph
+  - Dijkstra
+lastModified: '2022-03-20T10:10:00.000Z'
+teaser: Leetcode Weekly 284 - Q4
+ogImage: /blog/images/leetcode-teaser.png
+---
+
+## Problem
+
+[2203. Minimum Weighted Subgraph With the Required Paths](https://leetcode.com/problems/minimum-weighted-subgraph-with-the-required-paths/)
+
+## Approach
+
+대상 서브그래프의 **최단 경로**는 3가지 형태로 나뉩니다:
+
+1. `src1` -> `src2` -> `dest`  
+   ![figure-1](/blog/images/leetcode-2203-figure-1.png "figure-1")
+
+2. `src2` -> `src1` -> `dest`  
+   ![figure-2](/blog/images/leetcode-2203-figure-2.png "figure-2")
+
+3. `src1` -> `dest`, `src2` -> `dest` (간선을 공유하지 않음)  
+   ![figure-3](/blog/images/leetcode-2203-figure-3.png "figure-3")
+
+모든 경우에서 두 경로가 처음으로 합쳐지는 정점이 항상 존재합니다.  
+따라서 최단 경로를 찾는 과정을 다음과 같이 일반화할 수 있습니다:
+
+![figure-4](/blog/images/leetcode-2203-figure-4.png "figure-4")
+
+1. `src1`->`pivot`의 최단 경로를 찾습니다
+2. `src2`->`pivot`의 최단 경로를 찾습니다
+3. `pivot`->`dest`의 최단 경로를 찾습니다
+4. `1`, `2`, `3`을 더합니다.
+
+그런데 어떤 정점이 `pivot`인지 어떻게 알 수 있을까요?
+
+시작 노드를 `src1`, `src2`, `dest`(이 경우에는 역방향 그래프 사용)로 하여 dijkstra를 3번 실행합니다.
+그런 다음 현재 정점이 pivot이라고 가정하며 모든 정점을 단순히 선형 탐색합니다.
+
+미리 계산된 최단 거리 덕분에 각 계산은 $O(1)$에 이루어집니다.
+
+> **Note**  
+> 정수 오버플로를 방지하기 위해 `long long` 타입을 사용합니다.
+
+## Code
+
+![](/blog/images/leetcode-2203-result.png)
+
+```cpp
+#define f first
+#define s second
+typedef long long ll;
+typedef unsigned long long ull;
+typedef pair<int,int> pii;
+typedef pair<ll,ll> pll;
+typedef vector<int> vi;
+typedef vector<ll> vl;
+typedef deque<int> di;
+typedef deque<ll> dl;
+typedef priority_queue<int, vi, less<int> > maxHeap;
+typedef priority_queue<int, vi, greater<int> > minHeap;
+
+class Solution {
+private:
+    int N;
+    ll INF= 1e12;
+    vector<pii> adj[100010], adjInv[100010];
+
+    vl dijkstra(int src, bool isInv) {
+        vl dist(N,INF);
+        dist[src]= 0;
+        priority_queue<pll, vector<pll>, greater<pll>> pq;
+        pq.push({ 0, src });
+        while (!pq.empty()) {
+            ll from= pq.top().s, curDist= pq.top().f;
+            pq.pop();
+            if (curDist > dist[from]) continue;
+
+            for (pii &edge : (isInv ? adjInv[from] : adj[from])) {
+                ll to= edge.f, cost= dist[from]+edge.s;
+                if (cost < dist[to]) {
+                    dist[to]= cost;
+                    pq.push({ cost, to });
+                }
+            }
+        }
+        return dist;
+    }
+
+public:
+    ll minimumWeight(int n, vector<vi> &edges, int src1, int src2, int dest) {
+        N= n;
+        for (int i=0; i < n; ++i) {
+            adj[i].clear();
+            adjInv[i].clear();
+        }
+        for (auto &edge : edges) {
+            adj[edge[0]].push_back({ edge[1], edge[2] });
+            adjInv[edge[1]].push_back({ edge[0], edge[2] });
+        }
+
+        vl d1= dijkstra(src1, false);
+        vl d2= dijkstra(src2, false);
+        vl d3= dijkstra(dest, true);
+        ll ret= +INF;
+        for (int i=0; i < n; ++i) {
+            ret= min(ret, d1[i]+d2[i]+d3[i]);
+        }
+        return ret == INF ? -1 : ret;
+    }
+};
+```
+
+## Complexity
+
+- Time: $O(n + \vert{E}\vert\log{n})$
+- Space: $O(n)$

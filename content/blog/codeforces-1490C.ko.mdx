@@ -1,0 +1,95 @@
+---
+title: '[Codeforces] 1490C. Sum of Cubes 풀이'
+date: '2022-09-06'
+category: competitive-programming
+tags:
+  - Math
+  - Brute force
+lastModified: '2022-09-04T15:11:14.000Z'
+teaser: 'Codeforces Round #702(Div.3) - problem C solution'
+ogImage: /blog/images/codeforces-teaser.png
+---
+
+## Problem
+
+[1490C. Sum of Cubes](http://codeforces.com/contest/1490/problem/C)
+
+## Approach
+
+$a^3$을 이항합니다.  
+그러면 $b = \sqrt[3]{x-a^3}$인 값 `b`를 찾는 문제가 됩니다.  
+그리고 이는 `brute force`로 풀 수 있습니다.  
+b가 정수인지 아닌지를 판별하는 방법을 찾는 데 시간이 조금 걸렸습니다.
+
+## Code
+
+![](/blog/images/codeforces-1490C-result.png)
+
+```java
+/**
+ * author: jooncco
+ * written: 2022. 9. 6. Tue. 00:05:14 [UTC+9]
+ **/
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.StringTokenizer;
+
+public class Main {
+    private final static FastScanner sc= new FastScanner();
+    private static final Long mx= 1000000000000L;
+
+    public static void main(String[] args) {
+        Set<Long> cubes= new HashSet<>();
+        preCalc(cubes);
+
+        long t,x; t= sc.nextLong();
+        while (t-- > 0) {
+            x= sc.nextLong();
+            boolean yes= false;
+            for (long a= 1; a*a*a <= x; ++a) {
+                if (cubes.contains(x - a*a*a)) {
+                    yes= true;
+                    break;
+                }
+            }
+            System.out.println(yes ? "YES":"NO");
+        }
+    }
+
+    private static void preCalc(Set<Long> cubes) {
+        for (long i=1; i*i*i <= mx; ++i) {
+            cubes.add(i*i*i);
+        }
+    }
+
+}
+
+class FastScanner {
+    BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st=new StringTokenizer("");
+    String next() {
+        while (!st.hasMoreTokens()) {
+            try {
+                st=new StringTokenizer(br.readLine());
+            } catch (IOException e) {}
+        }
+        return st.nextToken();
+    }
+
+    int nextInt() {
+        return Integer.parseInt(next());
+    }
+    long nextLong() {
+        return Long.parseLong(next());
+    }
+}
+```
+
+## Complexity
+
+- Time: $O(\sqrt[3]x)$
+- Space: $O(1)$

@@ -1,0 +1,240 @@
+---
+title: '[Git] Command Cheat Sheet (cumulative)'
+date: '2022-01-17'
+category: web
+tags:
+  - DevOps
+lastModified: '2024-03-10T10:51:00.000Z'
+ogImage: /blog/images/git-teaser.png
+---
+
+> Colleagues who are good with Git are the best.
+
+## Terminology used here
+
+- Main repository: the original repo on the GitHub origin. For open source, modifications happen from countless contributors, and this is called **upstream**
+- My repository: the repo in my GitHub environment. A repo I forked from open source or created myself. This is called **origin**
+- Local repository: the repo on my local machine
+- staged state: a state added to the git index (git add)
+
+## git init
+
+```bash
+$ mkdir ${my-repo-name}
+$ cd ${my-repo-name}
+$ git init
+```
+
+Initializes the current directory as a git repository.
+
+## git remote add
+
+```bash
+$ git remote add origin ${로컬-저장소와-연결할-github-repo-주소.git}
+```
+
+Connects the local repository to a remote repository.
+
+```bash
+$ git remote add upstream ${로컬-저장소와-연결할-메인-저장소의-주소.git}
+```
+
+If origin is a forked repo, there is usually a main repository. Add the main repository as upstream.
+
+## git fetch
+
+```bash
+$ git fetch upstream
+```
+
+The upstream is constantly modified by countless contributors.  
+Run this when you want to sync newly created branches and new commits on the main branch to your local machine.
+
+## git merge
+
+```bash
+$ git merge upstream/master
+```
+
+Merges upstream's source code changes into your local current branch.
+
+## git clone
+
+```bash
+$ git clone ${origin-repo-url.git}
+```
+
+Downloads a copy of a repo that exists on GitHub into the current directory.  
+If the url starts with `https://`, it connects to origin via the https protocol; if it starts with `git@`, via the ssh protocol.
+
+## git pull
+
+```bash
+$ git pull
+```
+
+Syncs `origin`'s changes into your `local repository`. (by default)
+
+```bash
+$ git pull ${name-of-source-branch}
+```
+
+Applies the source branch's changes to the current branch.
+
+## git branch
+
+```bash
+$ git branch [-r]
+```
+
+Shows the list of local branches. If you pass `-r` as an argument, it shows origin's branch list.
+
+```bash
+$ git branch --list
+```
+
+Shows the list of local branches.
+
+```bash
+$ git branch ${name-of-new-branch}
+```
+
+Creates a new branch while keeping (carrying over) your local changes and git index.
+
+```bash
+$ git branch -d ${name-of-target-branch}
+```
+
+Deletes a local branch.
+
+## git checkout
+
+```bash
+$ git checkout ${name-of-target-branch}
+```
+
+Switches to the target branch.
+
+```bash
+$ git checkout -b ${name-of-target-branch}
+```
+
+Creates a branch and switches to it.
+
+```bash
+$ git checkout .
+```
+
+Discards all local changes that haven't been added to the index.
+
+## git status
+
+```bash
+$ git status
+```
+
+Summarizes the current version's state on a per-file basis.
+
+- Local changes that you merely saved
+- Newly created files
+- Deleted files
+- Changes added to the index (`git add`)
+- Committed changes (`git commit`)
+- ...
+
+## git log
+
+```bash
+$ git log --oneline
+```
+
+Shows the commit history line by line along with commit hashes.
+
+## git add
+
+```bash
+$ git add ${file-path}
+```
+
+Adds a file to the git index.
+
+```bash
+$ git add .
+```
+
+Adds all changes in the current directory (and below) to the git index.
+
+```bash
+$ git add -p
+```
+
+Lets you review all changes in the current directory (and below) chunk by chunk on the command line, deciding whether to apply each. `-p` stands for patch.
+
+## git push
+
+```bash
+$ git push
+```
+
+Applies your local commits to the `origin` branch connected to this branch.
+
+```bash
+$ git push --set-upstream origin ${name-of-new-origin-branch}
+```
+
+Creates this local branch on `origin` if it doesn't exist there, and connects to that branch.
+
+```bash
+$ git push --delete origin ${name-of-target-origin-branch}
+```
+
+Deletes a remote branch.
+
+## git commit
+
+```bash
+$ git commit -m "${commit-message}"
+```
+
+Commits the contents added to the git index and records the commit message.
+
+```bash
+$ git commit --amend
+```
+
+Overwrites the most recent commit. The changes currently added to the git index are added to the most recent commit, and a text editor opens so you can change the commit message.
+
+## git stash
+
+```bash
+$ git stash
+```
+
+Temporarily stores uncommitted contents (local changes and contents added to the index) on the `stash stack`.  
+Changes `push`ed onto the stack can also be `pop`ped on another branch, and conflicts may occur with the target branch's changes.
+
+```bash
+$ git stash pop
+```
+
+Applies the most recently `stash`ed changes to this branch.
+
+```bash
+$ git stash clear
+```
+
+Empties the `stash stack`.
+
+## git restore
+
+```bash
+$ git restore ${file-name}
+```
+
+Reverts local changes not added to the git index back to the most recent commit's version.
+
+```bash
+$ git restore --staged ${file-name}
+```
+
+Changes local changes added to the git index back to the `unstaged` state.

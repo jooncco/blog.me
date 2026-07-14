@@ -1,0 +1,69 @@
+---
+title: '[LEETCODE] 42. Trapping Rain Water 풀이'
+date: '2022-09-18'
+category: competitive-programming
+tags:
+  - Stack
+lastModified: '2022-09-18T13:33:08.000Z'
+teaser: Leetcode daily challenge 2022 september 18th solution
+ogImage: /blog/images/leetcode-teaser.png
+---
+
+## Problem
+
+[42. Trapping Rain Water](https://leetcode.com/problems/bag-of-tokens/)
+
+## Approach
+
+각 인덱스의 물 높이를 찾습니다.  
+정답은 다음과 같습니다
+
+$$ \sum\_{k=0}^{n-1} max ( 0 , waterLevel[k] - height[k] ) $$
+
+물 높이는 어떻게 찾을 수 있을까요?
+
+`stack`에 `(height,index)`를 저장합니다.  
+i = [0, … n-1]에 대해 다음을 수행합니다:
+
+1. `stack`이 비어 있지 않고 `stack.top.height` $\le$ `height[i]`인 동안, `(stack.top.index,i)` 범위의 물 높이를 `stack.top.height`로 갱신하고 stack.pop()을 합니다.
+2. `stack`이 비어 있지 않고 `stack.top.height` $\gt$ `height[i]`이면, `(stack.top.index,i)` 범위의 물 높이를 `height[i]`로 갱신합니다. **stack.pop()을 하지 않습니다**.
+
+위 과정을 마친 후, 물의 부피를 합산합니다.
+
+## Code
+
+![](/blog/images/leetcode-42-result.png)
+
+```java
+class Solution {
+    public int trap(int[] height) {
+        int n = height.length;
+        Stack<Integer[]> walls = new Stack<>();
+        int[] waterLevels = new int[n];
+        // find water levels.
+        for (int i = 0; i < n; ++i) {
+            if (height[i] > 0) {
+                while (!walls.isEmpty() && walls.peek()[0] <= height[i]) {
+                    Integer[] wall= walls.pop();
+                    for (int j=i-1; j > wall[1]; --j) waterLevels[j]= wall[0];
+                }
+                if (!walls.isEmpty() && walls.peek()[0] > height[i]) {
+                    Integer[] wall= walls.peek();
+                    for (int j=i-1; j > wall[1]; --j) waterLevels[j]= height[i];
+                }
+                walls.push(new Integer[]{height[i], i});
+            }
+        }
+
+        // sum up water volumes.
+        int ans= 0;
+        for (int i = 0; i < n; ++i) ans += Math.max(0, waterLevels[i] - height[i]);
+        return ans;
+    }
+}
+```
+
+## Complexity
+
+- Time: $O(n)$
+- Space: $O(n)$

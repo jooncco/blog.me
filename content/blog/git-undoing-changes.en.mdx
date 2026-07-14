@@ -1,0 +1,131 @@
+---
+title: '[Git] Undoing Changes'
+date: '2022-01-25'
+category: web
+tags:
+  - DevOps
+lastModified: '2024-03-10T10:39:00.000Z'
+ogImage: /blog/images/git-teaser.png
+---
+
+## Reverting local changes
+
+```zsh
+git checkout .
+```
+
+or
+
+```zsh
+git restore .
+```
+
+Reverts all unstaged modifications under the current directory.  
+Untracked files are unaffected: files excluded by `.gitignore`, or newly created files.
+
+## Undoing git add
+
+```zsh
+git reset HEAD {file-name}
+```
+
+or
+
+```zsh
+git reset {file-name}
+```
+
+or
+
+```zsh
+git restore --staged {file-name}
+```
+
+Changes the files passed as arguments back to the **unstaged** state.
+
+## Amending the most recent commit
+
+```zsh
+git commit --amend
+```
+
+This is a command I personally use quite often.  
+It lets you add newly staged (git add) changes to the most recent commit, or edit the commit message.  
+If it needs to be reflected on a shared branch of **origin**, the force option (`git push -f`) is mandatory, and I'd recommend doing it only on feature branches you're working on alone, not on branches shared with colleagues.
+
+## Undoing git commit
+
+### Method 1: `--soft`
+
+```zsh
+git reset --soft HEAD^ // 최근 커밋 1개 취소
+```
+
+Undoes the most recent commit and leaves the committed changes in the **staged state**.
+
+### Method 2: `--mixed`
+
+```zsh
+git reset HEAD^ // 최근 커밋 1개 취소
+```
+
+```zsh
+git reset HEAD~2  // 최근 커밋 2개 취소
+```
+
+```zsh
+git reset --mixed HEAD^
+```
+
+Undoes the most recent commit and leaves the committed changes in the **unstaged state**.  
+They get mixed with your local changes.
+
+### Method 3: `--hard`
+
+```zsh
+git reset --hard HEAD^
+```
+
+Undoes the most recent commit and discards the committed changes entirely.
+
+## Undoing a commit on a remote branch
+
+When you've committed to origin via `git push` but want to undo that commit.
+
+```zsh
+git log --oneline
+872fa7e Try something crazy <- 되돌리고 싶은 커밋
+a1e8fb5 Make some important changes to hello.txt
+435b61d Create hello.txt
+9773e52 Initial import
+```
+
+Given a remote branch history like the above, suppose you want to revert commit `872fa7e`.
+
+```zsh
+git revert HEAD
+```
+
+```zsh
+git push
+```
+
+Adds a **new commit** to origin that reverts the most recent commit.
+
+```zsh
+git log --oneline
+e2f9a78 Revert "Try something crazy"
+872fa7e Try something crazy
+a1e8fb5 Make some important changes to hello.txt
+435b61d Create hello.txt
+9773e52 Initial import
+```
+
+After `git push`, origin ends up with a new commit as shown above.
+
+> **Why you shouldn't use git reset**
+
+The git reset command erases a commit from git history **as if it never happened**.  
+If you erase a commit on a shared collaboration branch of the remote this way, it can be a huge nuisance for colleagues who were working based on that commit.
+
+Therefore, use `git reset` only when all colleagues are aware of it; by default, `git revert` is recommended.

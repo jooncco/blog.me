@@ -1,0 +1,124 @@
+---
+title: '[LeetCode] 714. Best Time to Buy and Sell Stock with Transaction Fee 풀이'
+date: '2022-03-06'
+category: competitive-programming
+tags:
+  - Dynamic programming
+  - Math
+  - Greedy
+lastModified: '2022-03-06T08:42:00.000Z'
+teaser: Dynamic Programming I - Day 8
+ogImage: /blog/images/leetcode-teaser.png
+---
+
+## Problem
+
+[714. Best Time to Buy and Sell Stock with Transaction Fee](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/)
+
+## Approach
+
+### Solution 1: DP
+
+두 가지 상태가 존재하며, 이는 다음과 같이 표현할 수 있습니다.  
+![](/blog/images/leetcode-714-figure-1.png)
+
+따라서 상태 전이를 표현하여 이 문제에 **dynamic programming** 접근법을 사용할 수 있습니다.
+
+- `holding[i]` = max( `holding[i-1]` , `notHolding[i-1]` - prices[i])
+- `notHolding[i]` = max( `notHolding[i-1]` , `holding[i-1]` + prices[i] - fee )
+
+**base case**를 초기화하는 것은 어렵지 않습니다.
+
+- `holding[0]` = -prices[0]
+- `notHolding[0]` = 0
+
+최종 정답은 $\max(holding[n-1], notHolding[n-1])$ 입니다.
+
+> **Note**  
+> 공간 복잡도를 $O(1)$로 최적화할 수 있습니다. 아래 구현이 이를 수행합니다.
+
+### Solution 2: DP & Greedy
+
+예제 테스트 케이스가 많은 것을 알려줍니다.  
+![](/blog/images/leetcode-714-figure-2.png)
+
+왼쪽에서 오른쪽으로, 다음 정의에 따라 값들을 갱신합니다.
+
+- `i`: 현재 인덱스
+- `curMin`: 지금까지의 최소 가격
+- `curMaxProfit`: 지금까지의 최대 **이익**
+
+`i=4`라고 하면, `curMin`은 1이 되고 `curMaxProfit` = 8 - 1 - 2(fee) = 5가 됩니다.  
+여기서 우리는 **`price[4]`를 살지 말지** 결정해야 하며, 다음 조건일 때 사는 것이 항상 **최적**입니다.  
+$curMaxProfit + P - prices[i] - fee \gt P - curMin - fee$  
+$curMaxProfit + \bcancel{P} - prices[i] - \cancel{fee} \gt \bcancel{P} - curMin - \cancel{fee}$  
+$curMaxProfit \gt prices[i] - curMin$  
+여기서 `P`는 미래의 어떤 아주 큰 가격을 나타냅니다.
+
+따라서 위 조건을 확인하여 **greedy 방식**으로 살 가격들을 고를 수 있습니다.  
+왼쪽에서 오른쪽으로,
+
+- 만약 $curMaxProfit \gt prices[i] - curMin$ 이면, ans += `curMaxProfit`. 이제 prices[i]가 새로운 `curMin`이 됩니다.
+- 그렇지 않고 prices[i] &lt; `curMin` 이면, `curMin` 값을 갱신합니다.
+- 그 외에는 `curMaxProfit` 값을 갱신합니다
+
+## Code
+
+### Solution 1: DP
+
+![](/blog/images/leetcode-714-result-1.png)
+
+```cpp
+typedef vector<int> vi;
+
+class Solution {
+public:
+    int maxProfit(vi &prices, int fee) {
+        int n= prices.size(), holding= -prices[0], notHolding= 0;
+        for (int i=1; i < n; ++i) {
+            int prevHolding= holding;
+            holding= max(prevHolding, notHolding-prices[i]);
+            notHolding= max(notHolding, prevHolding+prices[i]-fee);
+        }
+        return max(holding, notHolding);
+    }
+};
+```
+
+### Solution 2: DP & Greedy
+
+![](/blog/images/leetcode-714-result-2.png)
+
+```cpp
+typedef vector<int> vi;
+
+class Solution {
+public:
+    int maxProfit(vi &prices, int fee) {
+        int n= prices.size(), curMin= prices[0], curMaxProfit= 0, ans= 0;
+        for (int i=1; i < n; ++i) {
+            if (curMin + curMaxProfit > prices[i]) {
+                ans += curMaxProfit;
+                curMin= prices[i];
+                curMaxProfit= 0;
+            }
+            else if (prices[i] < curMin) curMin= prices[i];
+            else curMaxProfit= max(curMaxProfit, prices[i]-curMin-fee);
+        }
+        ans += curMaxProfit;
+        return ans;
+    }
+};
+```
+
+## Complexity
+
+### Solution 1
+
+- Time: $O(N)$
+- Space: $O(N)$
+
+### Solution 2
+
+- Time: $O(N)$
+- Space: $O(1)$
