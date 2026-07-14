@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { getAllCategories, getPostsByCategory } from '@/lib/blog';
 import { BlogIndex } from '@/components/blog';
+import { buildMetadata } from '@/lib/seo';
 import type { Locale } from '@/types';
 
 type Props = { params: Promise<{ locale: string; category: string }> };
@@ -14,7 +15,13 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, category } = await params;
   const t = await getTranslations({ locale, namespace: 'blog' });
-  return { title: `${decodeURIComponent(category)} · ${t('title')}` };
+  const cat = decodeURIComponent(category);
+  return buildMetadata({
+    title: `${cat} · ${t('title')}`,
+    description: t('subtitle'),
+    path: `/blog/category/${encodeURIComponent(cat)}`,
+    locale: locale as Locale,
+  });
 }
 
 export default async function CategoryPage({ params }: Props) {

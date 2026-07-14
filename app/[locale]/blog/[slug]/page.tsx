@@ -4,6 +4,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { getAllPostsMeta, getPost } from '@/lib/blog';
 import { LangDisclaimerBanner, PostView } from '@/components/blog';
+import { buildMetadata, articleJsonLd, JsonLdScript } from '@/lib/seo';
 import type { Locale } from '@/types';
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
@@ -19,19 +20,21 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
-  const post = await getPost(slug, locale as Locale);
+  const l = locale as Locale;
+  const post = await getPost(slug, l);
   if (!post) return {};
-  const { title, teaser, ogImage } = post.meta;
-  return {
+  const { title, teaser, ogImage, date, lastModified, tags } = post.meta;
+  return buildMetadata({
     title,
-    description: teaser,
-    openGraph: {
-      title,
-      description: teaser,
-      type: 'article',
-      images: ogImage ? [ogImage] : undefined,
-    },
-  };
+    description: teaser ?? title,
+    path: `/blog/${slug}`,
+    locale: l,
+    ogImage,
+    type: 'article',
+    publishedTime: date,
+    modifiedTime: lastModified ?? date,
+    tags,
+  });
 }
 
 export default async function PostPage({ params }: Props) {
@@ -57,6 +60,7 @@ export default async function PostPage({ params }: Props) {
 
       {isFallback ? <LangDisclaimerBanner available={post.meta.availableLocales} /> : null}
 
+      <JsonLdScript data={articleJsonLd(post)} />
       <PostView post={post} />
     </div>
   );

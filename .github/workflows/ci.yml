@@ -1,0 +1,50 @@
+name: CI
+
+# Build + quality gate for the blog.me redesign (NFR-7 / NFR-8).
+# Pinned action versions and a fixed Node major keep the pipeline reproducible
+# (SECURITY-10: CI/CD integrity — no floating `latest` tooling).
+
+on:
+  push:
+    branches: [main, 'redesign/**', dev]
+  pull_request:
+    branches: [main, 'redesign/**', dev]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      # Reproducible install from the committed lockfile (SECURITY-10).
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      # Dependency vulnerability scan (SR-5 / SECURITY-10). Runs at the end and
+      # reports high+ severity advisories. Non-blocking: known advisories only
+      # fixable via breaking major upgrades are triaged in the README, so a
+      # non-zero exit here should not fail the whole pipeline.
+      - name: Dependency audit
+        run: npm audit --audit-level=high || true
