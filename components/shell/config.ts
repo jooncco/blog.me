@@ -26,6 +26,9 @@ export type NavItem = {
   kind: NavKind;
 };
 
+/** A nav item with its localized label resolved (on the server) — passed to the menus. */
+export type NavItemView = NavItem & { label: string };
+
 /**
  * Primary navigation. Home sections are hash anchors on `/`; Contact/Blog/Now
  * are dedicated routes. `/blog`, `/now` (and the Experience section) are built

@@ -1,7 +1,6 @@
 'use client';
 
 import { useTransition } from 'react';
-import { useLocale, useTranslations } from 'next-intl';
 import { clsx } from 'clsx';
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
@@ -9,15 +8,21 @@ import type { Locale } from '@/types';
 import { GlobeIcon } from '@/components/Icons';
 import { buildLocaleOptions } from './localeOptions';
 
+export type LocaleSwitcherProps = {
+  /** The currently active locale (from the server) — avoids a message hook here. */
+  current: Locale;
+  /** Localized group label + per-locale button labels (passed from the server). */
+  switchLabel: string;
+  labels: Record<Locale, string>;
+};
+
 /**
  * EN/KO switch (client). Re-navigates to the current pathname under the chosen
- * locale, preserving the path (and hash, for section anchors). `usePathname`
- * from `@/i18n/navigation` returns the locale-less pathname, so the router can
- * re-apply the target locale prefix.
+ * locale, preserving the path (and hash, for section anchors). Labels are passed
+ * in as props (not resolved via `useTranslations`) so this client component does
+ * not trip next-intl's ENVIRONMENT_FALLBACK during static boundary evaluation.
  */
-export function LocaleSwitcher() {
-  const t = useTranslations('locale');
-  const current = useLocale();
+export function LocaleSwitcher({ current, switchLabel, labels }: LocaleSwitcherProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -35,7 +40,7 @@ export function LocaleSwitcher() {
   return (
     <div
       role="group"
-      aria-label={t('switch')}
+      aria-label={switchLabel}
       data-testid="locale-switcher"
       className="flex items-center rounded-sm border border-hud-cyan/30">
       <GlobeIcon className="ml-1.5 mr-0.5 h-4 w-4 text-text/50" aria-hidden="true" />
@@ -51,7 +56,7 @@ export function LocaleSwitcher() {
             'px-2 py-1 font-mono text-xs uppercase tracking-wider transition-colors',
             active ? 'text-hud-cyan' : 'text-text/50 hover:text-hud-cyan',
           )}>
-          {t(locale)}
+          {labels[locale]}
         </button>
       ))}
     </div>

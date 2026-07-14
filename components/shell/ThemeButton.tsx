@@ -2,13 +2,16 @@
 
 import { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
-import { useTranslations } from 'next-intl';
 import { MoonIcon, SunIcon } from '@/components/Icons';
+
+export type ThemeButtonProps = {
+  /** Localized labels passed from the server (no message hook in this client component). */
+  labels: { toggle: string; light: string; dark: string };
+};
 
 /** Light/dark toggle (client; next-themes). Hydration-safe: renders a
  * placeholder until mounted so server/client markup match. */
-export function ThemeButton() {
-  const t = useTranslations('theme');
+export function ThemeButton({ labels }: ThemeButtonProps) {
   const { theme, systemTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -16,8 +19,7 @@ export function ThemeButton() {
     setMounted(true);
   }, []);
 
-  const isDark =
-    (theme === 'system' ? systemTheme : theme) === 'dark';
+  const isDark = (theme === 'system' ? systemTheme : theme) === 'dark';
 
   if (!mounted) {
     // Reserve layout space; avoids a hydration mismatch on theme-dependent icon.
@@ -28,8 +30,8 @@ export function ThemeButton() {
     <button
       type="button"
       data-testid="theme-toggle"
-      aria-label={t('toggle')}
-      title={isDark ? t('light') : t('dark')}
+      aria-label={labels.toggle}
+      title={isDark ? labels.light : labels.dark}
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
       className="rounded-sm p-2 text-text transition-colors hover:text-hud-cyan hover:bg-hud-cyan/10">
       {isDark ? <MoonIcon className="h-5 w-5" /> : <SunIcon className="h-5 w-5" />}

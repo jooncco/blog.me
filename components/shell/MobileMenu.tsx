@@ -1,20 +1,21 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { useTranslations } from 'next-intl';
 import { clsx } from 'clsx';
 import { Link } from '@/i18n/navigation';
 import { EllipsisHorizontalIcon, XMarkIcon } from '@/components/Icons';
-import type { NavItem } from './config';
+import type { NavItemView } from './config';
 
 export type MobileMenuProps = {
-  items: readonly NavItem[];
+  /** Nav items with their localized labels resolved on the server. */
+  items: readonly NavItemView[];
+  openLabel: string;
+  closeLabel: string;
   className?: string;
 };
 
 /** Mobile dropdown navigation with click-away dismissal (client). */
-export function MobileMenu({ items, className }: MobileMenuProps) {
-  const t = useTranslations('nav');
+export function MobileMenu({ items, openLabel, closeLabel, className }: MobileMenuProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
 
@@ -35,7 +36,7 @@ export function MobileMenu({ items, className }: MobileMenuProps) {
         type="button"
         data-testid="mobile-menu-toggle"
         aria-expanded={open}
-        aria-label={open ? t('closeMenu') : t('openMenu')}
+        aria-label={open ? closeLabel : openLabel}
         onClick={() => setOpen((v) => !v)}
         className="rounded-sm p-2 text-text transition-colors hover:text-hud-cyan hover:bg-hud-cyan/10">
         {open ? <XMarkIcon /> : <EllipsisHorizontalIcon />}
@@ -57,7 +58,7 @@ export function MobileMenu({ items, className }: MobileMenuProps) {
                   data-testid={`mobile-nav-link-${item.id}`}
                   onClick={() => setOpen(false)}
                   className="block px-4 py-2 font-display text-sm uppercase tracking-wider text-text/80 transition-colors hover:text-hud-cyan hover:bg-hud-cyan/10">
-                  {t(item.id)}
+                  {item.label}
                 </Link>
               </li>
             ))}

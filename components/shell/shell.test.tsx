@@ -16,11 +16,13 @@ function renderWithIntl(ui: React.ReactNode) {
 
 describe('shell smoke', () => {
   it('renders every nav link with its localized label', () => {
-    renderWithIntl(<DesktopMenu items={NAV_ITEMS} />);
-    for (const item of NAV_ITEMS) {
+    const navLabels = en.nav as Record<string, string>;
+    const items = NAV_ITEMS.map((i) => ({ ...i, label: navLabels[i.id] ?? i.id }));
+    renderWithIntl(<DesktopMenu items={items} />);
+    for (const item of items) {
       const link = screen.getByTestId(`nav-link-${item.id}`);
       expect(link).toBeInTheDocument();
-      expect(link.textContent?.trim().length).toBeGreaterThan(0);
+      expect(link.textContent?.trim()).toBe(item.label);
     }
   });
 
