@@ -46,7 +46,7 @@ export function PortfolioTile({ item, githubLabel, demoLabel }: PortfolioTilePro
         <h3 className="font-display text-base font-semibold uppercase tracking-wide text-white">
           {item.title}
         </h3>
-        <p className="line-clamp-2 font-sans text-xs text-white/70 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+        <p className="line-clamp-2 font-sans text-xs text-white/75">
           {item.desc}
         </p>
         <div className="flex items-center gap-2 pt-1">

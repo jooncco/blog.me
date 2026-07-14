@@ -76,7 +76,10 @@ export function About({ data }: AboutProps) {
   const t = useTranslations('sections');
   const reduced = usePrefersReducedMotion();
 
-  const roles = t.raw('about.roles') as string[];
+  const rawRoles = t.raw('about.roles') as string[];
+  const roleSuffix = t('about.roleSuffix');
+  // Fold the suffix (e.g. Korean "입니다.") into each role so it is typed too.
+  const roles = useMemo(() => rawRoles.map((r) => r + roleSuffix), [rawRoles, roleSuffix]);
   const typed = useTypewriter(roles, !reduced);
   const display = reduced ? roles[0] : typed;
 
@@ -97,9 +100,8 @@ export function About({ data }: AboutProps) {
           <p
             className="mt-4 font-mono text-lg text-text/80 sm:text-xl"
             data-testid="about-typewriter">
-            <span className="text-text/80">{t('about.rolePrefix')} </span>
+            <span className="text-text">{t('about.rolePrefix')} </span>
             <GlowText color="gold">{display}</GlowText>
-            {t('about.roleSuffix') ? <span className="text-text">{t('about.roleSuffix')}</span> : null}
             <span aria-hidden="true" className="ml-1 animate-hud-pulse font-bold text-hud-red">
               |
             </span>
