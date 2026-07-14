@@ -20,6 +20,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
+  setRequestLocale(locale);
   const l = locale as Locale;
   const post = await getPost(slug, l);
   if (!post) return {};

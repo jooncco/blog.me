@@ -36,6 +36,7 @@ async function homeSeo(locale: Locale) {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
+  setRequestLocale(locale);
   const l = locale as Locale;
   const { title, description } = await homeSeo(l);
   const meta = buildMetadata({ title, description, path: '/', locale: l });

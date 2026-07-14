@@ -13,3 +13,11 @@ export const routing = defineRouting({
   defaultLocale: DEFAULT_LOCALE,
   localePrefix: 'as-needed',
 });
+
+/**
+ * Explicit IANA time zone shared by the server request config and the client
+ * provider. next-intl keys its static-rendering environment check on the time
+ * zone, so it must be set in both places — otherwise client components using
+ * `useTranslations` log `ENVIRONMENT_FALLBACK` during static prerendering.
+ */
+export const TIME_ZONE = 'Asia/Seoul';

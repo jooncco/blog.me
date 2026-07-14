@@ -1,5 +1,5 @@
 import { getRequestConfig } from 'next-intl/server';
-import { routing } from './routing';
+import { routing, TIME_ZONE } from './routing';
 
 /**
  * Per-request next-intl config (Unit U3). Resolves the active locale from the
@@ -25,6 +25,9 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
   return {
     locale,
+    // Explicit time zone so static rendering is deterministic — without it
+    // next-intl logs ENVIRONMENT_FALLBACK and would use the build machine's zone.
+    timeZone: TIME_ZONE,
     messages: { ...base.default, ...sections.default, ...blog.default },
   };
 });

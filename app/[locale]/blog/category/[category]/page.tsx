@@ -14,6 +14,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, category } = await params;
+  setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: 'blog' });
   const cat = decodeURIComponent(category);
   return buildMetadata({

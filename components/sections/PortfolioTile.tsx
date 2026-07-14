@@ -42,11 +42,11 @@ export function PortfolioTile({ item, githubLabel, demoLabel }: PortfolioTilePro
 
       <div
         data-testid={`portfolio-tile-${item.id}`}
-        className="relative z-10 flex h-full flex-col justify-end gap-2 bg-gradient-to-t from-black/90 via-black/45 to-black/10 p-4">
+        className="relative z-10 flex h-full flex-col justify-end gap-2 bg-gradient-to-t from-black/95 via-black/70 to-black/25 p-4 [text-shadow:0_1px_3px_rgba(0,0,0,0.9)]">
         <h3 className="font-display text-base font-semibold uppercase tracking-wide text-white">
           {item.title}
         </h3>
-        <p className="line-clamp-2 font-sans text-xs text-white/75">
+        <p className="line-clamp-2 font-sans text-xs text-white/85">
           {item.desc}
         </p>
         <div className="flex items-center gap-2 pt-1">
