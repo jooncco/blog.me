@@ -137,8 +137,8 @@
           ]
         },
         "algo-trading-research": {
-          "title": "체계적 크립토 트레이딩 리서치",
-          "outcome": "LSTM/회귀 가격 모델부터 백테스팅 기반 시그널 리서치까지, 체계적 크립토 전략 탐구 중",
+          "title": "비트코인 가격예측 연구",
+          "outcome": "LSTM/회귀모델 및 레저 데이터 기반의 bitcoin 시계열 데이터 가격 예측 연구",
           "contributions": [
             "가격 예측용 시장 지표 + Google 트렌드 피처 파이프라인 구축",
             "회귀 및 LSTM RNN 예측 모델 프로토타이핑",

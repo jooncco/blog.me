@@ -5,15 +5,15 @@
     <img src="public/preview_light.png" alt="preview_light" width="50%" />
 </figure>
 
-A distinctive **Iron Man / high-tech HUD** developer portfolio **and bilingual (EN/KO) MDX blog**, built with **Next.js 15 (App Router) + TypeScript**, Tailwind CSS, Material Tailwind, and three.js. Live demo: [jooncco.me](https://jooncco.me).
+A distinctive **Iron Man / high-tech HUD** developer portfolio **and bilingual (EN/KO) MDX blog**, built with **Next.js 15 (App Router) + TypeScript**, Tailwind CSS, and Material Tailwind. Live demo: [jooncco.me](https://jooncco.me).
 
 This is a [GitHub template repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template) — all personal content lives in `data/*`, `messages/*`, and `content/blog/**`, so you can rebrand it **without editing components**. If it helps you, a star ⭐ is appreciated.
 
 ## Features
 
 - **HUD design system** — cyan/red/gold palette, glow/scanline effects, light + dark themes with a persisted toggle.
-- **Home sections** — About, Projects (expertise-grouped), Skills, Portfolio, Competitive Programming, Experience timeline, and blog highlights. Plus a `/now` page and a `/contact` page with a lazy-loaded 3D scene.
-- **Bilingual blog** — MDX posts under `content/blog/**` with per-locale files (`<slug>.en.mdx` / `<slug>.ko.mdx`), categories/tags, math (KaTeX), syntax highlighting, and automatic fallback to the other language with a disclaimer banner.
+- **Home sections** — About (jamo-by-jamo typewriter), Projects (expertise-grouped mission log), Skills (reactor clusters), Portfolio (bento grid), Competitive Programming, Experience timeline (infinite scroll), and blog highlights. Plus a `/now` page and a `/contact` page with an animated SVG HUD globe + canvas starfield (dependency-free, no WebGL).
+- **Bilingual blog** — MDX posts under `content/blog/**` with per-locale files (`<slug>.en.mdx` / `<slug>.ko.mdx`), a **card (bento) / list view toggle**, teaser thumbnails, categories/tags, math (KaTeX), syntax highlighting, and automatic fallback to the other language with a disclaimer banner.
 - **Competitive Programming snapshot** — LeetCode + Codeforces stats served from a cached snapshot (with graceful fallbacks) instead of a live fetch on every render.
 - **SEO-first** — per-page metadata, canonical URLs, `hreflang` alternates (en/ko/x-default), OpenGraph + Twitter cards, JSON-LD (Person / WebSite / BlogPosting), `sitemap.xml`, and `robots.txt`.
 - **Security hardening** — CSP + HSTS + `X-Content-Type-Options` / `X-Frame-Options` / `Referrer-Policy` headers, env-sourced secrets, validated contact form, fail-safe external calls.
@@ -21,7 +21,7 @@ This is a [GitHub template repository](https://docs.github.com/en/repositories/c
 
 ## Tech stack
 
-Next.js 15 (App Router, RSC) · React 18 · TypeScript (strict) · Tailwind CSS + Material Tailwind · next-intl (i18n) · next-mdx-remote + gray-matter (blog) · @react-three/fiber + drei (3D) · EmailJS (contact) · Vitest.
+Next.js 15 (App Router, RSC) · React 18 · TypeScript (strict) · Tailwind CSS + Material Tailwind · next-intl (i18n) · next-mdx-remote + gray-matter (blog) · EmailJS (contact) · Vitest.
 
 ## Getting started
 

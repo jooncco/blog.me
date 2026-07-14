@@ -7,7 +7,7 @@
 import type { ExperienceEntry } from '@/types';
 
 export const EXPERIENCE: ExperienceEntry[] = [
-  { id: 'legacy-eks-migration', start: '2026.01' },
+  { id: 'legacy-eks-migration', start: '2026.01', end: '2026.06' },
   { id: 'airline-voc-genai', start: '2025.07', end: '2025.12' },
   { id: 'aboitiz-power', start: '2024.08', end: '2025.06' },
   { id: 'gc-biopharma', start: '2024.03', end: '2024.07' },

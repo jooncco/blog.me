@@ -21,10 +21,14 @@ describe('ExperienceTimeline', () => {
     }
   });
 
-  it('labels ongoing roles as "Present"', () => {
+  it('renders each entry date range (and "Present" for ongoing roles)', () => {
     renderIntl(<ExperienceTimeline entries={EXPERIENCE} />);
+    const first = EXPERIENCE[0];
+    expect(screen.getByTestId(`experience-${first.id}`).textContent).toContain(first.start);
+    // The "Present" label only applies when an entry omits `end`.
     const ongoing = EXPERIENCE.find((e) => !e.end);
-    expect(ongoing).toBeDefined();
-    expect(screen.getByTestId(`experience-${ongoing!.id}`).textContent).toContain('Present');
+    if (ongoing) {
+      expect(screen.getByTestId(`experience-${ongoing.id}`).textContent).toContain('Present');
+    }
   });
 });

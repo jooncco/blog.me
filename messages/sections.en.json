@@ -137,8 +137,8 @@
           ]
         },
         "algo-trading-research": {
-          "title": "Systematic Crypto Trading Research",
-          "outcome": "Exploring systematic crypto strategies — from LSTM/regression price models to backtested signal research.",
+          "title": "Bitcoin Price Predictor Research",
+          "outcome": "Exploring systematic crypto strategies — LSTM/regression model based, with ledger data.",
           "contributions": [
             "Built market-indicator + Google-Trend feature pipelines for price prediction.",
             "Prototyped regression and LSTM RNN forecasting models.",
@@ -195,7 +195,7 @@
           "summary": "Led the EC2-to-EKS migration of 8 legacy systems.",
           "highlights": [
             "Designed K8s resources (PV, ConfigMap, Secret) and Helm charts.",
-            "Ran per-system availability/performance tests and developer onboarding."
+            "Ran per-system availability/performance tests and led developer onboarding sessions."
           ]
         },
         "airline-voc-genai": {

@@ -42,7 +42,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'legacy-eks-migration',
     domain: 'solutions-architecture',
-    period: 'Jan 2026 – Present',
+    period: 'Jan 2026 – Jun 2026',
     tech: ['Amazon EKS', 'Kubernetes', 'Helm', 'Docker', 'Amazon EC2'],
     featured: true,
   },
@@ -108,7 +108,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'algo-trading-research',
     domain: 'algo-trading',
-    period: '2016',
+    period: 'Jul 2018',
     tech: ['Python', 'LSTM', 'Pandas', 'NumPy', 'Backtesting'],
   },
 ];
